@@ -1,14 +1,31 @@
 import { React, useEffect } from "react";
-import { Container, TitleSmall, TitleMain, IconCircle, DotWrapper, Dot, SubText, StartButton } from "../styles/Home.styles";
-import { Button } from "../components/button";
+import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  TitleSmall,
+  TitleMain,
+  IconCircle,
+  DotWrapper,
+  Dot,
+  SubText,
+  StartButton,
+} from "../styles/Home.styles";
+import { Button } from "../components/Button";
 
 function Home() {
+  // 스크롤 금지
   useEffect(() => {
-    document.body.style.overflow = 'hidden';  // 스크롤 금지
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  // 페이지 이동 관리
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/login");
   };
-}, []);
 
   return (
     <Container>
@@ -22,7 +39,7 @@ function Home() {
         <Dot />
       </DotWrapper>
       <SubText>학점/졸업/계획/기억관리를 한 번에!</SubText>
-      <Button>시작하기</Button>
+      <Button onClick={handleClick}>시작하기</Button>
     </Container>
   );
 }

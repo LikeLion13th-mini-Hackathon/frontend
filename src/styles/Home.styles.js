@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-color: #e8e8e8;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,13 +16,13 @@ export const TitleSmall = styled.p`
 `;
 
 export const TitleMain = styled.h1`
-  font-size: 50px;
+  font-size: 60px;
   font-weight: 900;
   text-align: center;
   color: #1e0066;
   white-space: pre-line;
   margin-top: 1vh;
-  margin-bottom: 6vh;
+  margin-bottom: 5vh;
 `;
 
 export const IconCircle = styled.div`
