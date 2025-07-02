@@ -28,8 +28,6 @@ export const TitleMain = styled.h1`
 
 export const LoginButton = styled(Button)`
   margin-top: 2vh;
-  height: 48px;
-  font-weight: 400;
 `;
 
 export const Signup = styled.div`
