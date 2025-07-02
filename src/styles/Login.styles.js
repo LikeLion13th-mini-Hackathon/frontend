@@ -21,7 +21,7 @@ export const TitleMain = styled.h1`
   font-size: 60px;
   font-weight: 900;
   text-align: center;
-  color: #1e0066;
+  color: #140B77;
   white-space: pre-line;
   margin-top: 1vh;
   margin-bottom: 15vh;
@@ -29,6 +29,7 @@ export const TitleMain = styled.h1`
 
 export const LoginButton = styled(Button)`
   margin-top: 2vh;
+  height: 48px;
   font-weight: 400;
 `;
 

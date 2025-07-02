@@ -34,7 +34,7 @@ export const ModalContent = styled.div`
   button {
     margin-top: 4vh;
     padding: 1.5vh;
-    background-color: #1e0066;
+    background-color: #140B77;
     color: white;
     border: none;
     border-radius: 6px;
