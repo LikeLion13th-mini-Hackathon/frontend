@@ -1,18 +1,24 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-  width: 38vh;
+  width: 100%;
+  max-width: 360px;
   background-color: #140B77;
   color: white;
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: 600;
   border: none;
   border-radius: 12px;
-  padding: 12px 32px;
+  padding: 14px 20px;
   cursor: pointer;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease;
 
   &:active {
-    opacity: 0.1;
+    opacity: 0.5;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 `;
