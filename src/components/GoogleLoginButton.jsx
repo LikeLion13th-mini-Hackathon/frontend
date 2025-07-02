@@ -1,116 +1,32 @@
-// components/GoogleLoginButton.jsx
 import styled from "styled-components";
+import { Button } from "../components/Button";
 
-const GoogleButton = styled.button`
-  user-select: none;
-  appearance: none;
+const GoogleButton = styled(Button)`
   background-color: white;
-  border: 1px solid #747775;
-  border-radius: 12px;
-  box-sizing: border-box;
   color: #1f1f1f;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: 600;
-  height: 48px;
-  width: 38vh;
-  padding: 12px 32px;
-
-  position: relative;
-  text-align: center;
-  transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
-  white-space: nowrap;
+  border: 1px solid #747775;
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
 
-  &:hover:not(:disabled) {
-    opacity: 0.85;
+  svg {
+    width: 20px;
+    height: 20px;
   }
-
-  &:active:not(:disabled) .state {
-    opacity: 0.1;
-  }
-
-  &:disabled {
-    background-color: #ffffff61;
-    border-color: #1f1f1f1f;
-    cursor: default;
-  }
-`;
-
-const ButtonState = styled.div.attrs({ className: "state" })`
-  transition: opacity 0.218s;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-`;
-
-const ContentWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  height: 100%;
-  justify-content: space-between;
-  position: relative;
-  width: 100%;
-`;
-
-const IconWrapper = styled.div.attrs({ className: "icon" })`
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  margin-right: 12px;
-`;
-
-const Contents = styled.span.attrs({ className: "contents" })`
-  flex-grow: 1;
-  font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  vertical-align: top;
 `;
 
 export default function GoogleLoginButton({ onClick }) {
   return (
     <GoogleButton onClick={onClick}>
-      <ButtonState />
-      <ContentWrapper>
-        <IconWrapper>
-          <svg
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 48 48"
-            style={{ display: "block" }}
-          >
-            <path
-              fill="#EA4335"
-              d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-            />
-            <path
-              fill="#4285F4"
-              d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-            />
-            <path
-              fill="#FBBC05"
-              d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
-            />
-            <path
-              fill="#34A853"
-              d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-            />
-            <path fill="none" d="M0 0h48v48H0z" />
-          </svg>
-        </IconWrapper>
-        <Contents>Google로 로그인</Contents>
-        <span style={{ display: "none" }}>Sign in with Google</span>
-      </ContentWrapper>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20">
+        <path fill="#EA4335" d="M10 4.1c1.48 0 2.8.51 3.85 1.51l2.85-2.85C14.85 1.15 12.55 0.25 10 0.25 6.1 0.25 2.85 2.6 1.15 6l3.3 2.55C5.65 6.3 7.7 4.1 10 4.1z"/>
+        <path fill="#4285F4" d="M19.9 10.2c0-.65-.06-1.3-.15-1.9H10v3.75h5.45c-.25 1.2-1 2.2-2.1 2.85l3.3 2.55c1.95-1.8 3.2-4.45 3.2-7.25z"/>
+        <path fill="#FBBC05" d="M4.3 11.95c-.2-.6-.3-1.25-.3-1.95s.1-1.35.3-1.95L1.15 6C0.4 7.6 0 9.25 0 10.9s.4 3.3 1.15 4.9l3.15-2.45z"/>
+        <path fill="#34A853" d="M10 20c2.55 0 4.95-.85 6.6-2.3l-3.3-2.55c-.9.6-2.05.95-3.3.95-2.6 0-4.8-1.75-5.6-4.1l-3.3 2.55C2.85 17.4 6.1 20 10 20z"/>
+      </svg>
+      <span>Google로 로그인</span>
     </GoogleButton>
   );
 }

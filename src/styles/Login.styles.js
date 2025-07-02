@@ -3,12 +3,11 @@ import { Button } from "../components/Button";
 import { Link } from "react-router-dom";
 
 export const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: translateY(-55px);
 `;
 
 export const TitleSmall = styled.p`
