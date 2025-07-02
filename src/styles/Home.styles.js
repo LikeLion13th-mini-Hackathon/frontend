@@ -7,6 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transform: translateY(-55px);
 `;
 
 export const TitleSmall = styled.p`
