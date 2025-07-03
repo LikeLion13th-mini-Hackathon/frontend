@@ -68,6 +68,7 @@ export const Row = styled.div`
 `;
 
 export const SmallButton = styled(Button)`
+  height: 40px;
   padding: 12px 16px;
   font-size: 10px;
   width: auto;
