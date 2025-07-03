@@ -3,18 +3,18 @@ import { Button } from "../components/Button";
 import { Link } from "react-router-dom";
 
 export const Container = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: translateY(-55px); // 내 화면엔 이게 맞는데 테스트할 때 수정 필요
+  transform: translateY(-55px);
 `;
 
 export const TitleSmall = styled.p`
   font-size: 16px;
-  color: #444;
-  margin-bottom: 0vh;
+  color: #767676;
+  margin-bottom: 1vh;
 `;
 
 export const TitleMain = styled.h1`
@@ -24,7 +24,8 @@ export const TitleMain = styled.h1`
   color: #140b77;
   white-space: pre-line;
   margin-top: 1vh;
-  margin-bottom: 15vh;
+  margin-bottom: 2vh;
+  line-height: 1.1;
 `;
 
 export const LoginButton = styled(Button)`

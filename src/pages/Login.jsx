@@ -8,31 +8,46 @@ import {
   Signup,
   SignupLink,
 } from "../styles/Login.styles";
+import Bee1 from "../assets/Bee1.png";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import { ModalContent, ModalOverlay } from "../components/LoginModal";
+import { login } from "../api/auth";
 
 function Login() {
-  // 스크롤 금지
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
-
   // 모달창, 로그인 입력 여부 관리
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  // 로그인 여부 확인
+  const handleSubmit = async () => {
+    try {
+      const token = await login(email, password); // API 연동
+      localStorage.setItem("token", token);
+      navigate("/mainpage"); // 성공 시 메인 이동
+    } catch (error) {
+      alert("로그인 실패! 아이디/비밀번호를 확인하세요.");
+      console.error(error);
+    }
+  };
 
   return (
     <Container>
       <TitleSmall>나만의 대학생활 코디네이터</TitleSmall>
       <TitleMain>메인{"\n"}타이틀</TitleMain>
+
+      <img
+        src={Bee1}
+        alt="로그인 이미지"
+        style={{ width: "20vh", marginBottom: "5vh" }}
+      />
+
       <GoogleLoginButton></GoogleLoginButton>
       <LoginButton onClick={() => setShowModal(true)}>
         이메일로 로그인
       </LoginButton>
+
       <Signup>
         계정이 없으신가요?
         <SignupLink to="/signup">회원가입</SignupLink>
@@ -42,7 +57,7 @@ function Login() {
       {showModal && (
         <ModalOverlay onClick={() => setShowModal(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <h2>이메일 로그인</h2>
+            <h2 style={{ marginTop: "0" }}>이메일 로그인</h2>
 
             <div style={{ fontWeight: "bold" }}>아이디</div>
             <input
@@ -50,6 +65,7 @@ function Login() {
               placeholder="아이디를 입력해주세요"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              style={{ marginBottom: "2vh" }}
             />
 
             <div style={{ fontWeight: "bold" }}>비밀번호</div>
@@ -60,7 +76,9 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button disabled={!email || !password}>로그인</button>
+            <button onClick={handleSubmit} disabled={!email || !password}>
+              로그인
+            </button>
           </ModalContent>
         </ModalOverlay>
       )}
