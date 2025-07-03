@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Wrapper,
   Title,
@@ -27,6 +28,8 @@ export default function Signup() {
   const [department, setDepartment] = useState("");
   const [grade, setGrade] = useState("");
 
+  const navigate = useNavigate();
+
   const formValid = name && birthYear && birthMonth && birthDay && email && password;
 
   const handleSumit = (e) => {
@@ -43,6 +46,8 @@ export default function Signup() {
       grade,
     };
     console.log("회원가입 정보:", payload);
+
+    navigate("/signup/complete"); 
 
     // API 추가 예정
   }
