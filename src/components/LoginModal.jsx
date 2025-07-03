@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { Button } from "../components/Button";
 
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  height: 90vh; // 내 화면엔 이게 맞는데 테스트할 때 정확한 위치 수정 필요
+  background-color: hsla(0, 0%, 0%, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +33,7 @@ export const ModalContent = styled.div`
   button {
     margin-top: 4vh;
     padding: 1.5vh;
-    background-color: #140B77;
+    background-color: #140b77;
     color: white;
     border: none;
     border-radius: 6px;

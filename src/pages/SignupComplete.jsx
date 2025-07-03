@@ -9,10 +9,11 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transform: translateY(-10%);
 `;
 
 export const TitleSmall = styled.p`
-  margin-top: 0vh; 
+  margin-top: 2vh;
   margin-bottom: 15vh;
   font-size: 20px;
   color: #000;
@@ -22,12 +23,12 @@ export const TitleMain = styled.h1`
   font-size: 60px;
   font-weight: 900;
   text-align: center;
-  color: #140B77;
+  color: #140b77;
   white-space: pre-line;
   margin-bottom: 0vh;
 `;
 
-export default function SignupComplete () {
+export default function SignupComplete() {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {

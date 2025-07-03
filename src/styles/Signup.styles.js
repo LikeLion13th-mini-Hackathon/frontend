@@ -13,7 +13,7 @@ export const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 4vh;
-  color: #140B77;
+  color: #140b77;
   text-align: center;
 `;
 
@@ -59,7 +59,7 @@ export const Select = styled.select`
   border-radius: 12px;
   border: 1px solid #ccc;
   flex: 1;
-  background-color: white
+  background-color: white;
 `;
 
 export const Row = styled.div`
@@ -80,9 +80,9 @@ export const SubmitButton = styled(Button)`
   bottom: 4vh;
   left: 50%;
   transform: translateX(-50%);
-  width: 100vw;
+  width: 90vw;
   padding: 16px;
-  background-color: #140B77;
+  background-color: #140b77;
   color: white;
   z-index: 1000;
   box-sizing: border-box;

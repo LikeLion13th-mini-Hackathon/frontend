@@ -4,7 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   html, body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
     font-family: 'Pretendard', sans-serif;
     background-color: #f9f9f9;
   }

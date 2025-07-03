@@ -20,12 +20,6 @@ function Login() {
     };
   }, []);
 
-  // 페이지 이동 관리
-  const navigate = useNavigate();
-  const handleClick = () => {
-    // navigate("/상세로그인페이지");
-  };
-
   // 모달창, 로그인 입력 여부 관리
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");

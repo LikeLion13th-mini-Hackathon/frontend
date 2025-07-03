@@ -53,7 +53,7 @@ export default function Signup() {
 
       <Form>
         <Field>
-          <Label>이름 <Required>*</Required></Label>
+          <Label>이름<Required>*</Required></Label>
           <Row>
             <Input 
               placeholder="이름을 입력해주세요"
@@ -65,7 +65,7 @@ export default function Signup() {
         </Field>
 
         <Field>
-          <Label>생년월일 <Required>*</Required></Label>
+          <Label>생년월일<Required>*</Required></Label>
           <Row>
             <Select value={birthYear} onChange={(e) => setBirthYear(e.target.value)}>
               <option value="" disabled hidden>출생연도</option>
@@ -94,7 +94,7 @@ export default function Signup() {
         </Field>
 
         <Field>
-          <Label>이메일 <Required>*</Required></Label>
+          <Label>이메일<Required>*</Required></Label>
           <Input 
             placeholder="이메일을 입력해주세요" 
             value={email}
@@ -104,7 +104,7 @@ export default function Signup() {
         </Field>
 
         <Field>
-          <Label>비밀번호 <Required>*</Required></Label>
+          <Label>비밀번호<Required>*</Required></Label>
           <Input 
             placeholder="비밀번호를 입력해주세요"
             value={password}

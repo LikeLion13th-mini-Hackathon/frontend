@@ -8,6 +8,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transform: translateY(-55px); // 내 화면엔 이게 맞는데 테스트할 때 수정 필요
 `;
 
 export const TitleSmall = styled.p`
@@ -20,7 +21,7 @@ export const TitleMain = styled.h1`
   font-size: 60px;
   font-weight: 900;
   text-align: center;
-  color: #140B77;
+  color: #140b77;
   white-space: pre-line;
   margin-top: 1vh;
   margin-bottom: 15vh;
