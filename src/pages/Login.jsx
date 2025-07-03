@@ -45,7 +45,12 @@ function Login() {
             <h2>이메일 로그인</h2>
 
             <div style={{ fontWeight: "bold" }}>아이디</div>
-            <input type="email" placeholder="아이디를 입력해주세요" />
+            <input
+              type="email"
+              placeholder="아이디를 입력해주세요"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
             <div style={{ fontWeight: "bold" }}>비밀번호</div>
             <input
@@ -55,7 +60,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button disabled={!email && !password}>로그인</button>
+            <button disabled={!email || !password}>로그인</button>
           </ModalContent>
         </ModalOverlay>
       )}

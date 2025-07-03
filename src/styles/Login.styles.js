@@ -28,6 +28,7 @@ export const TitleMain = styled.h1`
 `;
 
 export const LoginButton = styled(Button)`
+  width: 85%;
   margin-top: 2vh;
 `;
 

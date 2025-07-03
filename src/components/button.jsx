@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-  width: 100%;
+  width: 85%;
   max-width: 360px;
   height: 55px;
-  background-color: #140B77;
+  background-color: #140b77;
   color: white;
   font-size: 1rem;
   font-weight: 600;

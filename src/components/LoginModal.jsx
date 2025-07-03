@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 export const ModalOverlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 10;
+  left: 10;
   width: 100vw;
-  height: 90vh; // 내 화면엔 이게 맞는데 테스트할 때 정확한 위치 수정 필요
+  height: 120vh; // 내 화면엔 이게 맞는데 테스트할 때 정확한 위치 수정 필요
   background-color: hsla(0, 0%, 0%, 0.4);
   display: flex;
   align-items: center;

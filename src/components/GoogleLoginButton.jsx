@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Button } from "./Button";
 
 const GoogleButton = styled(Button)`
+  width: 85%;
   background-color: white;
   color: #1f1f1f;
   border: 1px solid #747775;

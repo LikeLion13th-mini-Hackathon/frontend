@@ -5,6 +5,7 @@ import Signup from "./pages/SignUp";
 import SignupComplete from "./pages/SignupComplete";
 import Layout from "./components/Layout";
 import { GlobalStyle } from "./styles/GlobalStyle";
+import MainPage from "./pages/MainPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/signup/complete" element={<SignupComplete />} />
+            <Route path="/mainpage" element={<MainPage />} />
           </Routes>
         </Layout>
       </BrowserRouter>
