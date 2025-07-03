@@ -4,13 +4,13 @@ export const NavWrapper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 10vh;
+  height: 7vh; // 화면에 따라 조정 필요할수도
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid #eee;
+  padding-top: 5px; // 아마도.. 조정 필요
   z-index: 100;
-  transform: translateY(-10%);
 `;
 
 export const NavItem = styled.div`
@@ -22,10 +22,10 @@ export const NavItem = styled.div`
 `;
 
 export const NavIcon = styled.div`
-  font-size: 24px;
-  margin-bottom: 4px;
+  font-size: 20px;
+  margin-bottom: 2px;
 `;
 
 export const NavLabel = styled.span`
-  font-size: 14px;
+  font-size: 13px;
 `;
