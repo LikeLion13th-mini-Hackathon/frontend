@@ -93,7 +93,8 @@ export const SettingsIcon = styled.div`
 
 // 성취도 영역 스타일
 export const GraphSection = styled.div`
-  padding: 1.5vh;
+  padding: 1.6vh;
+  margin-top: 3vh;
   transform: translateY(-37%); // 플리즈
 `;
 
@@ -135,7 +136,7 @@ export const TabSelect = styled.button`
 
 export const ChartWrapper = styled.div`
   width: 210px;
-  height: 200px;
+  height: 215px;
   margin: auto auto;
   margin-top: 3vh;
 `;
@@ -144,6 +145,7 @@ export const CenterText = styled.div`
   font-size: 38px;
   font-weight: bold;
   color: #140b77;
+  transform: translateY(-150%);
 `;
 
 export const MessageWrapper = styled.div`
@@ -155,11 +157,12 @@ export const MessageWrapper = styled.div`
 `;
 
 export const SpeechBubble = styled.div`
-  padding: 12px 16px;
+  padding: 20px 20px;
   border-radius: 20px;
   position: relative;
   font-size: 14px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10%);
 `;
 
 export const BeeImage = styled.img`

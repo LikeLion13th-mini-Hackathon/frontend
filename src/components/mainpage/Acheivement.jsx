@@ -38,7 +38,7 @@ function Achievement() {
         <CircularProgressbarWithChildren
           value={percentage}
           circleRatio={0.75}
-          strokeWidth={12}
+          strokeWidth={14}
           styles={buildStyles({
             rotation: 5 / 8, // 시작 위치
             strokeLinecap: "round",
@@ -50,21 +50,21 @@ function Achievement() {
         >
           <div
             style={{
-              width: "80%", // 내부 원 크기 (조절 가능)
-              height: "80%",
+              width: "63%", // 내부 원 크기 (조절 가능)
+              height: "63%",
               borderRadius: "50%",
               backgroundColor: "#ebebeb", // 내부 회색 원
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              transform: "translateY(40%)",
+              transform: "translateY(25%)",
               zIndex: "-1",
             }}
           ></div>
           <CenterText>{percentage}%</CenterText>
-          <SubText style={{ marginBottom: "2vh" }}>
-            졸업까지 3학기 남았어요.
+          <SubText style={{ transform: "translateY(-350%)" }}>
+            졸업까지 3학기!
           </SubText>
         </CircularProgressbarWithChildren>
       </ChartWrapper>
