@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-  width: 85%;
+  width: 80vw;
   max-width: 360px;
-  height: 55px;
+  height: 7vh;
   background-color: #140b77;
   color: white;
   font-size: 1rem;

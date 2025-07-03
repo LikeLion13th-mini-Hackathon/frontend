@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Button } from "../components/Button";
 
 export const Container = styled.div`
   height: 100vh;
@@ -11,36 +12,24 @@ export const Container = styled.div`
 
 export const TitleSmall = styled.p`
   font-size: 16px;
-  color: #444;
-  margin-bottom: 0vh;
+  color: #767676;
+  margin-bottom: 1vh;
 `;
 
 export const TitleMain = styled.h1`
   font-size: 60px;
   font-weight: 900;
   text-align: center;
-  color: #140B77;
+  color: #140b77;
   white-space: pre-line;
   margin-top: 1vh;
   margin-bottom: 5vh;
-`;
-
-export const IconCircle = styled.div`
-  width: 160px;
-  height: 160px;
-  background-color: #d2ccec;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  margin-bottom: 30px;
+  line-height: 1.1;
 `;
 
 export const DotWrapper = styled.div`
   display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
+  gap: 7px;
 `;
 
 export const Dot = styled.div`
@@ -51,9 +40,18 @@ export const Dot = styled.div`
 `;
 
 export const SubText = styled.p`
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-  margin-top: 2vh;
-  margin-bottom: 6vh;
+  font-size: 16px;
+  color: #111111;
+  font-weight: 500;
+  margin-top: 3vh;
+  margin-bottom: 7vh;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  transition: opacity 0.8s ease;
+  pointer-events: ${(props) => (props.show ? "auto" : "none")};
 `;
