@@ -4,7 +4,7 @@ export const NavWrapper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 7vh; // 화면에 따라 조정 필요할수도
+  height: 8vh; // 화면에 따라 조정 필요할수도
   display: flex;
   justify-content: space-around;
   align-items: center;

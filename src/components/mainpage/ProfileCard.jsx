@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import {
   CardWrapper,
   AvatarCircle,
@@ -12,14 +12,29 @@ import {
 import { FiSettings } from "react-icons/fi";
 
 function ProfileCard() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  if (!user) return null; // 로딩
+
   return (
     <CardWrapper>
       <AvatarCircle>🙂</AvatarCircle>
       <InfoWrapper>
-        <NameText>임상현</NameText>
-        <SubText>인천대학교 영어영문학과 21학번</SubText>
+        <NameText>{user.name}</NameText>
+        <SubText>
+          {user.university} {user.major} {user.studentId}학번
+        </SubText>
         <Divider />
-        <YearText>재학생 (4학년)</YearText>
+        <YearText>
+          {user.status} ({user.grade}학년)
+        </YearText>
       </InfoWrapper>
       <SettingsIcon>
         <FiSettings size={20} />

@@ -10,7 +10,7 @@ import {
 } from "../styles/Login.styles";
 import Bee1 from "../assets/Bee1.png";
 import GoogleLoginButton from "../components/GoogleLoginButton";
-import { ModalContent, ModalOverlay } from "../components/LoginModal";
+import { ModalContent, ModalOverlay } from "../styles/LoginModal.styles";
 import { login } from "../api/auth";
 
 function Login() {
@@ -20,11 +20,14 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // 로그인 여부 확인
+  // 로그인 API 연동
   const handleSubmit = async () => {
     try {
-      const token = await login(email, password); // API 연동
-      localStorage.setItem("token", token);
+      const res = await login(email, password); // 로그인 요청
+      const { token, user } = res;
+
+      localStorage.setItem("token", token); // 토큰 저장
+      localStorage.setItem("user", JSON.stringify(user)); // 유저 정보 저장
       navigate("/mainpage"); // 성공 시 메인 이동
     } catch (error) {
       alert("로그인 실패! 아이디/비밀번호를 확인하세요.");

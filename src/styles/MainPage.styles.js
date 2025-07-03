@@ -40,7 +40,7 @@ export const CardWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  transform: translateY(-115%); // 조정 필요?
+  transform: translateY(-110%); // 조정 필요?
 `;
 
 export const AvatarCircle = styled.div`
@@ -99,7 +99,7 @@ export const GraphSection = styled.div`
 `;
 
 export const GraphTitle = styled.h2`
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: #140b77;
   margin: 1vh;
@@ -142,7 +142,7 @@ export const ChartWrapper = styled.div`
 `;
 
 export const CenterText = styled.div`
-  font-size: 38px;
+  font-size: 40px;
   font-weight: bold;
   color: #140b77;
   transform: translateY(-150%);
@@ -157,16 +157,25 @@ export const MessageWrapper = styled.div`
 `;
 
 export const SpeechBubble = styled.div`
-  padding: 20px 20px;
+  width: 65vw;
+  height: 8vh;
+  padding: 12px 16px;
   border-radius: 20px;
   position: relative;
-  font-size: 14px;
+  font-size: 13px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transform: translateY(-10%);
+  transform: translateY(-20%);
+  text-align: center;
+  overflow: hidden;
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const BeeImage = styled.img`
-  width: 70px;
+  width: 11vh;
   height: auto;
   margin-left: 2vw;
+  margin-bottom: 0.5vh;
 `;
