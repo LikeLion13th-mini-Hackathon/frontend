@@ -35,7 +35,7 @@ export const Dot = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: ${({ active }) => (active ? "#1e0066" : "#ccc")};
+  background-color: ${({ $active }) => ($active ? "#1e0066" : "#ccc")};
 `;
 
 export const SubText = styled.p`
@@ -50,7 +50,7 @@ export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: ${(props) => (props.show ? 1 : 0)};
+  opacity: ${(props) => (props.$show ? 1 : 0)};
   transition: opacity 0.8s ease;
-  pointer-events: ${(props) => (props.show ? "auto" : "none")};
+  pointer-events: ${(props) => (props.$show ? "auto" : "none")};
 `;

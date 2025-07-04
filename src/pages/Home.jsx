@@ -61,13 +61,13 @@ function Home() {
 
       <DotWrapper>
         {slides.map((_, i) => (
-          <Dot key={i} active={i === currentSlide} />
+          <Dot key={i} $active={i === currentSlide} />
         ))}
       </DotWrapper>
 
       <SubText>학점/졸업/계획/기억관리를 한 번에!</SubText>
 
-      <ButtonWrapper show={currentSlide === slides.length - 1}>
+      <ButtonWrapper $show={currentSlide === slides.length - 1}>
         <Button onClick={handleClick}>시작하기</Button>
       </ButtonWrapper>
     </Container>
