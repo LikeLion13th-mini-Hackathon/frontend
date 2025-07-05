@@ -1,4 +1,3 @@
-// styles/GPA.styles.js
 import styled from "styled-components";
 
 export const GPAContainer = styled.div`
@@ -8,16 +7,16 @@ export const GPAContainer = styled.div`
 
 // 헤더 (학기 선택 영역)
 export const Wrapper = styled.div`
-  padding: 2vh;
+  padding: 2.5vh;
 `;
 
 export const Title = styled.h2`
   text-align: center;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: bold;
   color: #140b77;
+  margin: 2vh;
   margin-top: 0;
-  margin-bottom: 3vh;
 `;
 
 export const TabContainer = styled.div`
@@ -45,7 +44,7 @@ export const Tab = styled.div`
 export const GpaCardWrapper = styled.div`
   border-radius: 16px;
   padding: 2vh;
-  margin: 0 5vw;
+  margin: 0 7vw;
   display: flex;
   justify-content: space-around;
   align-items: center;
