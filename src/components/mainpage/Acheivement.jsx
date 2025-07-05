@@ -119,7 +119,7 @@ function Achievement() {
           ></div>
           <CenterText>{percentage}%</CenterText>
           <SubText style={{ transform: "translateY(-350%)" }}>
-            {percentage === 100
+            {percentage >= 100
               ? "졸업!"
               : `졸업까지 ${totalSemester - remainingSemester}학기!`}
           </SubText>

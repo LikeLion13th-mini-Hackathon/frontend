@@ -11,6 +11,7 @@ export const NavWrapper = styled.div`
   border-top: 1px solid #eee;
   padding-top: 5px; // 아마도.. 조정 필요
   z-index: 100;
+  background-color: rgb(243, 243, 243);
 `;
 
 export const NavItem = styled.div`
@@ -19,6 +20,11 @@ export const NavItem = styled.div`
   align-items: center;
   font-size: 12px;
   color: #888;
+
+  &.active {
+    color: #140b77;
+    font-weight: bold;
+  }
 `;
 
 export const NavIcon = styled.div`
