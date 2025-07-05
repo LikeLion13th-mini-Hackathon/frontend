@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
 import {
   CardWrapper,
-  AvatarCircle,
   InfoWrapper,
   NameText,
   SubText,
@@ -9,9 +11,9 @@ import {
   YearText,
   SettingsIcon,
 } from "../../styles/MainPage.styles";
-import { FiSettings } from "react-icons/fi";
 
 function ProfileCard() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -25,18 +27,22 @@ function ProfileCard() {
 
   return (
     <CardWrapper>
-      <AvatarCircle>🙂</AvatarCircle>
+      <FaUserCircle size={50} style={{ color: "#767676" }} />
+
       <InfoWrapper>
         <NameText>{user.name}</NameText>
         <SubText>
           {user.university} {user.major} {user.studentId}학번
         </SubText>
+
         <Divider />
+
         <YearText>
           {user.status} ({user.grade}학년)
         </YearText>
       </InfoWrapper>
-      <SettingsIcon>
+
+      <SettingsIcon onClick={() => navigate("/mypage")}>
         <FiSettings size={20} />
       </SettingsIcon>
     </CardWrapper>

@@ -39,7 +39,7 @@ function Achievement() {
     message =
       "벌써 절반 넘게 했잖아! 지금부터가 진짜야. 기세 꺾이지 말고 계속 가보자!";
   } else if (percentage < 90) {
-    message = "슬슬 끝이 보여! 방심 금지~ 이때 삐끗하면 다음 학기 또 봐야 돼..";
+    message = "슬슬 끝이 보여! 방심 금지~ 이때 삐끗하면 다음에 더 봐야 돼..";
   } else {
     message = "졸업까지 다 왔네. 미리 축하해!";
   }
@@ -75,6 +75,7 @@ function Achievement() {
           ))}
         </TabSelect>
         <TabText>중</TabText>
+
         <TabSelect
           as="select"
           value={remainingSemester}
@@ -86,6 +87,7 @@ function Achievement() {
             </option>
           ))}
         </TabSelect>
+
         <TabText>들었어요.</TabText>
       </TabRow>
 
@@ -105,20 +107,17 @@ function Achievement() {
         >
           <div
             style={{
-              width: "63%", // 내부 원 크기 (조절 가능)
+              width: "62%", // 내부 원 크기 (조절 가능)
               height: "63%",
               borderRadius: "50%",
-              backgroundColor: "#ebebeb", // 내부 회색 원
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              backgroundColor: "#ebebeb",
               transform: "translateY(25%)",
+              boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
               zIndex: "-1",
             }}
           ></div>
           <CenterText>{percentage}%</CenterText>
-          <SubText style={{ transform: "translateY(-350%)" }}>
+          <SubText style={{ transform: "translateY(-450%)" }}>
             {percentage >= 100
               ? "졸업!"
               : `졸업까지 ${totalSemester - remainingSemester}학기!`}

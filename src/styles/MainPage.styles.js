@@ -20,7 +20,7 @@ export const TopRow = styled.div`
 `;
 
 export const DateText = styled.div`
-  margin-top: 1vh; // 조정 필요
+  margin-top: 1vh;
   font-size: 14px;
   opacity: 0.8;
 `;
@@ -36,26 +36,14 @@ export const CardWrapper = styled.div`
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding: 3vh;
-  margin: 2.5vh; // 조정 필요.. 아마도
-  position: relative;
+  margin: 2.5vh;
   display: flex;
   align-items: center;
-  transform: translateY(-110%); // 조정 필요?
-`;
-
-export const AvatarCircle = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #dcdcdc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
+  transform: translateY(-110%);
 `;
 
 export const InfoWrapper = styled.div`
-  margin-left: 16px;
+  margin-left: 6vw;
   display: flex;
   flex-direction: column;
 `;
@@ -66,7 +54,7 @@ export const NameText = styled.div`
 `;
 
 export const SubText = styled.div`
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: #4b80fc;
   margin-top: 2px;
@@ -75,13 +63,13 @@ export const SubText = styled.div`
 export const Divider = styled.div`
   height: 1px;
   background-color: #eee;
-  margin: 8px 0;
+  margin: 1vh 0;
   width: 120%;
 `;
 
 export const YearText = styled.div`
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 export const SettingsIcon = styled.div`
@@ -89,18 +77,20 @@ export const SettingsIcon = styled.div`
   top: 12px;
   right: 12px;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 // 성취도 영역 스타일
 export const GraphSection = styled.div`
-  padding: 1.6vh;
-  margin-top: 3vh;
-  transform: translateY(-37%); // 플리즈
+  padding: 2vh;
+  transform: translateY(-34%);
 `;
 
 export const GraphTitle = styled.h2`
   font-size: 20px;
-  font-weight: bold;
   color: #140b77;
   margin: 1vh;
 `;
@@ -121,7 +111,7 @@ export const TabText = styled.span`
 
 export const TabSelect = styled.button`
   font-size: 13px;
-  padding: 6px 12px;
+  padding: 1vw 1vh;
   color: #140b77;
   border: none;
   border-radius: 20px;
@@ -135,31 +125,31 @@ export const TabSelect = styled.button`
 `;
 
 export const ChartWrapper = styled.div`
-  width: 210px;
-  height: 215px;
-  margin: auto auto;
+  width: 220px;
+  height: 220px;
+  margin: auto;
   margin-top: 3vh;
 `;
 
 export const CenterText = styled.div`
-  font-size: 40px;
+  font-size: 46px;
   font-weight: bold;
   color: #140b77;
-  transform: translateY(-150%);
+  transform: translateY(-130%);
 `;
 
 export const MessageWrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  margin-bottom: 6vh; // 제발 다른 폰도 이래라..
+  margin-bottom: 6vh;
   transform: translateY(-30%);
 `;
 
 export const SpeechBubble = styled.div`
-  width: 65vw;
+  width: 68vw;
   height: 8vh;
-  padding: 12px 16px;
+  padding: 2vh;
   border-radius: 20px;
   position: relative;
   font-size: 13px;
@@ -168,14 +158,11 @@ export const SpeechBubble = styled.div`
   text-align: center;
   overflow: hidden;
   word-wrap: break-word;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const BeeImage = styled.img`
   width: 11vh;
   height: auto;
-  margin-left: 2vw;
+  margin-left: 1vw;
   margin-bottom: 0.5vh;
 `;
