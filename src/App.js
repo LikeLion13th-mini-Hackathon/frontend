@@ -6,6 +6,8 @@ import SignupComplete from "./pages/SignupComplete";
 import Layout from "./components/Layout";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import MainPage from "./pages/MainPage";
+import Gpa from "./pages/GPA";
+import Note from "./pages/Note";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/signup/complete" element={<SignupComplete />} />
             <Route path="/mainpage" element={<MainPage />} />
+            <Route path="/gpa" element={<Gpa />} />
+            <Route path="/note/:id" element={<Note />} />
           </Routes>
         </Layout>
       </BrowserRouter>
