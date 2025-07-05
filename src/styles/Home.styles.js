@@ -28,12 +28,13 @@ export const TitleMain = styled.h1`
 
 export const DotWrapper = styled.div`
   display: flex;
-  gap: 7px;
+  gap: 8px;
+  margin-bottom: 4vh;
 `;
 
 export const Dot = styled.div`
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background-color: ${({ $active }) => ($active ? "#1e0066" : "#ccc")};
 `;

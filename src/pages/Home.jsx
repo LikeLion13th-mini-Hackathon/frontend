@@ -11,10 +11,10 @@ import {
   ButtonWrapper,
 } from "../styles/Home.styles";
 import { Button } from "../components/Button";
-import Bee1 from "../assets/Bee1.png";
-import Bee2 from "../assets/Bee2.png";
-import Bee3 from "../assets/Bee3.png";
-import Bee4 from "../assets/Bee4.png";
+import Test1 from "../assets/Test1.png";
+import Test2 from "../assets/Test2.png";
+import Test3 from "../assets/Test3.png";
+import Test4 from "../assets/Test4.png";
 
 function Home() {
   // 페이지 이동 관리
@@ -25,10 +25,10 @@ function Home() {
 
   // 사진 목록
   const slides = [
-    { id: 1, img: Bee1 },
-    { id: 2, img: Bee2 },
-    { id: 3, img: Bee3 },
-    { id: 4, img: Bee4 },
+    { id: 1, img: Test1 },
+    { id: 2, img: Test2 },
+    { id: 3, img: Test3 },
+    { id: 4, img: Test4 },
   ];
 
   // 슬라이드 관리
@@ -50,13 +50,10 @@ function Home() {
 
   return (
     <Container {...swipeHandlers} onClick={handleNext}>
-      <TitleSmall>나만의 대학생활 코디네이터</TitleSmall>
-      <TitleMain>메인{"\n"}타이틀</TitleMain>
-
       <img
         src={slides[currentSlide].img}
         alt="슬라이드 이미지"
-        style={{ width: "20vh", marginBottom: "4vh" }}
+        style={{ width: "40vh", marginTop: "5vh", marginBottom: "5vh" }}
       />
 
       <DotWrapper>
@@ -64,8 +61,6 @@ function Home() {
           <Dot key={i} $active={i === currentSlide} />
         ))}
       </DotWrapper>
-
-      <SubText>학점/졸업/계획/기억관리를 한 번에!</SubText>
 
       <ButtonWrapper $show={currentSlide === slides.length - 1}>
         <Button onClick={handleClick}>시작하기</Button>

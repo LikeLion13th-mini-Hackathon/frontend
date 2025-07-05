@@ -41,14 +41,22 @@ function Gpa() {
   const allSubjectsArray = Object.values(allSubjects).flat();
 
   const calculateGpa = () => {
-    const totalCredits = allSubjectsArray.reduce(
+    const validSubjects = allSubjectsArray.filter(
+      (subj) =>
+        subj.grade in gradeToPoint &&
+        typeof subj.credit === "number" &&
+        !isNaN(subj.credit)
+    );
+
+    const totalCredits = validSubjects.reduce(
       (acc, subj) => acc + subj.credit,
       0
     );
-    const totalPoints = allSubjectsArray.reduce(
+    const totalPoints = validSubjects.reduce(
       (acc, subj) => acc + subj.credit * gradeToPoint[subj.grade],
       0
     );
+
     return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
   };
 
@@ -63,17 +71,38 @@ function Gpa() {
 
       <GpaCard
         overall={calculateGpa()}
-        credits={allSubjectsArray.reduce((acc, subj) => acc + subj.credit, 0)}
+        credits={allSubjectsArray.reduce(
+          (acc, subj) =>
+            subj.grade in gradeToPoint && typeof subj.credit === "number"
+              ? acc + subj.credit
+              : acc,
+          0
+        )}
       />
 
       <GpaTable
-        subjects={allSubjects[selectedSemester] || []}
-        setSubjects={(newSubjects) =>
+        subjects={(() => {
+          const fixedRowCount = 8;
+          const current = allSubjects[selectedSemester] || [];
+          const filled = [...current];
+          while (filled.length < fixedRowCount) {
+            filled.push({
+              id: `empty-${filled.length}`,
+              subjectName: "",
+              credit: "",
+              grade: "",
+              isPlaceholder: true,
+            });
+          }
+          return filled;
+        })()}
+        setSubjects={(newSubjects) => {
+          // placeholder까지 포함해서 저장
           setAllSubjects((prev) => ({
             ...prev,
             [selectedSemester]: newSubjects,
-          }))
-        }
+          }));
+        }}
       />
       <Footer />
     </GPAContainer>

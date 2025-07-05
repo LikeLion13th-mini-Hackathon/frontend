@@ -11,12 +11,8 @@ import {
 } from "../../styles/GPA.styles";
 import { RiStickyNoteAddLine } from "react-icons/ri";
 
-function GpaTable({ subjects, setSubjects, semester }) {
-  // 노트로 이동 관리
+function GpaTable({ subjects, setSubjects, selectedSemester }) {
   const navigate = useNavigate();
-  const handleNoteClick = (subjectId) => {
-    navigate(`/note/${subjectId}`);
-  };
 
   const gradeToPoint = {
     "A+": 4.5,
@@ -31,16 +27,40 @@ function GpaTable({ subjects, setSubjects, semester }) {
   };
 
   const handleChange = (id, field, value) => {
-    const updatedSubjects = subjects.map((subj) =>
-      subj.id === id ? { ...subj, [field]: value } : subj
-    );
+    const updatedSubjects = subjects.map((subj) => {
+      if (subj.id === id) {
+        const updated = { ...subj, [field]: value };
+        if (
+          subj.isPlaceholder &&
+          field === "subjectName" &&
+          value.trim() !== ""
+        ) {
+          updated.isPlaceholder = false; // 유효한 과목으로 전환
+        }
+        return updated;
+      }
+      return subj;
+    });
     setSubjects(updatedSubjects);
   };
+
+  // 상태에서 렌더링용 배열 직접 만들기
+  const fixedRowCount = 8;
+  const displaySubjects = [
+    ...subjects,
+    ...Array.from({ length: fixedRowCount - subjects.length }, (_, i) => ({
+      id: `empty-${i}`,
+      subjectName: "",
+      credit: "",
+      grade: "",
+      isPlaceholder: true,
+    })),
+  ];
 
   return (
     <TableSection>
       <TableHeader>
-        <TableTitle>{semester}</TableTitle>
+        <TableTitle>{selectedSemester}</TableTitle>
       </TableHeader>
 
       <Table>
@@ -53,34 +73,62 @@ function GpaTable({ subjects, setSubjects, semester }) {
         </thead>
 
         <tbody>
-          {subjects.map((subject) => (
+          {displaySubjects.map((subject) => (
             <TableRow key={subject.id}>
               <SubjectCell>
                 <div
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
                     alignItems: "center",
                     padding: "2vw",
+                    gap: "8px",
                   }}
                 >
-                  {subject.subjectName}
-                  <RiStickyNoteAddLine
-                    size={20}
-                    onClick={() => handleNoteClick(subject.id)}
-                    style={{ cursor: "pointer" }}
+                  <input
+                    type="text"
+                    value={subject.subjectName || ""}
+                    onChange={(e) =>
+                      handleChange(subject.id, "subjectName", e.target.value)
+                    }
+                    style={{
+                      border: "none",
+                      backgroundColor: subject.isPlaceholder
+                        ? "#f9f9f9"
+                        : "white",
+                      color: subject.isPlaceholder ? "#ccc" : "inherit",
+                      width: "100%",
+                    }}
+                    placeholder="과목명"
                   />
+
+                  {!subject.isPlaceholder && (
+                    <RiStickyNoteAddLine
+                      size={20}
+                      onClick={() => navigate(`/note/${subject.id}`)}
+                      style={{ cursor: "pointer", flexShrink: 0 }}
+                    />
+                  )}
                 </div>
               </SubjectCell>
 
               <TableBodyCell>
                 <select
-                  style={{ border: "none", backgroundColor: "white" }}
-                  value={subject.credit}
+                  disabled={subject.isPlaceholder}
+                  style={{
+                    border: "none",
+                    backgroundColor: subject.isPlaceholder
+                      ? "#f9f9f9"
+                      : "white",
+                    color: subject.isPlaceholder ? "#ccc" : "inherit",
+                  }}
+                  value={subject.credit || ""}
                   onChange={(e) =>
                     handleChange(subject.id, "credit", Number(e.target.value))
                   }
                 >
+                  <option value="" disabled>
+                    0
+                  </option>
                   {[1, 2, 3].map((c) => (
                     <option key={c} value={c}>
                       {c}
@@ -91,12 +139,22 @@ function GpaTable({ subjects, setSubjects, semester }) {
 
               <TableBodyCell>
                 <select
-                  style={{ border: "none", backgroundColor: "white" }}
-                  value={subject.grade}
+                  disabled={subject.isPlaceholder}
+                  style={{
+                    border: "none",
+                    backgroundColor: subject.isPlaceholder
+                      ? "#f9f9f9"
+                      : "white",
+                    color: subject.isPlaceholder ? "#ccc" : "inherit",
+                  }}
+                  value={subject.grade || ""}
                   onChange={(e) =>
                     handleChange(subject.id, "grade", e.target.value)
                   }
                 >
+                  <option value="" disabled>
+                    A+
+                  </option>
                   {Object.keys(gradeToPoint).map((g) => (
                     <option key={g} value={g}>
                       {g}

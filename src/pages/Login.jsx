@@ -1,11 +1,11 @@
-import { React, useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineEmail } from "react-icons/md";
 import {
   Container,
   TitleSmall,
   TitleMain,
   LoginButton,
-  Signup,
   SignupLink,
 } from "../styles/Login.styles";
 import Bee1 from "../assets/Bee1.png";
@@ -48,13 +48,14 @@ function Login() {
 
       <GoogleLoginButton></GoogleLoginButton>
       <LoginButton onClick={() => setShowModal(true)}>
+        <MdOutlineEmail
+          size={22}
+          style={{ marginRight: "4vw", verticalAlign: "middle" }}
+        />
         이메일로 로그인
       </LoginButton>
 
-      <Signup>
-        계정이 없으신가요?
-        <SignupLink to="/signup">회원가입</SignupLink>
-      </Signup>
+      <SignupLink to="/signup">회원 가입하기</SignupLink>
 
       {/* 상세로그인 (모달창) */}
       {showModal && (

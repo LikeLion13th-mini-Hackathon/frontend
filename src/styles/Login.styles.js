@@ -13,13 +13,15 @@ export const Container = styled.div`
 
 export const TitleSmall = styled.p`
   font-size: 16px;
+  font-weight: 500;
   color: #767676;
   margin-bottom: 1vh;
 `;
 
 export const TitleMain = styled.h1`
-  font-size: 60px;
+  font-size: 62px;
   font-weight: 900;
+  text-shadow: 0 0 0.5px currentColor;
   text-align: center;
   color: #140b77;
   white-space: pre-line;
@@ -29,18 +31,17 @@ export const TitleMain = styled.h1`
 `;
 
 export const LoginButton = styled(Button)`
+  margin-top: 2vh;
   width: 85%;
-  margin-top: 2vh;
-`;
-
-export const Signup = styled.div`
-  font-size: 15px;
-  margin-top: 2vh;
+  background-color: white;
+  color: #1f1f1f;
+  border: 1px solid #767676;
 `;
 
 export const SignupLink = styled(Link)`
-  color: inherit;
-  margin-left: 5px;
+  font-size: 14px;
+  color: #767676;
+  margin-top: 3vh;
   cursor: pointer;
 
   &:hover {
