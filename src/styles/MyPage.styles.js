@@ -88,6 +88,7 @@ export const SettingItem = styled.div`
   align-items: center;
   padding: 1vh 0;
   font-size: 14px;
+  color: rgb(210, 81, 81);
   cursor: pointer;
 `;
 

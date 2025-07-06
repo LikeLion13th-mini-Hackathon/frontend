@@ -9,23 +9,6 @@ export const Container = styled.div`
   transform: translateY(-55px);
 `;
 
-export const TitleSmall = styled.p`
-  font-size: 16px;
-  color: #767676;
-  margin-bottom: 1vh;
-`;
-
-export const TitleMain = styled.h1`
-  font-size: 60px;
-  font-weight: 900;
-  text-align: center;
-  color: #140b77;
-  white-space: pre-line;
-  margin-top: 1vh;
-  margin-bottom: 5vh;
-  line-height: 1.1;
-`;
-
 export const DotWrapper = styled.div`
   display: flex;
   gap: 8px;
@@ -39,14 +22,6 @@ export const Dot = styled.div`
   background-color: ${({ $active }) => ($active ? "#1e0066" : "#ccc")};
 `;
 
-export const SubText = styled.p`
-  font-size: 16px;
-  color: #111111;
-  font-weight: 500;
-  margin-top: 3vh;
-  margin-bottom: 7vh;
-`;
-
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -54,4 +29,15 @@ export const ButtonWrapper = styled.div`
   opacity: ${(props) => (props.$show ? 1 : 0)};
   transition: opacity 0.8s ease;
   pointer-events: ${(props) => (props.$show ? "auto" : "none")};
+`;
+
+export const SliderWrapper = styled.div`
+  width: 100%;
+  overflow: hidden;
+`;
+
+export const SlideContainer = styled.div`
+  display: flex;
+  transition: transform 0.5s ease;
+  transform: translateX(${(props) => `-${props.$index * 100}%`});
 `;

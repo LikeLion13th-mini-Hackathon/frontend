@@ -10,7 +10,11 @@ import {
 } from "../styles/Login.styles";
 import Bee1 from "../assets/Bee1.png";
 import GoogleLoginButton from "../components/GoogleLoginButton";
-import { ModalContent, ModalOverlay } from "../styles/LoginModal.styles";
+import {
+  ModalContent,
+  ModalOverlay,
+  ModalInput,
+} from "../styles/LoginModal.styles";
 import { login } from "../api/auth";
 
 function Login() {
@@ -23,22 +27,23 @@ function Login() {
   // 로그인 API 연동
   const handleSubmit = async () => {
     try {
-      const res = await login(email, password); // 로그인 요청
+      const res = await login(email, password); // API 호출
       const { token, user } = res;
 
-      localStorage.setItem("token", token); // 토큰 저장
-      localStorage.setItem("user", JSON.stringify(user)); // 유저 정보 저장
-      navigate("/mainpage"); // 성공 시 메인 이동
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      navigate("/mainpage"); // 로그인 성공 시 이동
     } catch (error) {
       alert("로그인 실패! 아이디/비밀번호를 확인하세요.");
-      console.error(error);
+      console.error("로그인 에러:", error);
     }
   };
 
   return (
     <Container>
       <TitleSmall>나만의 대학생활 코디네이터</TitleSmall>
-      <TitleMain>메인{"\n"}타이틀</TitleMain>
+      <TitleMain>척척{"\n"}학사</TitleMain>
 
       <img
         src={Bee1}
@@ -48,10 +53,7 @@ function Login() {
 
       <GoogleLoginButton></GoogleLoginButton>
       <LoginButton onClick={() => setShowModal(true)}>
-        <MdOutlineEmail
-          size={22}
-          style={{ marginRight: "4vw", verticalAlign: "middle" }}
-        />
+        <MdOutlineEmail size={22} style={{ marginRight: "4vw" }} />
         이메일로 로그인
       </LoginButton>
 
@@ -64,20 +66,19 @@ function Login() {
             <h2 style={{ marginTop: "0" }}>이메일 로그인</h2>
 
             <div style={{ fontWeight: "bold" }}>아이디</div>
-            <input
+            <ModalInput
               type="email"
-              placeholder="아이디를 입력해주세요"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ marginBottom: "2vh" }}
+              placeholder="아이디를 입력해주세요"
             />
 
             <div style={{ fontWeight: "bold" }}>비밀번호</div>
-            <input
+            <ModalInput
               type="password"
-              placeholder="비밀번호를 입력해주세요"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="비밀번호를 입력해주세요"
             />
 
             <button onClick={handleSubmit} disabled={!email || !password}>

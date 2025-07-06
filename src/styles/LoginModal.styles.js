@@ -5,7 +5,7 @@ export const ModalOverlay = styled.div`
   top: 10;
   left: 10;
   width: 100vw;
-  height: 120vh; // 내 화면엔 이게 맞는데 테스트할 때 정확한 위치 수정 필요
+  height: 120vh;
   background-color: hsla(0, 0%, 0%, 0.4);
   display: flex;
   align-items: center;
@@ -47,4 +47,13 @@ export const ModalContent = styled.div`
     cursor: not-allowed;
     opacity: 0.4;
   }
+`;
+
+export const ModalInput = styled.input`
+  width: 100%;
+  padding: 1.2vh;
+  font-size: 1rem;
+  margin-bottom: 1vh;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 `;
