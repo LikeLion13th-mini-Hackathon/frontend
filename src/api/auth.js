@@ -12,7 +12,6 @@ export const login = async (email, password) => {
         name: "임상현",
         university: "인천대학교",
         major: "영어영문학과",
-        studentId: "21",
         grade: "3",
         status: "재학생",
       },

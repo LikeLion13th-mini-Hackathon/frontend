@@ -32,7 +32,7 @@ function ProfileCard() {
       <InfoWrapper>
         <NameText>{user.name}</NameText>
         <SubText>
-          {user.university} {user.major} {user.studentId}학번
+          {user.university} {user.major}
         </SubText>
 
         <Divider />
