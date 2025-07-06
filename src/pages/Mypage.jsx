@@ -3,11 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { FiChevronRight } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-
 import {
   Container,
   Header,
-  Title,
   ProfileSection,
   UserInfo,
   Name,
@@ -64,7 +62,9 @@ function MyPage() {
             <Value>영어영문학과</Value>
           </InfoItem>
           <ChangeSection>
-            <ChangeText onClick={() => alert("학과 변경")}>변경하기</ChangeText>
+            <ChangeText onClick={() => navigate("/mypage/edit-profile")}>
+              변경하기
+            </ChangeText>
             <FiChevronRight style={{ color: "#767676" }} />
           </ChangeSection>
         </Section>
