@@ -23,6 +23,12 @@ import Footer from "../components/Footer";
 
 function MyPage() {
   const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    alert("정상적으로 로그아웃되었습니다.");
+    navigate("/");
+  };
 
   return (
     <>
@@ -72,11 +78,8 @@ function MyPage() {
 
         <Section>
           <SectionTitle>앱 설정</SectionTitle>
-          <SettingItem onClick={() => alert("로그아웃")}>
+          <SettingItem onClick={handleLogout}>
             로그아웃 <FiChevronRight />
-          </SettingItem>
-          <SettingItem onClick={() => alert("회원 탈퇴")}>
-            회원 탈퇴 <FiChevronRight />
           </SettingItem>
         </Section>
       </Container>
@@ -116,6 +119,13 @@ export default MyPage;
 // function MyPage() {
 //   const navigate = useNavigate();
 //   const [user, setUser] = useState(null);
+
+// const handleLogout = () => {
+//   localStorage.removeItem("token");
+//   localStorage.removeItem("user");
+//   alert("정상적으로 로그아웃되었습니다.");
+//   navigate("/");
+// };
 
 //   useEffect(() => {
 //     const fetchProfile = async () => {
@@ -183,15 +193,12 @@ export default MyPage;
 
 //         <Divider />
 
-//         <Section>
-//           <SectionTitle>앱 설정</SectionTitle>
-//           <SettingItem onClick={() => alert("로그아웃")}>
-//             로그아웃 <FiChevronRight />
-//           </SettingItem>
-//           <SettingItem onClick={() => alert("회원 탈퇴")}>
-//             회원 탈퇴 <FiChevronRight />
-//           </SettingItem>
-//         </Section>
+// <Section>
+//   <SectionTitle>앱 설정</SectionTitle>
+//   <SettingItem onClick={handleLogout}>
+//     로그아웃 <FiChevronRight />
+//   </SettingItem>
+// </Section>
 //       </Container>
 //       <Footer />
 //     </>
