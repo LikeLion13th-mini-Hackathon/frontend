@@ -10,6 +10,7 @@ import {
   TableBodyCell,
 } from "../../styles/GPA.styles";
 import { RiStickyNoteAddLine } from "react-icons/ri";
+import { updateSubject } from "../../api/subject";
 
 function GpaTable({ subjects, setSubjects, selectedSemester }) {
   const navigate = useNavigate();
@@ -26,11 +27,27 @@ function GpaTable({ subjects, setSubjects, selectedSemester }) {
     F: 0.0,
   };
 
-  const handleChange = (id, field, value) => {
+  const handleChange = async (id, field, value) => {
     const updatedSubjects = subjects.map((subj) =>
       subj.id === id ? { ...subj, [field]: value } : subj
     );
     setSubjects(updatedSubjects);
+
+    const target = updatedSubjects.find((s) => s.id === id);
+
+    // 서버로 PATCH 요청 보내기 (빈 값 제외)
+    if (target.subjectName.trim() && target.credit > 0 && target.grade) {
+      try {
+        await updateSubject(id, {
+          subjectName: target.subjectName,
+          credit: target.credit,
+          grade: target.grade,
+        });
+        console.log("✅ 과목 수정 완료");
+      } catch (err) {
+        console.error("❌ 과목 수정 실패", err);
+      }
+    }
   };
 
   // 고정된 행 수를 위해 부족한 부분은 빈 과목으로 채움

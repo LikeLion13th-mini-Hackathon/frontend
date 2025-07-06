@@ -23,22 +23,23 @@ function Login() {
   // 로그인 API 연동
   const handleSubmit = async () => {
     try {
-      const res = await login(email, password); // 로그인 요청
+      const res = await login(email, password); // API 호출
       const { token, user } = res;
 
-      localStorage.setItem("token", token); // 토큰 저장
-      localStorage.setItem("user", JSON.stringify(user)); // 유저 정보 저장
-      navigate("/mainpage"); // 성공 시 메인 이동
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      navigate("/mainpage"); // 로그인 성공 시 이동
     } catch (error) {
       alert("로그인 실패! 아이디/비밀번호를 확인하세요.");
-      console.error(error);
+      console.error("로그인 에러:", error);
     }
   };
 
   return (
     <Container>
       <TitleSmall>나만의 대학생활 코디네이터</TitleSmall>
-      <TitleMain>메인{"\n"}타이틀</TitleMain>
+      <TitleMain>척척{"\n"}학사</TitleMain>
 
       <img
         src={Bee1}
@@ -48,10 +49,7 @@ function Login() {
 
       <GoogleLoginButton></GoogleLoginButton>
       <LoginButton onClick={() => setShowModal(true)}>
-        <MdOutlineEmail
-          size={22}
-          style={{ marginRight: "4vw", verticalAlign: "middle" }}
-        />
+        <MdOutlineEmail size={22} style={{ marginRight: "4vw" }} />
         이메일로 로그인
       </LoginButton>
 

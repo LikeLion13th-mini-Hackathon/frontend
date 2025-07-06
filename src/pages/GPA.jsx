@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GPAContainer } from "../styles/GPA.styles";
 import GPAHeader from "../components/gpa/GpaHeader";
 import GpaCard from "../components/gpa/GpaCard";
 import GpaTable from "../components/gpa/GpaTable";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 const gradeToPoint = {
   "A+": 4.5,
