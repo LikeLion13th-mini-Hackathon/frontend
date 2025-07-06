@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 import {
   Container,
-  TitleSmall,
-  TitleMain,
   DotWrapper,
   Dot,
-  SubText,
   ButtonWrapper,
+  SliderWrapper,
+  SlideContainer,
 } from "../styles/Home.styles";
 import { Button } from "../components/Button";
 import Test1 from "../assets/Test1.png";
@@ -33,14 +32,13 @@ function Home() {
 
   // 슬라이드 관리
   const [currentSlide, setCurrentSlide] = useState(0);
-  const handlePrev = () => {
-    if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
-  };
-  const handleNext = () => {
-    if (currentSlide < slides.length - 1) {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
+  const handlePrev = useCallback(() => {
+    setCurrentSlide((prev) => Math.max(prev - 1, 0));
+  }, []);
+  const handleNext = useCallback(() => {
+    setCurrentSlide((prev) => Math.min(prev + 1, slides.length - 1));
+  }, [slides.length]);
+
   // 터치로 슬라이드 넘기기
   const swipeHandlers = useSwipeable({
     onSwipedLeft: handleNext,
@@ -49,12 +47,23 @@ function Home() {
   });
 
   return (
-    <Container {...swipeHandlers} onClick={handleNext}>
-      <img
-        src={slides[currentSlide].img}
-        alt="슬라이드 이미지"
-        style={{ width: "40vh", marginTop: "5vh", marginBottom: "5vh" }}
-      />
+    <Container {...swipeHandlers}>
+      <SliderWrapper>
+        <SlideContainer $index={currentSlide}>
+          {slides.map((slide) => (
+            <div
+              key={slide.id}
+              style={{ flex: "0 0 100%", textAlign: "center" }}
+            >
+              <img
+                src={slide.img}
+                alt="슬라이드 이미지"
+                style={{ maxWidth: "70%", height: "auto" }} // 나중에 수정 필요
+              />
+            </div>
+          ))}
+        </SlideContainer>
+      </SliderWrapper>
 
       <DotWrapper>
         {slides.map((_, i) => (

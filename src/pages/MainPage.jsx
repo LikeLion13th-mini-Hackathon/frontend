@@ -12,8 +12,8 @@ function MainPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
+    // í† í° ì—†ìœ¼ë©´ ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
     if (!token) {
-      // ÅäÅ« ¾øÀ¸¸é ·Î±×ÀÎ ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
       navigate("/login");
     }
   }, [navigate]);

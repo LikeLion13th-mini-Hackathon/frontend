@@ -120,6 +120,7 @@ function GpaTable({ subjects, setSubjects, selectedSemester }) {
                     border: "none",
                     backgroundColor: "white",
                     color: "inherit",
+                    cursor: "pointer",
                   }}
                   value={subject.credit}
                   onChange={(e) =>
@@ -140,6 +141,7 @@ function GpaTable({ subjects, setSubjects, selectedSemester }) {
                     border: "none",
                     backgroundColor: "white",
                     color: "inherit",
+                    cursor: "pointer",
                   }}
                   value={subject.grade || "A+"}
                   onChange={(e) =>

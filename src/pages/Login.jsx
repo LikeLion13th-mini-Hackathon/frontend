@@ -10,7 +10,11 @@ import {
 } from "../styles/Login.styles";
 import Bee1 from "../assets/Bee1.png";
 import GoogleLoginButton from "../components/GoogleLoginButton";
-import { ModalContent, ModalOverlay } from "../styles/LoginModal.styles";
+import {
+  ModalContent,
+  ModalOverlay,
+  ModalInput,
+} from "../styles/LoginModal.styles";
 import { login } from "../api/auth";
 
 function Login() {
@@ -62,20 +66,19 @@ function Login() {
             <h2 style={{ marginTop: "0" }}>이메일 로그인</h2>
 
             <div style={{ fontWeight: "bold" }}>아이디</div>
-            <input
+            <ModalInput
               type="email"
-              placeholder="아이디를 입력해주세요"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ marginBottom: "2vh" }}
+              placeholder="아이디를 입력해주세요"
             />
 
             <div style={{ fontWeight: "bold" }}>비밀번호</div>
-            <input
+            <ModalInput
               type="password"
-              placeholder="비밀번호를 입력해주세요"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="비밀번호를 입력해주세요"
             />
 
             <button onClick={handleSubmit} disabled={!email || !password}>

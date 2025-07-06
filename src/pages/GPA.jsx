@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { GPAContainer } from "../styles/GPA.styles";
 import GPAHeader from "../components/gpa/GpaHeader";
 import GpaCard from "../components/gpa/GpaCard";
@@ -25,18 +25,24 @@ function Gpa() {
 
   // 빈 행 포함해서 8줄 고정
   const fixedRowCount = 8;
-  const filledSubjects = [...currentSubjects];
-  while (filledSubjects.length < fixedRowCount) {
-    filledSubjects.push({
-      id: `empty-${filledSubjects.length}`,
-      subjectName: "",
-      credit: 0,
-      grade: "A+",
-    });
-  }
+
+  const filledSubjects = useMemo(() => {
+    const rows = [...currentSubjects];
+    while (rows.length < fixedRowCount) {
+      rows.push({
+        id: `empty-${rows.length}`,
+        subjectName: "",
+        credit: 0,
+        grade: "A+",
+      });
+    }
+    return rows;
+  }, [currentSubjects]);
 
   // 선택된 학기의 과목 리스트 조회
   useEffect(() => {
+    if (allSubjects[selectedSemester]) return;
+
     const fetchSubjects = async () => {
       const token = localStorage.getItem("token");
       const [gradeLevel, semester] = selectedSemester

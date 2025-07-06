@@ -4,12 +4,12 @@ export const NavWrapper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 8vh; // 화면에 따라 조정 필요할수도
+  height: clamp(60px, 8vh, 80px);
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid #eee;
-  padding-top: 5px; // 아마도.. 조정 필요
+  padding-top: 5px;
   z-index: 100;
   background-color: rgb(243, 243, 243);
 `;

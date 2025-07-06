@@ -31,7 +31,7 @@ export const TitleMain = styled.h1`
 `;
 
 export const LoginButton = styled(Button)`
-  margin-top: 2vh;
+  margin-top: 1vh;
   width: 85%;
   background-color: white;
   color: #1f1f1f;
