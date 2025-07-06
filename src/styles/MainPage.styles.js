@@ -148,7 +148,6 @@ export const MessageWrapper = styled.div`
 
 export const SpeechBubble = styled.div`
   width: 68vw;
-  height: 8vh;
   padding: 2vh;
   border-radius: 20px;
   position: relative;

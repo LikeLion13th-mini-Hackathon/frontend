@@ -17,7 +17,6 @@ const gradeToPoint = {
   F: 0.0,
 };
 
-// 더미데이터
 const initialData = {
   "1학년 1학기": [
     { id: 1, subjectName: "긴제목의과목1", credit: 3, grade: "A+" },
@@ -34,18 +33,16 @@ function Gpa() {
   const [allSubjects, setAllSubjects] = useState(initialData);
 
   const handleSemesterChange = (semester) => setSelectedSemester(semester);
-  const handleSubjectsChange = (semester, newSubjects) => {
-    setAllSubjects((prev) => ({ ...prev, [semester]: newSubjects }));
-  };
 
   const allSubjectsArray = Object.values(allSubjects).flat();
 
   const calculateGpa = () => {
     const validSubjects = allSubjectsArray.filter(
       (subj) =>
-        subj.grade in gradeToPoint &&
+        gradeToPoint.hasOwnProperty(subj.grade) && // 패논패는 제외
         typeof subj.credit === "number" &&
-        !isNaN(subj.credit)
+        !isNaN(subj.credit) &&
+        subj.credit > 0
     );
 
     const totalCredits = validSubjects.reduce(
@@ -60,7 +57,29 @@ function Gpa() {
     return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
   };
 
+  const totalValidCredits = allSubjectsArray.reduce(
+    (acc, subj) =>
+      subj.grade in gradeToPoint &&
+      typeof subj.credit === "number" &&
+      subj.credit > 0
+        ? acc + subj.credit
+        : acc,
+    0
+  );
+
   const currentSubjects = allSubjects[selectedSemester] || [];
+
+  // 빈 행 포함해서 8줄 맞추기
+  const fixedRowCount = 8;
+  const filledSubjects = [...currentSubjects];
+  while (filledSubjects.length < fixedRowCount) {
+    filledSubjects.push({
+      id: `empty-${filledSubjects.length}`,
+      subjectName: "",
+      credit: 0,
+      grade: "A+",
+    });
+  }
 
   return (
     <GPAContainer>
@@ -71,39 +90,24 @@ function Gpa() {
 
       <GpaCard
         overall={calculateGpa()}
-        credits={allSubjectsArray.reduce(
-          (acc, subj) =>
-            subj.grade in gradeToPoint && typeof subj.credit === "number"
-              ? acc + subj.credit
-              : acc,
-          0
-        )}
+        credits={allSubjectsArray.reduce((acc, subj) => {
+          if (typeof subj.credit !== "number" || subj.credit <= 0) return acc;
+          if (subj.grade === "NP") return acc; // NP는 무조건 제외
+          return acc + subj.credit; // P 포함, GPA 성적 포함
+        }, 0)}
       />
 
       <GpaTable
-        subjects={(() => {
-          const fixedRowCount = 8;
-          const current = allSubjects[selectedSemester] || [];
-          const filled = [...current];
-          while (filled.length < fixedRowCount) {
-            filled.push({
-              id: `empty-${filled.length}`,
-              subjectName: "",
-              credit: "",
-              grade: "",
-              isPlaceholder: true,
-            });
-          }
-          return filled;
-        })()}
-        setSubjects={(newSubjects) => {
-          // placeholder까지 포함해서 저장
+        subjects={filledSubjects}
+        setSubjects={(newSubjects) =>
           setAllSubjects((prev) => ({
             ...prev,
             [selectedSemester]: newSubjects,
-          }));
-        }}
+          }))
+        }
+        selectedSemester={selectedSemester}
       />
+
       <Footer />
     </GPAContainer>
   );
