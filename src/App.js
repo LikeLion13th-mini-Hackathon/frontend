@@ -9,7 +9,13 @@ import Layout from "./components/Layout";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import MainPage from "./pages/MainPage";
 import Gpa from "./pages/GPA";
-import Note from "./pages/Note";
+import Graduation from "./pages/Graduation";
+import GraduationMemoPage from "./pages/GraduationNote";
+import SubjectNotePage from "./pages/SubjectNote";
+import Planner from "./pages/Planner";
+import PlanDetail from "./pages/PlannerDetail";
+
+
 
 function App() {
   return (
@@ -24,7 +30,11 @@ function App() {
             <Route path="/signup/complete" element={<SignupComplete />} />
             <Route path="/mainpage" element={<MainPage />} />
             <Route path="/gpa" element={<Gpa />} />
-            <Route path="/note/:id" element={<Note />} />
+            <Route path="/note/:id" element={<SubjectNotePage />} />
+            <Route path="/graduation" element={<Graduation />} />
+            <Route path="/graduation-memo/:category" element={<GraduationMemoPage />} />
+            <Route path="/planner" element={<Planner />} />
+            <Route path="/plans/:semester/:category" element={<PlanDetail />} />
           </Routes>
         </Layout>
       </BrowserRouter>

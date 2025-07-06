@@ -1,4 +1,3 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -12,22 +11,18 @@ import {
   NoteContent,
   EditButton,
 } from "../styles/Note.styles";
-import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
 
-function Note() {
-  const { id } = useParams();
+function MemoPage({ pageTitle, dummyData, showTrash = true }) {
   const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const [note, setNote] = useState(dummyData?.note || "");
+  const [showModal, setShowModal] = useState(false);
 
-  // 더미데이터
-  const dummySubject = {
-    id,
-    name: "과목명과목명과목명",
-    note: `과목메모내용 과목메모내용 과목메모내용 과목메모내용 과목메모내용 과목메모내용 과목메모내용 과목메모내용`,
-  };
-
-  const [isEditing, setIsEditing] = useState(false); // 수정 여부 확인
-  const [note, setNote] = useState(dummySubject.note); // 노트 내용
-  const [showModal, setShowModal] = useState(false); // 모달창 관리
+  if (!dummyData) {
+    return <div>잘못된 접근입니다. 메모가 없습니다.</div>;
+  }
 
   return (
     <>
@@ -38,16 +33,18 @@ function Note() {
             style={{ marginRight: "14vh" }}
             onClick={() => navigate(-1)}
           />
-          <h3 style={{ color: "#140b77" }}>과목 메모</h3>
+          <h3 style={{ color: "#140b77" }}>{pageTitle}</h3>
         </NoteHeader>
 
         <NoteCard>
           <NoteTitle>
-            <h3 style={{ fontWeight: "bold" }}>{dummySubject.name}</h3>
-            <FaRegTrashCan
-              onClick={() => setShowModal(true)}
-              style={{ color: "#fb4343", cursor: "pointer" }}
-            />
+            <h3 style={{ fontWeight: "bold" }}>{dummyData.name}</h3>
+            {showTrash && (
+              <FaRegTrashCan
+                onClick={() => setShowModal(true)}
+                style={{ color: "#fb4343", cursor: "pointer" }}
+              />
+            )}
           </NoteTitle>
 
           <hr style={{ marginTop: "0" }} />
@@ -57,7 +54,7 @@ function Note() {
               autoFocus
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              onBlur={() => setIsEditing(false)} // 포커스 잃으면 읽기 모드
+              onBlur={() => setIsEditing(false)}
               style={{
                 width: "100%",
                 height: "50vh",
@@ -67,9 +64,7 @@ function Note() {
               }}
             />
           ) : (
-            <NoteContent>
-              {note.trim() ? note : "메모를 입력하세요..."}
-            </NoteContent>
+            <NoteContent>{note.trim() ? note : "메모를 입력하세요..."}</NoteContent>
           )}
 
           {!isEditing && (
@@ -80,7 +75,6 @@ function Note() {
         </NoteCard>
       </NoteContainer>
 
-      {/* 모달창 */}
       {showModal && (
         <div
           style={{
@@ -104,7 +98,7 @@ function Note() {
               borderRadius: "10px",
               minWidth: "40vh",
             }}
-            onClick={(e) => e.stopPropagation()} // 모달 내부 클릭 시 닫히지 않게
+            onClick={(e) => e.stopPropagation()}
           >
             <p
               style={{
@@ -114,7 +108,7 @@ function Note() {
                 fontWeight: "500",
               }}
             >
-              과목명 메모를 정말 삭제할까요?
+              {dummyData.name} 메모를 정말 삭제할까요?
             </p>
             <div
               style={{
@@ -160,7 +154,7 @@ function Note() {
                 <FaRegTrashCan
                   size={18}
                   style={{ color: "#fb4343", marginBottom: "1vh" }}
-                />{" "}
+                />
                 삭제하기
               </button>
             </div>
@@ -173,4 +167,4 @@ function Note() {
   );
 }
 
-export default Note;
+export default MemoPage;
