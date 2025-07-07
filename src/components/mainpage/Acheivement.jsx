@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CircularProgressbarWithChildren,
   buildStyles,
@@ -22,40 +22,86 @@ import Bee2 from "../../assets/Bee2.png";
 import Bee3 from "../../assets/Bee3.png";
 import Bee4 from "../../assets/Bee4.png";
 import Bee5 from "../../assets/Bee5.png";
+import axios from "axios";
 
 function Achievement() {
-  const [totalSemester, setTotalSemester] = useState(8); // 총 학기
-  const [remainingSemester, setRemainingSemester] = useState(1); // 남은 학기
-  const percentage = Math.round((remainingSemester / totalSemester) * 100);
-  // 성취도에 따른 메시지 변화
-  let message = "";
-  if (percentage < 25) {
-    message =
-      "드디어 시작이네! 이제부터 너만의 계획이 만들어질 거야. 나랑 멋지게 채워보자.";
-  } else if (percentage < 50) {
-    message =
-      "시작이 반이야! 이제 슬슬 몸 풀렸으니까 한 단계씩 차근차근 가보자~";
-  } else if (percentage < 75) {
-    message =
-      "벌써 절반 넘게 했잖아! 지금부터가 진짜야. 기세 꺾이지 말고 계속 가보자!";
-  } else if (percentage < 90) {
-    message = "슬슬 끝이 보여! 방심 금지~ 이때 삐끗하면 다음에 더 봐야 돼..";
-  } else {
-    message = "졸업까지 다 왔네. 미리 축하해!";
-  }
-  // 성취도에 따른 캐릭터 변화
-  let beeImage = Bee1;
-  if (percentage < 25) {
-    beeImage = Bee1;
-  } else if (percentage < 50) {
-    beeImage = Bee2;
-  } else if (percentage < 75) {
-    beeImage = Bee3;
-  } else if (percentage < 90) {
-    beeImage = Bee4;
-  } else {
-    beeImage = Bee5;
-  }
+  const [totalSemester, setTotalSemester] = useState(8);
+  const [takenSemester, setTakenSemester] = useState(1);
+  const [percentage, setPercentage] = useState(0);
+  const [message, setMessage] = useState("");
+  const [remainingSemester, setRemainingSemester] = useState(0);
+  const [beeImage, setBeeImage] = useState(Bee1);
+
+  // 성취도 조회 (최초 렌더 시)
+  useEffect(() => {
+    const fetchAchievement = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const res = await axios.get("http://localhost:5000/api/achievement", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const {
+          totalSemester,
+          currentSemester,
+          achievementPercent,
+          remainingSemester,
+          message,
+        } = res.data;
+
+        setTotalSemester(totalSemester);
+        setTakenSemester(currentSemester);
+        setPercentage(achievementPercent);
+        setRemainingSemester(remainingSemester);
+        setMessage(message);
+
+        if (achievementPercent < 25) setBeeImage(Bee1);
+        else if (achievementPercent < 50) setBeeImage(Bee2);
+        else if (achievementPercent < 75) setBeeImage(Bee3);
+        else if (achievementPercent < 90) setBeeImage(Bee4);
+        else setBeeImage(Bee5);
+      } catch (err) {
+        console.warn("⚠️ 성취도 조회 실패:", err.message);
+      }
+    };
+
+    fetchAchievement();
+  }, []);
+
+  // 사용자가 select를 바꾸면 저장 요청
+  useEffect(() => {
+    const postAchievement = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const res = await axios.post(
+          "http://localhost:5000/api/achievement",
+          {
+            totalSemester,
+            takenSemester,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const { achievementPercent, remainingSemester, message } = res.data;
+
+        setPercentage(achievementPercent);
+        setRemainingSemester(remainingSemester);
+        setMessage(message);
+
+        if (achievementPercent < 25) setBeeImage(Bee1);
+        else if (achievementPercent < 50) setBeeImage(Bee2);
+        else if (achievementPercent < 75) setBeeImage(Bee3);
+        else if (achievementPercent < 90) setBeeImage(Bee4);
+        else setBeeImage(Bee5);
+      } catch (err) {
+        console.warn("⚠️ 성취도 저장 실패:", err.message);
+      }
+    };
+
+    postAchievement();
+  }, [totalSemester, takenSemester]);
 
   return (
     <GraphSection>
@@ -78,8 +124,8 @@ function Achievement() {
 
         <TabSelect
           as="select"
-          value={remainingSemester}
-          onChange={(e) => setRemainingSemester(Number(e.target.value))}
+          value={takenSemester}
+          onChange={(e) => setTakenSemester(Number(e.target.value))}
         >
           {[...Array(totalSemester + 1)].map((_, i) => (
             <option key={i} value={i}>
@@ -87,7 +133,6 @@ function Achievement() {
             </option>
           ))}
         </TabSelect>
-
         <TabText>들었어요.</TabText>
       </TabRow>
 
@@ -97,9 +142,9 @@ function Achievement() {
           circleRatio={0.75}
           strokeWidth={14}
           styles={buildStyles({
-            rotation: 5 / 8, // 시작 위치
+            rotation: 5 / 8,
             strokeLinecap: "round",
-            trailColor: "#f0f0f0",
+            trailColor: "#e5e7ec",
             pathColor: "#140b77",
             textColor: "#140b77",
             pathTransitionDuration: 0.5,
@@ -107,20 +152,21 @@ function Achievement() {
         >
           <div
             style={{
-              width: "62%", // 내부 원 크기 (조절 가능)
-              height: "63%",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "60%",
+              height: "60%",
               borderRadius: "50%",
-              backgroundColor: "#ebebeb",
-              transform: "translateY(25%)",
+              backgroundColor: "#e5e7ec",
               boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
-              zIndex: "-1",
+              zIndex: -1,
             }}
-          ></div>
+          />
           <CenterText>{percentage}%</CenterText>
-          <SubText style={{ transform: "translateY(-450%)" }}>
-            {percentage >= 100
-              ? "졸업!"
-              : `졸업까지 ${totalSemester - remainingSemester}학기!`}
+          <SubText style={{ marginBottom: "10px" }}>
+            {percentage >= 100 ? "졸업!" : `졸업까지 ${remainingSemester}학기!`}
           </SubText>
         </CircularProgressbarWithChildren>
       </ChartWrapper>
@@ -132,4 +178,5 @@ function Achievement() {
     </GraphSection>
   );
 }
+
 export default Achievement;

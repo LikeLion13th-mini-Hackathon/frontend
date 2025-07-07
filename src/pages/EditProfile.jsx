@@ -1,0 +1,158 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
+import { FaUserCircle } from "react-icons/fa";
+import {
+  Container,
+  Header,
+  ProfileSection2,
+  Form,
+  FormGroup,
+  Label2,
+  Input,
+  Select,
+  EditButton,
+} from "../styles/MyPage.styles";
+import axios from "axios";
+
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
+function EditProfile() {
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    nickname: "",
+    birthdate: "",
+    email: "",
+    department: "",
+  });
+
+  // ✅ 유저 정보 불러오기 (선택: 추후 GET API 연결 시)
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const fetchUserInfo = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/api/user/mypage`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const { nickname, birthdate, email, department } = res.data;
+
+        setForm({
+          nickname,
+          birthdate: birthdate?.replace(/-/g, ".") || "",
+          email,
+          department,
+        });
+      } catch (err) {
+        console.error("⚠️ 유저 정보 불러오기 실패:", err);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const isValidBirthdate = (birth) => /^\d{4}\.\d{2}\.\d{2}$/.test(birth);
+
+  const handleSave = async () => {
+    if (!isValidBirthdate(form.birthdate)) {
+      alert("생년월일 형식이 올바르지 않습니다. 예: 2000.01.01");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.patch(
+        `${BASE_URL}/api/user/mypage`,
+        {
+          nickname: form.nickname,
+          email: form.email,
+          birthdate: form.birthdate.replace(/\./g, "-"),
+          department: form.department,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("✅ 사용자 정보가 성공적으로 수정되었습니다!");
+      navigate("/mypage");
+    } catch (err) {
+      console.error("❌ 사용자 정보 수정 실패:", err);
+      alert("수정 중 오류가 발생했습니다.");
+    }
+  };
+
+  return (
+    <Container>
+      <Header>
+        <IoIosArrowBack
+          size={20}
+          style={{ marginRight: "13vh" }}
+          onClick={() => navigate(-1)}
+        />
+        <h3 style={{ color: "#140b77" }}>프로필 편집</h3>
+      </Header>
+
+      <ProfileSection2>
+        <FaUserCircle size={70} style={{ color: "#767676" }} />
+      </ProfileSection2>
+
+      <Form>
+        <FormGroup>
+          <Label2>이름</Label2>
+          <Input
+            name="nickname"
+            value={form.nickname}
+            onChange={handleChange}
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label2>생년월일</Label2>
+          <Input
+            name="birthdate"
+            value={form.birthdate}
+            onChange={handleChange}
+            placeholder="2000.01.01"
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label2>이메일</Label2>
+          <Input
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            type="email"
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label2>학과(부)</Label2>
+          <Select
+            name="department"
+            value={form.department}
+            onChange={handleChange}
+          >
+            <option value="디자인학부">디자인학부</option>
+            <option value="산업경영공학과">산업경영공학과</option>
+            <option value="영어영문학과">영어영문학과</option>
+            <option value="컴퓨터공학부">컴퓨터공학부</option>
+          </Select>
+        </FormGroup>
+
+        <EditButton onClick={handleSave}>수정하기</EditButton>
+      </Form>
+    </Container>
+  );
+}
+
+export default EditProfile;

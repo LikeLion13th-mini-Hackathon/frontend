@@ -1,37 +1,42 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Button } from "../components/Button";
 import { Link } from "react-router-dom";
 
 export const Container = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  transform: translateY(-55px);
+  align-items: center;
+  min-height: 100dvh;
+  padding: 5vh 0;
+  overflow: hidden;
 `;
 
 export const TitleSmall = styled.p`
   font-size: 16px;
   font-weight: 500;
   color: #767676;
-  margin-bottom: 1vh;
+  margin-bottom: 5vh;
 `;
 
-export const TitleMain = styled.h1`
-  font-size: 62px;
-  font-weight: 900;
-  text-shadow: 0 0 0.5px currentColor;
-  text-align: center;
-  color: #140b77;
-  white-space: pre-line;
-  margin-top: 1vh;
-  margin-bottom: 2vh;
-  line-height: 1.1;
+// 움직이는 애니메이션
+const float = keyframes`
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-7px); }
+  100% { transform: translateY(0); }
+`;
+export const BeeImg = styled.img`
+  width: 20vh;
+  margin-bottom: 5vh;
+  animation: ${float} 3s ease-in-out infinite;
 `;
 
 export const LoginButton = styled(Button)`
-  margin-top: 2vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vh;
+  margin-top: 1vh;
   width: 85%;
   background-color: white;
   color: #1f1f1f;

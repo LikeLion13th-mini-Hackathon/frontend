@@ -6,8 +6,11 @@ export const NoteContainer = styled.div`
 `;
 
 export const NoteHeader = styled.div`
+  position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
+  height: 8vh;
 `;
 
 export const NoteTitle = styled.h2`
@@ -37,7 +40,7 @@ export const EditButton = styled.button`
   position: absolute;
   bottom: 12vh;
   right: 5vh;
-  background-color: #2d2d8f;
+  background-color: #140b77;
   border: none;
   border-radius: 50%;
   width: 45px;

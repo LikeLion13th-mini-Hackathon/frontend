@@ -4,14 +4,17 @@ export const NavWrapper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 8vh; // 화면에 따라 조정 필요할수도
+  max-width: 100%;
+  overflow-x: hidden;
+  height: clamp(60px, 8vh, 80px);
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid #eee;
-  padding-top: 5px; // 아마도.. 조정 필요
+  padding-top: 5px;
   z-index: 100;
   background-color: rgb(243, 243, 243);
+  box-sizing: border-box;
 `;
 
 export const NavItem = styled.div`
@@ -20,6 +23,7 @@ export const NavItem = styled.div`
   align-items: center;
   font-size: 12px;
   color: #888;
+  min-width: 0;
 
   &.active {
     color: #140b77;
@@ -29,9 +33,9 @@ export const NavItem = styled.div`
 
 export const NavIcon = styled.div`
   font-size: 20px;
-  margin-bottom: 2px;
 `;
 
 export const NavLabel = styled.span`
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 600;
 `;

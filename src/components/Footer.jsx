@@ -5,35 +5,53 @@ import {
   NavIcon,
   NavLabel,
 } from "../styles/Footer.styles";
-import { FaUser, FaRegCalendarCheck } from "react-icons/fa";
-import { GrHomeRounded } from "react-icons/gr";
-import { RiGraduationCapLine } from "react-icons/ri";
-import { PiMedal } from "react-icons/pi";
+import HomeOn from "../assets/Icons/HomeOn.png";
+import HomeOff from "../assets/Icons/HomeOff.png";
+import GpaOn from "../assets/Icons/GpaOn.png";
+import GpaOff from "../assets/Icons/GpaOff.png";
+import GradOn from "../assets/Icons/GradOn.png";
+import GradOff from "../assets/Icons/GradOff.png";
+import PlanOn from "../assets/Icons/PlannerOn.png";
+import PlanOff from "../assets/Icons/PlannerOff.png";
+import MyOn from "../assets/Icons/MyOn.png";
+import MyOff from "../assets/Icons/MyOff.png";
+
+const menuList = [
+  { iconOn: HomeOn, iconOff: HomeOff, label: "홈", path: "/mainpage" },
+  { iconOn: GpaOn, iconOff: GpaOff, label: "학점", path: "/gpa" },
+  { iconOn: GradOn, iconOff: GradOff, label: "졸업요건", path: "/graduation" },
+  { iconOn: PlanOn, iconOff: PlanOff, label: "플래너", path: "/planner" },
+  { iconOn: MyOn, iconOff: MyOff, label: "마이", path: "/mypage" },
+];
 
 function Footer() {
-  // 현재 탭 상태 관리 + 페이지 이동 처리
   const navigate = useNavigate();
   const location = useLocation();
-  const menuList = [
-    { icon: <GrHomeRounded />, label: "홈", path: "/mainpage" },
-    { icon: <PiMedal />, label: "학점", path: "/gpa" },
-    { icon: <RiGraduationCapLine />, label: "졸업요건", path: "/graduation" },
-    { icon: <FaRegCalendarCheck />, label: "플래너", path: "/planner" },
-    { icon: <FaUser />, label: "마이", path: "/mypage" },
-  ];
 
   return (
     <NavWrapper>
-      {menuList.map((menu) => (
-        <NavItem
-          key={menu.path}
-          onClick={() => navigate(menu.path)}
-          className={location.pathname === menu.path ? "active" : ""}
-        >
-          <NavIcon>{menu.icon}</NavIcon>
-          <NavLabel>{menu.label}</NavLabel>
-        </NavItem>
-      ))}
+      {menuList.map((menu) => {
+        const isActive = location.pathname === menu.path;
+        return (
+          <NavItem
+            key={menu.path}
+            onClick={() => navigate(menu.path)}
+            className={isActive ? "active" : ""}
+          >
+            <NavIcon>
+              <img
+                src={isActive ? menu.iconOn : menu.iconOff}
+                style={{
+                  width: "3vh",
+                  height: "3vh",
+                  objectFit: "contain",
+                }}
+              />
+            </NavIcon>
+            <NavLabel>{menu.label}</NavLabel>
+          </NavItem>
+        );
+      })}
     </NavWrapper>
   );
 }

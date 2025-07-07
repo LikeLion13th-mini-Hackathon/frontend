@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Wrapper,
@@ -14,7 +13,8 @@ import {
   SmallButton,
   SubmitButton,
 } from "../styles/Signup.styles";
-
+import SubLogo from "../assets/SubLogo.png";
+import axios from "axios";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -24,84 +24,125 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // 학과 정보
   const [department, setDepartment] = useState("");
   const [grade, setGrade] = useState("");
 
   const navigate = useNavigate();
 
-  const formValid = name && birthYear && birthMonth && birthDay && email && password;
+  const formValid =
+    name && birthYear && birthMonth && birthDay && email && password;
 
-  const handleSumit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const birthDate = `${birthYear}-${birthMonth.padStart(2, "0")}-${birthDay.padStart(2, "0")}`;
+    const birthDate = `${birthYear}-${birthMonth.padStart(
+      2,
+      "0"
+    )}-${birthDay.padStart(2, "0")}`;
 
     const payload = {
-      name,
       email,
       password,
-      birthDate,
+      nickname: name,
+      birthdate: birthDate,
       department,
-      grade,
+      grade: Number(grade),
+      termsAgreed: true,
+      marketingAgreed: true,
     };
-    console.log("회원가입 정보:", payload);
 
-    navigate("/signup/complete"); 
-
-    // API 추가 예정
-  }
+    try {
+      const res = await axios.post(
+        "http://34.227.53.193:8081/api/signup",
+        payload
+      );
+      alert("✅ 회원가입이 완료되었습니다!");
+      navigate("/signup/complete");
+    } catch (err) {
+      console.error("❌ 회원가입 실패:", err);
+      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
 
   return (
     <Wrapper>
-      <Title>회원가입</Title>
+      <img
+        src={SubLogo}
+        alt="슬라이드 이미지"
+        style={{ width: "45%", marginBottom: "3vh" }}
+      />
 
       <Form>
         <Field>
-          <Label>이름<Required>*</Required></Label>
-          <Row>
-            <Input 
+          <Label>
+            이름<Required>*</Required>
+          </Label>
+          <Row style={{ display: "flex", gap: "8px" }}>
+            <Input
               placeholder="이름을 입력해주세요"
               value={name}
-              onChange={(e) => setName(e.target.value)} 
+              onChange={(e) => setName(e.target.value)}
+              style={{ flex: 1 }}
             />
-            <SmallButton>본인 확인</SmallButton>
           </Row>
         </Field>
 
         <Field>
-          <Label>생년월일<Required>*</Required></Label>
-          <Row>
-            <Select value={birthYear} onChange={(e) => setBirthYear(e.target.value)}>
-              <option value="" disabled hidden>출생연도</option>
+          <Label>
+            생년월일<Required>*</Required>
+          </Label>
+          <Row style={{ display: "flex", gap: "8px" }}>
+            <Select
+              value={birthYear}
+              onChange={(e) => setBirthYear(e.target.value)}
+            >
+              <option value="">출생연도</option>
               {Array.from({ length: 100 }, (_, i) => {
                 const year = 2024 - i;
-                return <option key={year} value={year}>{year}</option>;
+                return (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                );
               })}
             </Select>
-
-            <Select value={birthMonth} onChange={(e) => setBirthMonth(e.target.value)}>
-              <option value="" disabled hidden>월</option>
+            <Select
+              value={birthMonth}
+              onChange={(e) => setBirthMonth(e.target.value)}
+            >
+              <option value="">출생 월</option>
               {Array.from({ length: 12 }, (_, i) => {
                 const month = String(i + 1).padStart(2, "0");
-                return <option key={month} value={month}>{month}</option>;
+                return (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                );
               })}
             </Select>
-
-            <Select value={birthDay} onChange={(e) => setBirthDay(e.target.value)}>
-              <option value="" disabled hidden>일</option>
+            <Select
+              value={birthDay}
+              onChange={(e) => setBirthDay(e.target.value)}
+            >
+              <option value="">출생 일</option>
               {Array.from({ length: 31 }, (_, i) => {
                 const day = String(i + 1).padStart(2, "0");
-                return <option key={day} value={day}>{day}</option>;
+                return (
+                  <option key={day} value={day}>
+                    {day}
+                  </option>
+                );
               })}
             </Select>
           </Row>
         </Field>
 
         <Field>
-          <Label>이메일<Required>*</Required></Label>
-          <Input 
-            placeholder="이메일을 입력해주세요" 
+          <Label>
+            이메일<Required>*</Required>
+          </Label>
+          <Input
+            placeholder="이메일을 입력해주세요"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -109,17 +150,48 @@ export default function Signup() {
         </Field>
 
         <Field>
-          <Label>비밀번호<Required>*</Required></Label>
-          <Input 
+          <Label>
+            비밀번호<Required>*</Required>
+          </Label>
+          <Input
             placeholder="비밀번호를 입력해주세요"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            type="password" />
+            type="password"
+          />
         </Field>
 
+        <Row style={{ display: "flex", gap: "8px" }}>
+          <Field style={{ flex: 1 }}>
+            <Label>학과(부)</Label>
+            <Select
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+            >
+              <option value="">학과(부) 선택</option>
+              <option value="디자인학부">디자인학부</option>
+              <option value="산업경영공학과">산업경영공학과</option>
+              <option value="영어영문학과">영어영문학과</option>
+              <option value="컴퓨터공학부">컴퓨터공학부</option>
+            </Select>
+          </Field>
+
+          <Field style={{ flex: 1 }}>
+            <Label>학년</Label>
+            <Select value={grade} onChange={(e) => setGrade(e.target.value)}>
+              <option value="">학년 선택</option>
+              <option value="1">1학년</option>
+              <option value="2">2학년</option>
+              <option value="3">3학년</option>
+              <option value="4">4학년</option>
+            </Select>
+          </Field>
+        </Row>
       </Form>
 
-      <SubmitButton onClick={handleSumit} disabled={!formValid}>회원가입</SubmitButton>
+      <SubmitButton onClick={handleSubmit} disabled={!formValid}>
+        회원가입
+      </SubmitButton>
     </Wrapper>
   );
 }

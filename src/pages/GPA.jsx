@@ -1,109 +1,155 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { GPAContainer } from "../styles/GPA.styles";
 import GPAHeader from "../components/gpa/GpaHeader";
 import GpaCard from "../components/gpa/GpaCard";
 import GpaTable from "../components/gpa/GpaTable";
 import Footer from "../components/Footer";
-
-const gradeToPoint = {
-  "A+": 4.5,
-  A0: 4.0,
-  "B+": 3.5,
-  B0: 3.0,
-  "C+": 2.5,
-  C0: 2.0,
-  "D+": 1.5,
-  D0: 1.0,
-  F: 0.0,
-};
-
-// 더미데이터
-const initialData = {
-  "1학년 1학기": [
-    { id: 1, subjectName: "긴제목의과목1", credit: 3, grade: "A+" },
-    { id: 2, subjectName: "과목2", credit: 3, grade: "B+" },
-  ],
-  "1학년 2학기": [
-    { id: 3, subjectName: "과목3", credit: 2, grade: "A0" },
-    { id: 4, subjectName: "과목4", credit: 3, grade: "C+" },
-  ],
-};
+import axios from "axios";
 
 function Gpa() {
   const [selectedSemester, setSelectedSemester] = useState("1학년 1학기");
-  const [allSubjects, setAllSubjects] = useState(initialData);
+  const [allSubjects, setAllSubjects] = useState({});
+  const [statistics, setStatistics] = useState({
+    gpa: "0.00",
+    acquiredCredit: 0,
+  });
 
+  // 학기 선택 핸들링
   const handleSemesterChange = (semester) => setSelectedSemester(semester);
-  const handleSubjectsChange = (semester, newSubjects) => {
-    setAllSubjects((prev) => ({ ...prev, [semester]: newSubjects }));
-  };
 
+  // 전체 과목을 flat하게 만든 배열
   const allSubjectsArray = Object.values(allSubjects).flat();
 
-  const calculateGpa = () => {
-    const validSubjects = allSubjectsArray.filter(
-      (subj) =>
-        subj.grade in gradeToPoint &&
-        typeof subj.credit === "number" &&
-        !isNaN(subj.credit)
-    );
-
-    const totalCredits = validSubjects.reduce(
-      (acc, subj) => acc + subj.credit,
-      0
-    );
-    const totalPoints = validSubjects.reduce(
-      (acc, subj) => acc + subj.credit * gradeToPoint[subj.grade],
-      0
-    );
-
-    return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
-  };
-
+  // 현재 학기의 과목 리스트
   const currentSubjects = allSubjects[selectedSemester] || [];
+
+  // 빈 행 포함해서 8줄 고정
+  const fixedRowCount = 8;
+
+  const filledSubjects = useMemo(() => {
+    const rows = [...currentSubjects];
+    while (rows.length < fixedRowCount) {
+      rows.push({
+        id: `empty-${rows.length}`,
+        subjectName: "",
+        credit: 0,
+        grade: "A+",
+      });
+    }
+    return rows;
+  }, [currentSubjects]);
+
+  // 선택된 학기의 과목 리스트 조회
+  useEffect(() => {
+    if (allSubjects[selectedSemester]) return;
+
+    const fetchSubjects = async () => {
+      const token = localStorage.getItem("token");
+      const [gradeLevel, semester] = selectedSemester
+        .replace("학년", "")
+        .replace("학기", "")
+        .split(" ")
+        .map(Number);
+
+      try {
+        // 주소 수정 필요
+        const res = await axios.get("http://localhost:5000/api/subject", {
+          params: { gradeLevel, semester },
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const normalized = res.data.map((item) => ({
+          id: item.id,
+          subjectName: item.subjectName || "",
+          credit: item.credit ?? 0,
+          grade: item.grade || "",
+        }));
+
+        setAllSubjects((prev) => ({
+          ...prev,
+          [selectedSemester]: normalized,
+        }));
+      } catch (err) {
+        console.error("과목 불러오기 실패:", err);
+      }
+    };
+
+    fetchSubjects();
+  }, [selectedSemester]);
+
+  // 전체 평점 및 취득 학점 통계 조회
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const res = await axios.get(
+          // 주소 수정 필요
+          "http://localhost:5000/api/subject/statistics",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const { gpa, acquiredCredit } = res.data;
+        setStatistics({
+          gpa: parseFloat(gpa).toFixed(2),
+          acquiredCredit: acquiredCredit ?? 0,
+        });
+      } catch (err) {
+        console.error("통계 조회 실패:", err);
+      }
+    };
+
+    fetchStatistics();
+  }, []);
 
   return (
     <GPAContainer>
       <GPAHeader
         selectedSemester={selectedSemester}
-        setSelectedSemester={setSelectedSemester}
+        setSelectedSemester={handleSemesterChange}
       />
 
-      <GpaCard
-        overall={calculateGpa()}
-        credits={allSubjectsArray.reduce(
-          (acc, subj) =>
-            subj.grade in gradeToPoint && typeof subj.credit === "number"
-              ? acc + subj.credit
-              : acc,
-          0
-        )}
-      />
+      <GpaCard overall={statistics.gpa} credits={statistics.acquiredCredit} />
 
       <GpaTable
-        subjects={(() => {
-          const fixedRowCount = 8;
-          const current = allSubjects[selectedSemester] || [];
-          const filled = [...current];
-          while (filled.length < fixedRowCount) {
-            filled.push({
-              id: `empty-${filled.length}`,
-              subjectName: "",
-              credit: "",
-              grade: "",
-              isPlaceholder: true,
-            });
-          }
-          return filled;
-        })()}
-        setSubjects={(newSubjects) => {
-          // placeholder까지 포함해서 저장
+        subjects={filledSubjects}
+        setSubjects={async (newSubjects) => {
           setAllSubjects((prev) => ({
             ...prev,
             [selectedSemester]: newSubjects,
           }));
+
+          const token = localStorage.getItem("token");
+          const patchable = newSubjects.filter(
+            (subj) => !`${subj.id}`.startsWith("empty")
+          );
+
+          try {
+            for (const subj of patchable) {
+              await axios.patch(
+                // 주소 수정 필요
+                `http://localhost:5000/api/subject/${subj.id}`,
+                {
+                  subjectName: subj.subjectName,
+                  credit: subj.credit,
+                  grade: subj.grade,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+            }
+          } catch (err) {
+            console.error("과목 업데이트 실패:", err);
+          }
         }}
+        selectedSemester={selectedSemester}
       />
+
       <Footer />
     </GPAContainer>
   );
