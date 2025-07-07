@@ -114,7 +114,7 @@ export const GraphSection = styled.div`
   z-index: 3;
   padding: 2vh;
   margin-top: -5vh;
-  background-color:rgb(248, 250, 255);
+  background-color: rgb(248, 250, 255);
 `;
 
 export const GraphTitle = styled.h2`

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Button } from "../components/Button";
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,19 @@ export const TitleSmall = styled.p`
   font-size: 16px;
   font-weight: 500;
   color: #767676;
-  margin-bottom: 7vh;
+  margin-bottom: 5vh;
+`;
+
+// 움직이는 애니메이션
+const float = keyframes`
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-7px); }
+  100% { transform: translateY(0); }
+`;
+export const BeeImg = styled.img`
+  width: 20vh;
+  margin-bottom: 5vh;
+  animation: ${float} 3s ease-in-out infinite;
 `;
 
 export const LoginButton = styled(Button)`

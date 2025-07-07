@@ -77,7 +77,7 @@ export const ChangeSection = styled.div`
 `;
 
 export const ChangeText = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   color: #767676;
   cursor: pointer;
 `;

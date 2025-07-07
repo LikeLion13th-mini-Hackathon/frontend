@@ -4,6 +4,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import {
   Container,
   TitleSmall,
+  BeeImg,
   LoginButton,
   SignupLink,
 } from "../styles/Login.styles";
@@ -45,12 +46,7 @@ function Login() {
     <Container>
       <img src={MainLogo} alt="로그인 이미지" style={{ width: "18vh" }} />
       <TitleSmall>나만의 대학생활 코디네이터</TitleSmall>
-      <img
-        src={Bee1}
-        alt="로그인 이미지"
-        style={{ width: "20vh", marginBottom: "5vh" }}
-      />
-
+      <BeeImg src={Bee1} />
       <GoogleLoginButton></GoogleLoginButton>
       <LoginButton onClick={() => setShowModal(true)}>
         <MdOutlineEmail size={22} />
