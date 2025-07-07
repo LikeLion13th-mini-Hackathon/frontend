@@ -6,6 +6,9 @@ import {
   TextColumn,
   DateText,
   HelloText,
+  HelloTextRow,
+  BeeImg,
+  LogoImg,
 } from "../../styles/MainPage.styles";
 import BlurLogo from "../../assets/BlurLogo.png";
 import BeeFace from "../../assets/BeeFace.png";
@@ -43,11 +46,13 @@ function HeaderBar() {
         <TextColumn>
           <DateText>{today}</DateText>
           <HelloText>
-            {userName}님, 안녕하세요!
-            <img src={BeeFace} style={{ height: "3.2vh", marginLeft: "1vh" }} />
+            <HelloTextRow>
+              {userName}님 안녕하세요!
+              <BeeImg src={BeeFace} />
+            </HelloTextRow>
           </HelloText>
         </TextColumn>
-        <img src={BlurLogo} style={{ height: "7.2vh" }} />
+        <LogoImg src={BlurLogo} />{" "}
       </FlexRow>
     </HeaderWrapper>
   );

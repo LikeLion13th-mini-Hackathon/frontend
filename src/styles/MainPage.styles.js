@@ -1,15 +1,17 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const MainContainer = styled.div`
-  min-height: 100vh;
-  padding-bottom: 14vh;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; // ? 정확히 화면 꽉 채우기
+  overflow: hidden; // ? 스크롤 막기
 `;
 
 // 헤더바 스타일
 export const HeaderWrapper = styled.div`
+  position: relative;
   background-color: #140b77;
-  padding: 20px;
-  padding-bottom: 18vh;
+  padding: 24px 20px 120px;
   color: white;
 `;
 
@@ -22,29 +24,48 @@ export const FlexRow = styled.div`
 export const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 2vh;
 `;
 
 export const DateText = styled.div`
-  margin-top: 1vh;
   font-size: 14px;
   opacity: 0.8;
 `;
 
 export const HelloText = styled.div`
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 900;
+`;
+
+export const HelloTextRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const BeeImg = styled.img`
+  height: 4.5vh;
+  margin-left: 1vh;
+  margin-bottom: 1vh;
+`;
+
+export const LogoImg = styled.img`
+  position: absolute;
+  top: 1vh;
+  right: 2.5vh;
+  height: 7.2vh;
 `;
 
 // 프로필카드 스타일
 export const CardWrapper = styled.div`
+  position: relative;
+  z-index: 2;
   background-color: white;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding: 3vh;
-  margin: 2.5vh;
+  margin: -100px 20px 24px;
   display: flex;
   align-items: center;
-  transform: translateY(-110%);
 `;
 
 export const InfoWrapper = styled.div`
@@ -54,7 +75,7 @@ export const InfoWrapper = styled.div`
 `;
 
 export const NameText = styled.div`
-  font-weight: 700;
+  font-weight: 900;
   font-size: 18px;
 `;
 
@@ -62,14 +83,13 @@ export const SubText = styled.div`
   font-size: 12.5px;
   font-weight: 600;
   color: #4b80fc;
-  margin-top: 2px;
 `;
 
 export const Divider = styled.div`
   height: 1px;
   background-color: #eee;
-  margin: 1vh 0;
-  width: 250%;
+  width: 150%;
+  margin: 1vh auto;
 `;
 
 export const YearText = styled.div`
@@ -90,8 +110,11 @@ export const SettingsIcon = styled.div`
 
 // 성취도 영역 스타일
 export const GraphSection = styled.div`
+  position: relative;
+  z-index: 3;
   padding: 2vh;
-  transform: translateY(-34%);
+  margin-top: -5vh;
+  background-color:rgb(248, 250, 255);
 `;
 
 export const GraphTitle = styled.h2`
@@ -140,15 +163,14 @@ export const CenterText = styled.div`
   font-size: 46px;
   font-weight: bold;
   color: #140b77;
-  transform: translateY(-130%);
+  text-align: center;
 `;
 
 export const MessageWrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  margin-bottom: 6vh;
-  transform: translateY(-30%);
+  margin-top: -5vh;
 `;
 
 export const SpeechBubble = styled.div`
@@ -158,15 +180,21 @@ export const SpeechBubble = styled.div`
   position: relative;
   font-size: 13px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transform: translateY(-20%);
   text-align: center;
   overflow: hidden;
   word-wrap: break-word;
+  margin-bottom: 2vh;
 `;
 
+// 움직이는 애니메이션
+const float = keyframes`
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+`;
 export const BeeImage = styled.img`
   width: 11vh;
   height: auto;
   margin-left: 1vw;
-  margin-bottom: 0.5vh;
+  animation: ${float} 3s ease-in-out infinite;
 `;

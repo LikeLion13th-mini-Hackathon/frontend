@@ -144,7 +144,7 @@ function Achievement() {
           styles={buildStyles({
             rotation: 5 / 8,
             strokeLinecap: "round",
-            trailColor: "#f0f0f0",
+            trailColor: "#e5e7ec",
             pathColor: "#140b77",
             textColor: "#140b77",
             pathTransitionDuration: 0.5,
@@ -152,17 +152,20 @@ function Achievement() {
         >
           <div
             style={{
-              width: "62%",
-              height: "63%",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "60%",
+              height: "60%",
               borderRadius: "50%",
-              backgroundColor: "#ebebeb",
-              transform: "translateY(25%)",
+              backgroundColor: "#e5e7ec",
               boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
-              zIndex: "-1",
+              zIndex: -1,
             }}
-          ></div>
+          />
           <CenterText>{percentage}%</CenterText>
-          <SubText style={{ transform: "translateY(-450%)" }}>
+          <SubText style={{ marginBottom: "10px" }}>
             {percentage >= 100 ? "졸업!" : `졸업까지 ${remainingSemester}학기!`}
           </SubText>
         </CircularProgressbarWithChildren>

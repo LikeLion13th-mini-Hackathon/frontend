@@ -33,9 +33,9 @@ export const NavItem = styled.div`
 
 export const NavIcon = styled.div`
   font-size: 20px;
-  margin-bottom: 2px;
 `;
 
 export const NavLabel = styled.span`
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 600;
 `;
