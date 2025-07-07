@@ -21,14 +21,13 @@ export const Title = styled.h1`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 5vh;
+  gap: 4vh;
 `;
 
 export const Field = styled.div`
-  height: 70px;
   display: flex;
   flex-direction: column;
-  gap: 0.8vh;
+  gap: 0.6vh;
 `;
 
 export const Label = styled.label`
@@ -66,6 +65,7 @@ export const Select = styled.select`
 export const Row = styled.div`
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 `;
 
 export const SmallButton = styled(Button)`

@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "http://34.227.53.193:8081";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
-// Á¹¾÷¿ä°Ç Á¶È¸
+// ì¡¸ì—…ìš”ê±´ ë¶ˆëŸ¬ì˜¤ê¸°
 export const fetchGraduationRequirement = async (majorName) => {
   const res = await axios.get(
     `${BASE_URL}/api/graduation/department?name=${encodeURIComponent(

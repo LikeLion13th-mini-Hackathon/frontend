@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://34.227.53.193:8081/api";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 // 할 일 메모 조회
 export const fetchGraduationMemo = async (categoryKey) => {

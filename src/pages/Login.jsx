@@ -15,6 +15,7 @@ import {
   ModalOverlay,
   ModalInput,
 } from "../styles/LoginModal.styles";
+import SubLogo from "../assets/SubLogo.png";
 import { login } from "../api/auth";
 
 function Login() {
@@ -62,6 +63,7 @@ function Login() {
       {showModal && (
         <ModalOverlay onClick={() => setShowModal(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
+            <img src={SubLogo} style={{ width: "50%", marginBottom: "2vh" }} />
             <h2 style={{ marginTop: "0" }}>이메일 로그인</h2>
 
             <div style={{ fontWeight: "bold" }}>아이디</div>

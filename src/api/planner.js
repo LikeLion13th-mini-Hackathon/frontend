@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://34.227.53.193:8081";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 // 1. 플래너 계획 학기별 조회
 export const getPlannerBySemester = async (semester) => {
