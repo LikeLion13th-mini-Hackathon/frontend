@@ -5,6 +5,11 @@ import GpaCard from "../components/gpa/GpaCard";
 import GpaTable from "../components/gpa/GpaTable";
 import Footer from "../components/Footer";
 import axios from "axios";
+import {
+  updateSubject,
+  getSubjects,
+  getSubjectStatistics,
+} from "../api/subject";
 
 function Gpa() {
   const [selectedSemester, setSelectedSemester] = useState("1학년 1학기");
@@ -13,18 +18,10 @@ function Gpa() {
     gpa: "0.00",
     acquiredCredit: 0,
   });
-
-  // 학기 선택 핸들링
-  const handleSemesterChange = (semester) => setSelectedSemester(semester);
-
-  // 전체 과목을 flat하게 만든 배열
-  const allSubjectsArray = Object.values(allSubjects).flat();
-
-  // 현재 학기의 과목 리스트
-  const currentSubjects = allSubjects[selectedSemester] || [];
-
-  // 빈 행 포함해서 8줄 고정
-  const fixedRowCount = 8;
+  const handleSemesterChange = (semester) => setSelectedSemester(semester); // 학기 선택 핸들링
+  const allSubjectsArray = Object.values(allSubjects).flat(); // 전체 과목을 flat하게 만든 배열
+  const currentSubjects = allSubjects[selectedSemester] || []; // 현재 학기의 과목 리스트
+  const fixedRowCount = 8; // 빈 행 포함해서 8줄 고정
 
   const filledSubjects = useMemo(() => {
     const rows = [...currentSubjects];
@@ -39,10 +36,10 @@ function Gpa() {
     return rows;
   }, [currentSubjects]);
 
-  // 선택된 학기의 과목 리스트 조회
   useEffect(() => {
     if (allSubjects[selectedSemester]) return;
 
+    // 학기별 과목 전체 조회
     const fetchSubjects = async () => {
       const token = localStorage.getItem("token");
       const [gradeLevel, semester] = selectedSemester
@@ -52,13 +49,8 @@ function Gpa() {
         .map(Number);
 
       try {
-        // 주소 수정 필요
-        const res = await axios.get("http://localhost:5000/api/subject", {
-          params: { gradeLevel, semester },
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const normalized = res.data.map((item) => ({
+        const rawSubjects = await getSubjects(gradeLevel, semester, token);
+        const normalized = rawSubjects.map((item) => ({
           id: item.id,
           subjectName: item.subjectName || "",
           credit: item.credit ?? 0,
@@ -77,21 +69,13 @@ function Gpa() {
     fetchSubjects();
   }, [selectedSemester]);
 
-  // 전체 평점 및 취득 학점 통계 조회
   useEffect(() => {
+    // 전체 평점, 취득 학점 전체 조회
     const fetchStatistics = async () => {
       const token = localStorage.getItem("token");
 
       try {
-        const res = await axios.get(
-          // 주소 수정 필요
-          "http://localhost:5000/api/subject/statistics",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        const { gpa, acquiredCredit } = res.data;
+        const { gpa, acquiredCredit } = await getSubjectStatistics(token);
         setStatistics({
           gpa: parseFloat(gpa).toFixed(2),
           acquiredCredit: acquiredCredit ?? 0,
@@ -115,6 +99,7 @@ function Gpa() {
 
       <GpaTable
         subjects={filledSubjects}
+        // 과목 등록/수정
         setSubjects={async (newSubjects) => {
           setAllSubjects((prev) => ({
             ...prev,
@@ -128,19 +113,14 @@ function Gpa() {
 
           try {
             for (const subj of patchable) {
-              await axios.patch(
-                // 주소 수정 필요
-                `http://localhost:5000/api/subject/${subj.id}`,
+              await updateSubject(
+                subj.id,
                 {
                   subjectName: subj.subjectName,
                   credit: subj.credit,
                   grade: subj.grade,
                 },
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                }
+                token
               );
             }
           } catch (err) {
