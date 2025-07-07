@@ -37,9 +37,12 @@ function Achievement() {
     const fetchAchievement = async () => {
       const token = localStorage.getItem("token");
       try {
-        const res = await axios.get("http://localhost:5000/api/achievement", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          "http://34.227.53.193:8081/api/achievement",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         const {
           totalSemester,
@@ -74,7 +77,7 @@ function Achievement() {
       const token = localStorage.getItem("token");
       try {
         const res = await axios.post(
-          "http://localhost:5000/api/achievement",
+          "http://34.227.53.193:8081/api/achievement",
           {
             totalSemester,
             takenSemester,

@@ -76,7 +76,7 @@ function GpaTable({ subjects, setSubjects, selectedSemester }) {
             <TableHead>성적</TableHead>
           </TableRow>
         </thead>
-
+    
         <tbody>
           {displaySubjects.map((subject) => (
             <TableRow key={subject.id}>

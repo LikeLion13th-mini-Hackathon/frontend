@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Wrapper,
-  Title,
   Form,
   Field,
   Label,
@@ -10,20 +9,19 @@ import {
   Input,
   Select,
   Row,
-  SmallButton,
   SubmitButton,
 } from "../styles/Signup.styles";
 import SubLogo from "../assets/SubLogo.png";
-import axios from "axios";
+import { signup } from "../api/auth";
 
 export default function Signup() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [name, setName] = useState("");
   const [birthYear, setBirthYear] = useState("");
   const [birthMonth, setBirthMonth] = useState("");
   const [birthDay, setBirthDay] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const [department, setDepartment] = useState("");
   const [grade, setGrade] = useState("");
 
@@ -47,15 +45,10 @@ export default function Signup() {
       birthdate: birthDate,
       department,
       grade: Number(grade),
-      termsAgreed: true,
-      marketingAgreed: true,
     };
 
     try {
-      const res = await axios.post(
-        "http://34.227.53.193:8081/api/signup",
-        payload
-      );
+      await signup(payload); // API 호출
       alert("✅ 회원가입이 완료되었습니다!");
       navigate("/signup/complete");
     } catch (err) {
@@ -66,11 +59,7 @@ export default function Signup() {
 
   return (
     <Wrapper>
-      <img
-        src={SubLogo}
-        alt="슬라이드 이미지"
-        style={{ width: "45%", marginBottom: "3vh" }}
-      />
+      <img src={SubLogo} style={{ width: "45%", marginBottom: "3vh" }} />
 
       <Form>
         <Field>
