@@ -19,7 +19,7 @@ export const TitleSmall = styled.p`
   margin-bottom: 5vh;
 `;
 
-// ¿òÁ÷ÀÌ´Â ¾Ö´Ï¸ŞÀÌ¼Ç
+// ì›€ì§ì´ëŠ” ì• ë‹ˆë©”ì´ì…˜
 const float = keyframes`
   0%   { transform: translateY(0); }
   50%  { transform: translateY(-7px); }

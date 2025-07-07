@@ -10,14 +10,6 @@ export const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-export const Title = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 4vh;
-  color: #140b77;
-  text-align: center;
-`;
-
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -66,15 +58,6 @@ export const Row = styled.div`
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-`;
-
-export const SmallButton = styled(Button)`
-  height: 40px;
-  padding: 12px 16px;
-  font-size: 10px;
-  width: auto;
-  border-radius: 12px;
-  background-color: #000;
 `;
 
 export const SubmitButton = styled(Button)`

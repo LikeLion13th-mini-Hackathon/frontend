@@ -1,16 +1,16 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://34.227.53.193:8081",
+  baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
-  timeout: 10000, // Å¸ÀÓ¾Æ¿ô ¼³Á¤
+  timeout: 10000, // íƒ€ì„ì•„ì›ƒ ì„¤ì •
 });
 
-// °øÅë ¿¡·¯ Ã³¸®
+// ê³µí†µ ì—ëŸ¬ ì²˜ë¦¬
 instance.interceptors.response.use(
   (res) => res,
   (err) => {
-    console.error("API ¿äÃ» ¿¡·¯:", err);
+    console.error("API ìš”ì²­ ì—ëŸ¬:", err);
     return Promise.reject(err);
   }
 );
