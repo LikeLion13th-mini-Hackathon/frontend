@@ -24,7 +24,7 @@ export const CategoryTitle = styled.div`
   margin: 0 0.5vh;
 `;
 
-export const Devider = styled.div`
+export const Divider = styled.div`
   height: 0.5px;
   width: auto;
   background-color: #A6A6AB;

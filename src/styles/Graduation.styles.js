@@ -72,6 +72,7 @@ export const PageWrapper = styled.div`
   height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;
+  min-height: 100vh;
 `;
 
 export const SearchButtonContainer = styled.div`

@@ -3,7 +3,7 @@ import {
   ItemWrapper,
   TopSection,
   CategoryTitle,
-  Devider,
+  Divider,
   Content,
   MenuButton,
   StyledTextarea,
@@ -76,7 +76,7 @@ const PlanDetailItem = ({ plan, onDeletePlan }) => {
           <TbDots size={24} color="#140B77" />
         </MenuButton>
       </TopSection>
-      <Devider />
+      <Divider />
       <BottomSection>
         <BsDot
           size={25}

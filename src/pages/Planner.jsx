@@ -1,5 +1,5 @@
-import { useState } from "react";
-import PlanList from "../components/Planner/PlanCategoryItem";
+import { useState, useEffect } from "react";
+import PlanList from "../components/Planner/PlanCategory";
 import {
   SemesterTab,
   Title,
@@ -8,6 +8,7 @@ import {
 } from "../styles/Planner.styles";
 import { PageWrapper } from "../styles/Graduation.styles";
 import Footer from "../components/Footer";
+import { getPlannerBySemester } from "../api/planner";
 
 const semesters = [
   "1학년 1학기",
@@ -27,9 +28,22 @@ const semesters = [
 
 const categories = ["학업", "진로", "알바"];
 
-const PlannerPage = () => {
+const Planner = () => {
   const [selectedSemester, setSelectedSemester] = useState("1학년 1학기");
   const [plans, setPlans] = useState([]);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const res = await getPlannerBySemester(selectedSemester);
+        setPlans(res);
+      } catch (err) {
+        console.error("플래너 불러오기 실패", err);
+      }
+    };
+
+    fetchPlans();
+  }, [selectedSemester]);
 
   return (
     <>
@@ -66,4 +80,4 @@ const PlannerPage = () => {
   );
 };
 
-export default PlannerPage;
+export default Planner;
