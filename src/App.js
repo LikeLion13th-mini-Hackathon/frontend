@@ -16,6 +16,7 @@ import GraduationMemoPage from "./pages/GraduationMemoPage";
 import SubjectNotePage from "./pages/SubjectNote";
 import Planner from "./pages/Planner";
 import PlanDetail from "./pages/PlannerDetail";
+import PlannerNotePage from "./pages/PlannerNotePage";
 
 function App() {
   return (
@@ -38,8 +39,13 @@ function App() {
               path="/graduation-memo/:category"
               element={<GraduationMemoPage />}
             />
+
             <Route path="/planner" element={<Planner />} />
             <Route path="/plans/:semester/:category" element={<PlanDetail />} />
+            <Route
+              path="/planner-note/:semester/:category"
+              element={<PlannerNotePage />}
+            />
           </Routes>
         </Layout>
       </BrowserRouter>

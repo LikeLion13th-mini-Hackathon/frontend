@@ -1,26 +1,31 @@
-import { useState } from 'react';
-import PlanList from '../components/Planner/PlanCategoryItem';
-import { SemesterTab, Title, TabContainer, HaederContainer } from '../styles/Planner.styles';
-import { PageWrapper } from '../styles/Graduation.styles';
-import Footer from '../components/Footer';
+import { useState } from "react";
+import PlanList from "../components/Planner/PlanCategoryItem";
+import {
+  SemesterTab,
+  Title,
+  TabContainer,
+  HaederContainer,
+} from "../styles/Planner.styles";
+import { PageWrapper } from "../styles/Graduation.styles";
+import Footer from "../components/Footer";
 
 const semesters = [
-    "1학년 1학기",
-    "1학년 2학기",
-    "2학년 1학기",
-    "2학년 2학기",
-    "3학년 1학기",
-    "3학년 2학기",
-    "4학년 1학기",
-    "4학년 2학기",
-    "5학년 1학기",
-    "5학년 2학기",
-    "6학년 1학기",
-    "6학년 2학기",
-    "기타 학기",
-  ];
+  "1학년 1학기",
+  "1학년 2학기",
+  "2학년 1학기",
+  "2학년 2학기",
+  "3학년 1학기",
+  "3학년 2학기",
+  "4학년 1학기",
+  "4학년 2학기",
+  "5학년 1학기",
+  "5학년 2학기",
+  "6학년 1학기",
+  "6학년 2학기",
+  "기타 학기",
+];
 
-const categories = ['학업', '진로', '알바'];
+const categories = ["학업", "진로", "알바"];
 
 const PlannerPage = () => {
   const [selectedSemester, setSelectedSemester] = useState("1학년 1학기");
@@ -43,7 +48,7 @@ const PlannerPage = () => {
             ))}
           </TabContainer>
         </HaederContainer>
-        <Title style={{fontSize: '20px', textAlign: 'start'}}>
+        <Title style={{ fontSize: "20px", textAlign: "start" }}>
           어떤 대학생활을 계획하셨나요?
         </Title>
         {categories.map((category) => (
@@ -56,7 +61,7 @@ const PlannerPage = () => {
           />
         ))}
       </PageWrapper>
-      <Footer/>
+      <Footer />
     </>
   );
 };

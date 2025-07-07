@@ -43,7 +43,7 @@ export default function Graduation() {
   return (
     <>
       <PageWrapper>
-        <Header>졸업 요건</Header>
+        <Header>졸업요건</Header>
         <CollegeDropdown
           collegeState={{ college, setCollege }}
           majorState={{ major, setMajor }}

@@ -5,24 +5,24 @@ export const DropdownHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background-color: #FFFFFF;
-  border-bottom: 0.5px solid #A6A6AB;
+  background-color: #ffffff;
+  border-bottom: 0.5px solid #a6a6ab;
 
   cursor: pointer;
 `;
 
 export const DropdownText = styled.div`
   font-size: 16px;
-  color:rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
   font-weight: bold;
   padding: 0 10px;
 `;
 
 export const SelectButton = styled.button`
-  border: 1px solid #140B77;
+  border: 1px solid #140b77;
   border-radius: 20px;
-  background-color: ${props => props.isSelected ? '#140B77' : '#FFFFFF'};
-  color: ${props => props.isSelected ? '#FFFFFF' : '#140B77'};
+  background-color: ${(props) => (props.isSelected ? "#140B77" : "#FFFFFF")};
+  color: ${(props) => (props.isSelected ? "#FFFFFF" : "#140B77")};
   padding: 7px 20px;
   font-size: 11px;
   font-weight: 600;
@@ -31,7 +31,6 @@ export const SelectButton = styled.button`
 `;
 
 export const ButtonList = styled.div`
-  
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -41,12 +40,12 @@ export const ButtonList = styled.div`
 export const DropdownContainer = styled.div`
   position: relative;
   width: 100%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;
 
 export const SearchButton = styled.button`
-  background-color: #140B77;
-  color: #FFFFFF;
+  background-color: #140b77;
+  color: #ffffff;
   border-radius: 20px;
   padding: 7px 20px;
   font-size: 11px;
@@ -54,15 +53,16 @@ export const SearchButton = styled.button`
 
   cursor: pointer;
   &:disabled {
-    background-color: #79797B;
+    background-color: #79797b;
     cursor: not-allowed;
   }
 `;
 
 export const Header = styled.h1`
   font-size: 18px;
+  text-align: center;
   font-weight: bold;
-  color: #140B77;
+  color: #140b77;
   margin: 2vh;
   margin-top: 0;
 `;
@@ -86,15 +86,15 @@ export const MemoContainer = styled.div`
 
 export const Card = styled.div`
   position: relative;
-  min-height: 280px;
   width: 100%;
-  background-color: #FFFFFF;
+  padding-bottom: 5vh;
+  background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.1);
 `;
 
 export const CardHeader = styled.div`
-  background-color: #EBF0F7;
+  background-color: #ebf0f7;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 10px;
@@ -119,7 +119,7 @@ export const CardContent = styled.div`
 export const EmptyMemo = styled.div`
   white-space: pre-wrap; /* 줄바꿈 유지 */
   text-align: center;
-  color: #AEAEAE;
+  color: #aeaeae;
   font-size: 14px;
 `;
 
@@ -132,9 +132,9 @@ export const MemoText = styled.p`
 
 export const EditButton = styled.button`
   position: absolute;
-  bottom: 3vh;
-  right: 3vh;
-  background-color: #2d2d8f;
+  bottom: 1vh;
+  right: 1vh;
+  background-color: #140b77;
   border: none;
   border-radius: 50%;
   width: 45px;
@@ -147,8 +147,6 @@ export const EditButton = styled.button`
 `;
 
 export const RequirementWrapper = styled.div`
-  margin-top: 20px;
-  margin-bottom: 20px;
   padding: 20px;
   border-radius: 20px;
 `;
@@ -157,7 +155,7 @@ export const DepartmentName = styled.h3`
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #140B77;
+  color: #140b77;
 `;
 
 export const RequirementContent = styled.pre`
@@ -165,4 +163,11 @@ export const RequirementContent = styled.pre`
   white-space: pre-wrap;
   line-height: 1.6;
   color: #333;
+`;
+
+export const SubText = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  color: #140b77;
+  margin-bottom: 1vh;
 `;

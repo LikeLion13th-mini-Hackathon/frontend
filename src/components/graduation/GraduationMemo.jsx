@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   MemoContainer,
+  SubText,
   Card,
   CardContent,
   CardHeader,
@@ -56,6 +57,7 @@ export default function GraduationMemo() {
 
   return (
     <MemoContainer>
+      <SubText>내가 해야 할 건...</SubText>
       <Card>
         <CardHeader>
           {categories.map((category) => (

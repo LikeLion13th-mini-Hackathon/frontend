@@ -19,17 +19,24 @@ function Note({
   pageTitle = "과목 메모",
   dummyData = null,
   showTrash = true,
-  onSave = null, // ✅ 저장 함수 prop
-  isLoading = false, // ✅ 로딩 prop (옵션)
+  onSave = null,
+  isLoading = false,
+  isEditing, // ✅ 외부 상태 (선택)
+  setIsEditing, // ✅ 외부 상태 제어 함수 (선택)
+  onDelete = null, // ✅ 외부 삭제 함수 (선택)
 }) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isEditing, setIsEditing] = useState(false);
+
   const [note, setNote] = useState(dummyData?.note || "");
   const [subjectName, setSubjectName] = useState(dummyData?.name || "");
   const [showModal, setShowModal] = useState(false);
 
-  // 과목 메모용: 메모 불러오기 (dummyData가 없을 때만 API 호출)
+  // ✅ 내부 상태 (fallback용)
+  const [internalEditing, setInternalEditing] = useState(false);
+  const isEditingEffective = isEditing ?? internalEditing;
+
+  // ✅ 과목 메모 조회
   useEffect(() => {
     if (dummyData) return;
 
@@ -46,14 +53,13 @@ function Note({
     fetchMemo();
   }, [id, dummyData]);
 
-  // 저장 처리
+  // ✅ 저장 처리
   const saveMemo = async () => {
     if (dummyData && onSave) {
-      await onSave(note); // graduation 메모 저장
+      await onSave(note);
       return;
     }
 
-    // 과목 메모 저장
     try {
       await axios.put(`http://localhost:3000/api/memo/${id}`, { memo: note });
     } catch (err) {
@@ -61,8 +67,12 @@ function Note({
     }
   };
 
-  const deleteMemo = async () => {
-    if (dummyData) return;
+  // ✅ 삭제 처리
+  const handleDelete = async () => {
+    if (onDelete) {
+      await onDelete();
+      return;
+    }
 
     try {
       await axios.delete(`http://localhost:3000/api/memo/${id}`);
@@ -72,7 +82,8 @@ function Note({
     }
   };
 
-  const displayName = subjectName || dummyData?.name || "알 수 없음";
+  const displayName =
+    subjectName?.trim() || dummyData?.name?.trim() || "알 수 없음";
 
   return (
     <>
@@ -80,7 +91,11 @@ function Note({
         <NoteHeader>
           <IoIosArrowBack
             size={20}
-            style={{ marginRight: "14vh", cursor: "pointer" }}
+            style={{
+              position: "absolute",
+              left: "0rem",
+              cursor: "pointer",
+            }}
             onClick={() => navigate(-1)}
           />
           <h3 style={{ color: "#140b77" }}>{pageTitle}</h3>
@@ -99,13 +114,17 @@ function Note({
 
           <hr style={{ marginTop: "0" }} />
 
-          {isEditing ? (
+          {isEditingEffective ? (
             <textarea
               autoFocus
               value={note}
               onChange={(e) => setNote(e.target.value)}
               onBlur={() => {
-                setIsEditing(false);
+                if (setIsEditing) {
+                  setIsEditing(false);
+                } else {
+                  setInternalEditing(false);
+                }
                 saveMemo();
               }}
               style={{
@@ -126,8 +145,16 @@ function Note({
             </NoteContent>
           )}
 
-          {!isEditing && (
-            <EditButton onClick={() => setIsEditing(true)}>
+          {!isEditingEffective && (
+            <EditButton
+              onClick={() => {
+                if (setIsEditing) {
+                  setIsEditing(true);
+                } else {
+                  setInternalEditing(true);
+                }
+              }}
+            >
               <FaPen size={20} color="white" />
             </EditButton>
           )}
@@ -168,22 +195,21 @@ function Note({
                 fontWeight: "500",
               }}
             >
-              {displayName} 메모를 정말 삭제할까요?
+              메모를 정말 삭제할까요?
             </p>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-              }}
-            >
+            <div style={{ display: "flex", justifyContent: "space-around" }}>
               <button
                 onClick={() => setShowModal(false)}
                 style={{
-                  padding: "1vh 4.5vh",
+                  padding: "0.5vh 4vh",
                   backgroundColor: "#e5e5e5",
                   border: "none",
                   borderRadius: "6px",
                   fontWeight: "500",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <TbArrowBack
@@ -194,19 +220,23 @@ function Note({
               </button>
               <button
                 onClick={() => {
-                  deleteMemo();
+                  handleDelete();
                   setShowModal(false);
                 }}
                 style={{
-                  padding: "1vh 4.5vh",
+                  padding: "0.5vh 4vh",
                   backgroundColor: "#e5e5e5",
                   border: "none",
                   borderRadius: "6px",
                   fontWeight: "500",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <FaRegTrashCan
-                  size={18}
+                  size={16}
                   style={{ color: "#fb4343", marginBottom: "1vh" }}
                 />
                 삭제하기

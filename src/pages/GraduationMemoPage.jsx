@@ -100,8 +100,8 @@ function GraduationMemoPage() {
 
   return (
     <MemoPage
-      pageTitle="내가 해야 할 건 ..."
-      memoData={{
+      pageTitle="내가 해야 할 건..."
+      dummyData={{
         id: category,
         name: categories[category],
         note: note,
