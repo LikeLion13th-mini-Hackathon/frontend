@@ -107,7 +107,7 @@ function EditProfile() {
 
       <Form>
         <FormGroup>
-          <Label2>닉네임</Label2>
+          <Label2>이름</Label2>
           <Input
             name="nickname"
             value={form.nickname}
@@ -136,7 +136,7 @@ function EditProfile() {
         </FormGroup>
 
         <FormGroup>
-          <Label2>학과</Label2>
+          <Label2>학과(부)</Label2>
           <Select
             name="department"
             value={form.department}

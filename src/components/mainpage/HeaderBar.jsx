@@ -8,6 +8,7 @@ import {
   HelloText,
 } from "../../styles/MainPage.styles";
 import BlurLogo from "../../assets/BlurLogo.png";
+import BeeFace from "../../assets/BeeFace.png";
 
 function HeaderBar() {
   const today = new Date().toISOString().slice(0, 10).replace(/-/g, ".");
@@ -41,9 +42,12 @@ function HeaderBar() {
       <FlexRow>
         <TextColumn>
           <DateText>{today}</DateText>
-          <HelloText>{userName}님, 안녕하세요!</HelloText>
+          <HelloText>
+            {userName}님, 안녕하세요!
+            <img src={BeeFace} style={{ height: "3.2vh", marginLeft: "1vh" }} />
+          </HelloText>
         </TextColumn>
-        <img src={BlurLogo} style={{ height: "40px", marginLeft: "12px" }} />
+        <img src={BlurLogo} style={{ height: "7.2vh" }} />
       </FlexRow>
     </HeaderWrapper>
   );

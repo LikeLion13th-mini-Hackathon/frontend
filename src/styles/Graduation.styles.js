@@ -68,7 +68,7 @@ export const Header = styled.h1`
 `;
 
 export const PageWrapper = styled.div`
-  padding: 20px;
+  padding: 2vh;
   height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;

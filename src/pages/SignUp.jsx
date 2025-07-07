@@ -163,12 +163,12 @@ export default function Signup() {
 
         <Row style={{ display: "flex", gap: "8px" }}>
           <Field style={{ flex: 1 }}>
-            <Label>학과</Label>
+            <Label>학과(부)</Label>
             <Select
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
             >
-              <option value="">학과 선택</option>
+              <option value="">학과(부) 선택</option>
               <option value="디자인학부">디자인학부</option>
               <option value="산업경영공학과">산업경영공학과</option>
               <option value="영어영문학과">영어영문학과</option>
