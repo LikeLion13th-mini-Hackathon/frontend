@@ -1,0 +1,63 @@
+import { useEffect, useState } from "react";
+import {
+  MemoContainer,
+  Card,
+  CardContent,
+  CardHeader,
+  SelectButton,
+  EmptyMemo,
+  MemoText,
+  EditButton,
+} from "../../styles/Graduation.styles";
+import { useNavigate } from "react-router-dom";
+import { FaPen } from "react-icons/fa";
+
+export default function GraduationMemo() {
+  const [selectedTab, setSelectedTab] = useState("학점");
+  const [memo, setMemo] = useState("");
+
+  const navigate = useNavigate();
+
+  const categoryKeys = {
+    학점: "gpa",
+    토익: "toeic",
+    졸업작품: "project",
+  };
+  const categories = ["학점", "토익", "졸업작품"];
+
+  const emptyMessage = {
+    학점: "학점 계획을 작성해주세요.\nex) 이번 학기 성적 4.0 넘기기",
+    토익: "토익 계획을 작성해주세요.\nex) 토익 800점 넘기기",
+    졸업작품: "졸업작품 계획을 작성해주세요.\nex) 졸업작품 주제 선정하기",
+  };
+
+  return (
+    <MemoContainer>
+      <Card>
+        <CardHeader>
+          {categories.map((category) => (
+            <SelectButton
+              key={category}
+              isSelected={selectedTab === category}
+              onClick={() => setSelectedTab(category)}
+            >
+              {category}
+            </SelectButton>
+          ))}
+        </CardHeader>
+        <CardContent>
+          {memo ? (
+            <MemoText>{memo}</MemoText>
+          ) : (
+            <EmptyMemo>{emptyMessage[selectedTab]}</EmptyMemo>
+          )}
+          <EditButton
+            onClick={() => navigate(`/graduation-memo/${categoryKeys[selectedTab]}`)}
+          >
+            <FaPen size={20} color='white'/>
+          </EditButton>
+        </CardContent>
+      </Card>
+    </MemoContainer>
+  );
+}

@@ -37,7 +37,7 @@ export const EditButton = styled.button`
   position: absolute;
   bottom: 12vh;
   right: 5vh;
-  background-color: #2d2d8f;
+  background-color: #140B77;
   border: none;
   border-radius: 50%;
   width: 45px;

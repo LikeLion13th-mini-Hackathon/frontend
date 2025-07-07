@@ -13,21 +13,22 @@ import {
   NoteContent,
   EditButton,
 } from "../styles/Note.styles";
-import Footer from "../components/Footer";
+import Footer from "./Footer";
 
-function Note() {
-  const { id } = useParams();
+function Note({ pageTitle = "과목 메모", dummyData = null, showTrash = true }) {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [isEditing, setIsEditing] = useState(false);
-  const [note, setNote] = useState("");
-  const [subjectName, setSubjectName] = useState("");
+  const [note, setNote] = useState(dummyData?.note || "");
+  const [subjectName, setSubjectName] = useState(dummyData?.name || "");
   const [showModal, setShowModal] = useState(false);
 
-  // 메모 불러오기
+  // 메모 불러오기 (dummyData가 없을 때만 API 호출)
   useEffect(() => {
+    if (dummyData) return;
+
     const fetchMemo = async () => {
       try {
-        // 주소 변경 필요
         const res = await axios.get(`http://localhost:3000/api/memo/${id}`);
         setNote(res.data.memo || "");
         setSubjectName(res.data.subjectName || "");
@@ -37,28 +38,30 @@ function Note() {
     };
 
     fetchMemo();
-  }, [id]);
+  }, [id, dummyData]);
 
-  // 메모 저장
   const saveMemo = async () => {
+    if (dummyData) return; // 더미는 저장하지 않음
+
     try {
-      // 주소 변경 필요
       await axios.put(`http://localhost:3000/api/memo/${id}`, { memo: note });
     } catch (err) {
       console.error("메모 저장 실패:", err);
     }
   };
 
-  // 메모 삭제
   const deleteMemo = async () => {
+    if (dummyData) return;
+
     try {
-      // 주소 변경 필요
       await axios.delete(`http://localhost:3000/api/memo/${id}`);
       setNote("");
     } catch (err) {
       console.error("메모 삭제 실패:", err);
     }
   };
+
+  const displayName = subjectName || dummyData?.name || "알 수 없음";
 
   return (
     <>
@@ -69,16 +72,18 @@ function Note() {
             style={{ marginRight: "14vh" }}
             onClick={() => navigate(-1)}
           />
-          <h3 style={{ color: "#140b77" }}>과목 메모</h3>
+          <h3 style={{ color: "#140b77" }}>{pageTitle}</h3>
         </NoteHeader>
 
         <NoteCard>
           <NoteTitle>
-            <h3 style={{ fontWeight: "bold" }}>{subjectName}</h3>
-            <FaRegTrashCan
-              onClick={() => setShowModal(true)}
-              style={{ color: "#fb4343", cursor: "pointer" }}
-            />
+            <h3 style={{ fontWeight: "bold" }}>{displayName}</h3>
+            {showTrash && (
+              <FaRegTrashCan
+                onClick={() => setShowModal(true)}
+                style={{ color: "#fb4343", cursor: "pointer" }}
+              />
+            )}
           </NoteTitle>
 
           <hr style={{ marginTop: "0" }} />
@@ -114,7 +119,7 @@ function Note() {
         </NoteCard>
       </NoteContainer>
 
-      {/* 모달창 */}
+      {/* 삭제 모달 */}
       {showModal && (
         <div
           style={{
@@ -148,7 +153,7 @@ function Note() {
                 fontWeight: "500",
               }}
             >
-              {subjectName} 메모를 정말 삭제할까요?
+              {displayName} 메모를 정말 삭제할까요?
             </p>
             <div
               style={{
