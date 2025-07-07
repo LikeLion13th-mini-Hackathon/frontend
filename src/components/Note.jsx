@@ -4,7 +4,7 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 import { TbArrowBack } from "react-icons/tb";
-import axios from "axios";
+import instance from "../api/axiosInstance";
 import {
   NoteContainer,
   NoteHeader,
@@ -42,7 +42,7 @@ function Note({
 
     const fetchMemo = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/memo/${id}`);
+        const res = await instance.get(`/api/memo/${id}`);
         setNote(res.data.memo || "");
         setSubjectName(res.data.subjectName || "");
       } catch (err) {
@@ -53,7 +53,7 @@ function Note({
     fetchMemo();
   }, [id, dummyData]);
 
-  // ✅ 저장 처리
+  // ✅ 메모 저장
   const saveMemo = async () => {
     if (dummyData && onSave) {
       await onSave(note);
@@ -61,13 +61,13 @@ function Note({
     }
 
     try {
-      await axios.put(`http://localhost:3000/api/memo/${id}`, { memo: note });
+      await instance.put(`/api/memo/${id}`, { memo: note });
     } catch (err) {
       console.error("메모 저장 실패:", err);
     }
   };
 
-  // ✅ 삭제 처리
+  // ✅ 메모 삭제
   const handleDelete = async () => {
     if (onDelete) {
       await onDelete();
@@ -75,7 +75,7 @@ function Note({
     }
 
     try {
-      await axios.delete(`http://localhost:3000/api/memo/${id}`);
+      await instance.delete(`/api/memo/${id}`);
       setNote("");
     } catch (err) {
       console.error("메모 삭제 실패:", err);

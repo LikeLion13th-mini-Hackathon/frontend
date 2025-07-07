@@ -15,19 +15,7 @@ export const TitleSmall = styled.p`
   font-size: 16px;
   font-weight: 500;
   color: #767676;
-  margin-bottom: 1vh;
-`;
-
-export const TitleMain = styled.h1`
-  font-size: 62px;
-  font-weight: 900;
-  text-shadow: 0 0 1px currentColor;
-  text-align: center;
-  color: #140b77;
-  white-space: pre-line;
-  margin-top: 1vh;
-  margin-bottom: 2vh;
-  line-height: 1;
+  margin-bottom: 7vh;
 `;
 
 export const LoginButton = styled(Button)`

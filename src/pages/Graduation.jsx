@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { fetchGraduationRequirement } from "../api/graduation";
 import CollegeDropdown from "../components/graduation/CollegeDropdown";
 import { Header, PageWrapper } from "../styles/Graduation.styles";
 import GraduationMemo from "../components/graduation/GraduationMemo";
@@ -19,16 +20,10 @@ export default function Graduation() {
     console.log(`Selected Major: ${major}`);
     setIsSearched(true);
     setIsLoading(true);
-
-    // ✅ 졸업요건 조회
     try {
-      const res = await axios.get(
-        `http://34.227.53.193:8081/api/graduation/department?name=${encodeURIComponent(
-          major
-        )}`
-      );
-      if (res.data && res.data.length > 0) {
-        setGraduationRequirement(res.data[0]);
+      const data = await fetchGraduationRequirement(major);
+      if (data && data.length > 0) {
+        setGraduationRequirement(data[0]);
       } else {
         setGraduationRequirement(null);
       }

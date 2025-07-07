@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Note from "../components/Note";
-import axios from "axios";
+import {
+  getSubjectMemo,
+  updateSubjectMemo,
+  deleteSubjectMemo,
+} from "../api/subjectMemo";
 
 function SubjectNotePage() {
   const { id } = useParams();
@@ -13,9 +17,9 @@ function SubjectNotePage() {
   useEffect(() => {
     const fetchSubjectMemo = async () => {
       try {
-        const res = await axios.get(`http://YOUR_SERVER_URL/api/memo/${id}`);
-        setNote(res.data.memo || "");
-        setSubjectName(res.data.subjectName || "알 수 없음");
+        const res = await getSubjectMemo(id);
+        setNote(res.memo || "");
+        setSubjectName(res.subjectName || "알 수 없음");
       } catch (err) {
         console.error("과목 메모 불러오기 실패:", err);
       } finally {
@@ -29,9 +33,7 @@ function SubjectNotePage() {
   // ✅ 메모 저장
   const handleSave = async (content) => {
     try {
-      await axios.put(`http://YOUR_SERVER_URL/api/memo/${id}`, {
-        memo: content,
-      });
+      await updateSubjectMemo(id, content);
       alert("메모가 저장되었습니다.");
     } catch (err) {
       console.error("메모 저장 실패:", err);
@@ -42,7 +44,7 @@ function SubjectNotePage() {
   // ✅ 메모 삭제
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://YOUR_SERVER_URL/api/memo/${id}`);
+      await deleteSubjectMemo(id);
       setNote("");
       alert("메모가 삭제되었습니다.");
     } catch (err) {

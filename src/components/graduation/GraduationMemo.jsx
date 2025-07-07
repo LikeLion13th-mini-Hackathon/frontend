@@ -17,6 +17,7 @@ import axios from "axios";
 export default function GraduationMemo() {
   const [selectedTab, setSelectedTab] = useState("학점");
   const [memo, setMemo] = useState("");
+  const [memoId, setMemoId] = useState(null);
   const navigate = useNavigate();
 
   const categoryKeys = {
@@ -41,12 +42,15 @@ export default function GraduationMemo() {
       );
       if (res.data && res.data.length > 0) {
         setMemo(res.data[0].content);
+        setMemoId(res.data[0].id);
       } else {
         setMemo("");
+        setMemoId(null); // 없을 경우도 초기화
       }
     } catch (err) {
       console.error("메모 조회 실패:", err);
       setMemo("");
+      setMemoId(null); // 실패 시도 초기화
     }
   };
 

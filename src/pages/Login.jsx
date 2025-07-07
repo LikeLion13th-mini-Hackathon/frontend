@@ -4,11 +4,11 @@ import { MdOutlineEmail } from "react-icons/md";
 import {
   Container,
   TitleSmall,
-  TitleMain,
   LoginButton,
   SignupLink,
 } from "../styles/Login.styles";
 import Bee1 from "../assets/Bee1.png";
+import MainLogo from "../assets/MainLogo.png";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import {
   ModalContent,
@@ -42,9 +42,8 @@ function Login() {
 
   return (
     <Container>
+      <img src={MainLogo} alt="로그인 이미지" style={{ width: "18vh" }} />
       <TitleSmall>나만의 대학생활 코디네이터</TitleSmall>
-      <TitleMain>척척{"\n"}학사</TitleMain>
-
       <img
         src={Bee1}
         alt="로그인 이미지"

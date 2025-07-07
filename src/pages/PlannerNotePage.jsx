@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Note from "../components/Note";
 import { EditButton } from "../styles/Note.styles";
 import { FaPen } from "react-icons/fa";
+import {
+  getPlannerBySemester,
+  createPlanner,
+  updatePlanner,
+  deletePlanner,
+} from "../api/planner";
 
 function PlannerNotePage() {
   const { semester, category } = useParams();
@@ -23,11 +28,8 @@ function PlannerNotePage() {
   useEffect(() => {
     const fetchPlanner = async () => {
       try {
-        const res = await axios.get(
-          `http://34.227.53.193:8081/api/planner/semester?semester=${semester}`
-        );
-
-        const matched = res.data.find(
+        const res = await getPlannerBySemester(semester);
+        const matched = res.find(
           (plan) => plan.category === category && !plan.deletedAt
         );
         if (matched) {
@@ -48,19 +50,19 @@ function PlannerNotePage() {
   const handleSave = async (content) => {
     try {
       if (plannerId) {
-        await axios.put(`http://34.227.53.193:8081/api/planner/${plannerId}`, {
+        await updatePlanner(plannerId, {
           semester,
           category,
           goal: content,
         });
       } else {
-        await axios.post("http://34.227.53.193:8081/api/planner", {
+        const res = await createPlanner({
           semester,
           category,
           goal: content,
         });
+        if (res.id) setPlannerId(res.id);
       }
-
       alert("저장 완료!");
       navigate(-1);
     } catch (err) {
@@ -73,7 +75,7 @@ function PlannerNotePage() {
   const handleDelete = async () => {
     try {
       if (!plannerId) return;
-      await axios.delete(`http://34.227.53.193:8081/api/planner/${plannerId}`);
+      await deletePlanner(plannerId);
       alert("삭제 완료!");
       navigate(-1);
     } catch (err) {
@@ -89,14 +91,14 @@ function PlannerNotePage() {
         dummyData={{
           id: plannerId,
           name: `${semester} ${displayCategory[category] || category}`,
-          note: note,
+          note,
         }}
         showTrash={true}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         isLoading={loading}
         onSave={handleSave}
-        onDelete={handleDelete} // ✅ Note에 삭제 함수 전달
+        onDelete={handleDelete}
       />
       <EditButton onClick={() => setIsEditing(true)}>
         <FaPen size={20} color="white" />

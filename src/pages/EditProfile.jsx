@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
@@ -15,32 +15,65 @@ import {
 } from "../styles/MyPage.styles";
 import axios from "axios";
 
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 function EditProfile() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: "임상현",
-    birth: "2000.00.00",
-    email: "email@gmail.com",
-    major: "영어영문학과",
+    nickname: "",
+    birthdate: "",
+    email: "",
+    department: "",
   });
+
+  // ✅ 유저 정보 불러오기 (선택: 추후 GET API 연결 시)
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const fetchUserInfo = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/api/user/mypage`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const { nickname, birthdate, email, department } = res.data;
+
+        setForm({
+          nickname,
+          birthdate: birthdate?.replace(/-/g, ".") || "",
+          email,
+          department,
+        });
+      } catch (err) {
+        console.error("⚠️ 유저 정보 불러오기 실패:", err);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const isValidBirthdate = (birth) => /^\d{4}\.\d{2}\.\d{2}$/.test(birth);
+
   const handleSave = async () => {
+    if (!isValidBirthdate(form.birthdate)) {
+      alert("생년월일 형식이 올바르지 않습니다. 예: 2000.01.01");
+      return;
+    }
+
     const token = localStorage.getItem("token");
 
     try {
       await axios.patch(
-        "http://localhost:5000/api/user/mypage",
+        `${BASE_URL}/api/user/mypage`,
         {
-          nickname: form.name,
+          nickname: form.nickname,
           email: form.email,
-          birthdate: form.birth.replace(/\./g, "-"), // "2000.01.01" → "2000-01-01"
-          department: form.major,
+          birthdate: form.birthdate.replace(/\./g, "-"),
+          department: form.department,
         },
         {
           headers: {
@@ -50,7 +83,7 @@ function EditProfile() {
       );
 
       alert("✅ 사용자 정보가 성공적으로 수정되었습니다!");
-      navigate("/mypage"); // 수정 완료 후 이동
+      navigate("/mypage");
     } catch (err) {
       console.error("❌ 사용자 정보 수정 실패:", err);
       alert("수정 중 오류가 발생했습니다.");
@@ -58,60 +91,67 @@ function EditProfile() {
   };
 
   return (
-    <>
-      <Container>
-        <Header>
-          <IoIosArrowBack
-            size={20}
-            style={{ marginRight: "13vh" }}
-            onClick={() => navigate(-1)}
+    <Container>
+      <Header>
+        <IoIosArrowBack
+          size={20}
+          style={{ marginRight: "13vh" }}
+          onClick={() => navigate(-1)}
+        />
+        <h3 style={{ color: "#140b77" }}>프로필 편집</h3>
+      </Header>
+
+      <ProfileSection2>
+        <FaUserCircle size={70} style={{ color: "#767676" }} />
+      </ProfileSection2>
+
+      <Form>
+        <FormGroup>
+          <Label2>닉네임</Label2>
+          <Input
+            name="nickname"
+            value={form.nickname}
+            onChange={handleChange}
           />
-          <h3 style={{ color: "#140b77" }}>프로필 편집</h3>
-        </Header>
+        </FormGroup>
 
-        <ProfileSection2>
-          <FaUserCircle size={70} style={{ color: "#767676" }} />
-        </ProfileSection2>
+        <FormGroup>
+          <Label2>생년월일</Label2>
+          <Input
+            name="birthdate"
+            value={form.birthdate}
+            onChange={handleChange}
+            placeholder="2000.01.01"
+          />
+        </FormGroup>
 
-        <Form>
-          <FormGroup>
-            <Label2>이름</Label2>
-            <Input name="name" value={form.name} onChange={handleChange} />
-          </FormGroup>
+        <FormGroup>
+          <Label2>이메일</Label2>
+          <Input
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            type="email"
+          />
+        </FormGroup>
 
-          <FormGroup>
-            <Label2>생년월일</Label2>
-            <Input
-              name="birth"
-              value={form.birth}
-              onChange={handleChange}
-              placeholder="2000.00.00"
-            />
-          </FormGroup>
+        <FormGroup>
+          <Label2>학과</Label2>
+          <Select
+            name="department"
+            value={form.department}
+            onChange={handleChange}
+          >
+            <option value="디자인학부">디자인학부</option>
+            <option value="산업경영공학과">산업경영공학과</option>
+            <option value="영어영문학과">영어영문학과</option>
+            <option value="컴퓨터공학부">컴퓨터공학부</option>
+          </Select>
+        </FormGroup>
 
-          <FormGroup>
-            <Label2>이메일</Label2>
-            <Input
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              type="email"
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label2>학과</Label2>
-            <Select name="major" value={form.major} onChange={handleChange}>
-              <option value="디자인학부">디자인학부</option>
-              <option value="산업경영공학과">산업경영공학과</option>
-              <option value="영어영문학과">영어영문학과</option>
-              <option value="컴퓨터공학부">컴퓨터공학부</option>
-            </Select>
-          </FormGroup>
-          <EditButton onClick={handleSave}>수정하기</EditButton>
-        </Form>
-      </Container>
-    </>
+        <EditButton onClick={handleSave}>수정하기</EditButton>
+      </Form>
+    </Container>
   );
 }
 

@@ -28,7 +28,7 @@ export default function CollegeDropdown({
   const [majorList, setMajorList] = useState([]); // 선택된 단과대학의 학과 목록
   const [collegeMap, setCollegeMap] = useState({}); // 단과대학 이름 → ID 매핑
 
-  // ✅ 단과대학 목록 불러오기
+  // ✅ 단과대학 목록 조회
   useEffect(() => {
     const fetchColleges = async () => {
       try {
@@ -50,7 +50,7 @@ export default function CollegeDropdown({
     fetchColleges();
   }, []);
 
-  // ✅ 단과대학 선택 시 학과 목록 불러오기
+  // ✅ 학과 목록 조회
   const selectCollege = async (c) => {
     setCollege(c);
     setMajor("");

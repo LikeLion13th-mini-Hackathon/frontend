@@ -7,15 +7,16 @@ import {
   Content,
   MenuButton,
   StyledTextarea,
-  BottomSection
-} from '../../styles/PlannerDetailItem.styles';
+  BottomSection,
+} from "../../styles/PlannerDetailItem.styles";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import MenuModal from "./MenuModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import { BsDot } from "react-icons/bs";
+import axios from "axios";
 
-const PlanDetailItem = ({ plan }) => {
+const PlanDetailItem = ({ plan, onDeletePlan }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -32,18 +33,31 @@ const PlanDetailItem = ({ plan }) => {
   const closeDeleteModal = () => setIsDeleteOpen(false);
 
   const handleDelete = async () => {
-    setIsDeleteOpen(false);
-    console.log(`${plan.goal} 삭제됨`); // API 추가 예정
-    toast.success("삭제가 완료되었습니다.");
-  }
+    try {
+      await axios.delete(`/api/plans/${plan.id}`);
+      toast.success("삭제가 완료되었습니다.");
+      onDeletePlan(plan.id); // 상위로 전달
+      setIsDeleteOpen(false);
+    } catch (err) {
+      toast.error("삭제 실패");
+    }
+  };
 
   const handleEdit = () => {
     setIsMenuOpen(false);
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    console.log("수정된 내용:", editedGoal); // API 추가 예정
+  const handleSave = async () => {
+    try {
+      await axios.put(`/api/plans/${plan.id}`, {
+        goal: editedGoal,
+      });
+      toast.success("수정이 완료되었습니다.");
+    } catch (err) {
+      console.error("수정 실패:", err);
+      toast.error("수정에 실패했습니다.");
+    }
     setIsEditing(false);
   };
 
@@ -54,20 +68,20 @@ const PlanDetailItem = ({ plan }) => {
     }
   };
 
-
   return (
     <ItemWrapper>
       <TopSection>
-        <CategoryTitle>
-          {plan.category}
-        </CategoryTitle>
+        <CategoryTitle>{plan.category}</CategoryTitle>
         <MenuButton onClick={openMenuModal}>
           <TbDots size={24} color="#140B77" />
         </MenuButton>
       </TopSection>
       <Devider />
       <BottomSection>
-        <BsDot size={25} style={{ flexShrink: 0, color: '#140b77', marginTop: '4px' }}/>
+        <BsDot
+          size={25}
+          style={{ flexShrink: 0, color: "#140b77", marginTop: "4px" }}
+        />
         <Content>
           {isEditing ? (
             <StyledTextarea
@@ -75,8 +89,8 @@ const PlanDetailItem = ({ plan }) => {
               autoFocus
               rows={3}
               onChange={(e) => setEditedGoal(e.target.value)}
-              onBlur={handleSave}         // 포커스 아웃 시 저장
-              onKeyDown={handleKeyDown}   // 엔터로 저장 (Shift+Enter는 줄바꿈)
+              onBlur={handleSave} // 포커스 아웃 시 저장
+              onKeyDown={handleKeyDown} // 엔터로 저장 (Shift+Enter는 줄바꿈)
             />
           ) : (
             plan.goal
@@ -99,7 +113,7 @@ const PlanDetailItem = ({ plan }) => {
         />
       )}
     </ItemWrapper>
-  )
+  );
 };
 
 export default PlanDetailItem;

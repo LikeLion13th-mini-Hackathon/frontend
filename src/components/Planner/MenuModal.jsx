@@ -1,5 +1,5 @@
 import Modal from "../Modal";
-import { Title, ButtonWrapper } from "../../styles/Modal.styles"
+import { Title, ButtonWrapper } from "../../styles/Modal.styles";
 import ModalMenuButton from "../ModalMenuButton";
 import { PiPencilSimpleLineFill } from "react-icons/pi";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -7,7 +7,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 const MenuModal = ({ onClose, onEdit, onDelete, planText }) => {
   return (
     <Modal onClose={onClose}>
-      <Title>
+      <Title style={{ maxHeight: "100px", overflowY: "auto" }}>
         {planText}
       </Title>
       <ButtonWrapper>

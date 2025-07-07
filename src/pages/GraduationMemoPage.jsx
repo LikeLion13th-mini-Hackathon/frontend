@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MemoPage from "../components/Note";
-import axios from "axios";
+import {
+  fetchGraduationMemo,
+  createGraduationMemo,
+  updateGraduationMemo,
+  deleteGraduationMemo,
+} from "../api/graduationMemo";
 
 function GraduationMemoPage() {
   const { category } = useParams();
@@ -23,15 +28,13 @@ function GraduationMemoPage() {
   const [memoId, setMemoId] = useState(null);
 
   // ✅ 메모 조회
-  const fetchMemo = async () => {
+  const loadMemo = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const res = await axios.get(
-        `http://34.227.53.193:8081/api/graduation-memo?category=${apiCategoryMap[category]}`
-      );
-      if (res.data && res.data.length > 0) {
-        setNote(res.data[0].content);
-        setMemoId(res.data[0].id);
+      const data = await fetchGraduationMemo(apiCategoryMap[category]);
+      if (data && data.length > 0) {
+        setNote(data[0].content);
+        setMemoId(data[0].id);
       } else {
         setNote("");
         setMemoId(null);
@@ -45,31 +48,19 @@ function GraduationMemoPage() {
     }
   };
 
-  // ✅ 메모 저장 or 수정
+  // ✅ 메모 저장/수정
   const saveMemo = async (content) => {
     try {
       if (memoId) {
-        // 수정
-        await axios.put(
-          `http://34.227.53.193:8081/api/graduation-memo/${memoId}`,
-          {
-            content,
-          }
-        );
+        await updateGraduationMemo(memoId, content);
         alert("메모가 수정되었습니다.");
       } else {
-        // 등록
-        const res = await axios.post(
-          "http://34.227.53.193:8081/api/graduation-memo",
-          {
-            category: apiCategoryMap[category],
-            content,
-          }
+        const data = await createGraduationMemo(
+          apiCategoryMap[category],
+          content
         );
         alert("메모가 저장되었습니다.");
-        if (res.data && res.data.id) {
-          setMemoId(res.data.id);
-        }
+        if (data?.id) setMemoId(data.id);
       }
       setNote(content);
     } catch (err) {
@@ -79,12 +70,10 @@ function GraduationMemoPage() {
   };
 
   // ✅ 메모 삭제
-  const deleteMemo = async () => {
+  const handleDelete = async () => {
     if (!memoId) return;
     try {
-      await axios.delete(
-        `http://34.227.53.193:8081/api/graduation-memo/${memoId}`
-      );
+      await deleteGraduationMemo(memoId);
       setNote("");
       setMemoId(null);
       alert("메모가 삭제되었습니다.");
@@ -95,7 +84,7 @@ function GraduationMemoPage() {
   };
 
   useEffect(() => {
-    fetchMemo();
+    loadMemo();
   }, [category]);
 
   return (
@@ -107,7 +96,7 @@ function GraduationMemoPage() {
         note: note,
       }}
       onSave={saveMemo}
-      onDelete={deleteMemo}
+      onDelete={handleDelete}
       showTrash={true}
       isLoading={loading}
     />
