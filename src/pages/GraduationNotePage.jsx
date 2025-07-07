@@ -8,7 +8,7 @@ import {
   deleteGraduationMemo,
 } from "../api/graduationMemo";
 
-function GraduationMemoPage() {
+function GraduationNote() {
   const { category } = useParams();
 
   const categories = {
@@ -103,4 +103,4 @@ function GraduationMemoPage() {
   );
 }
 
-export default GraduationMemoPage;
+export default GraduationNote;

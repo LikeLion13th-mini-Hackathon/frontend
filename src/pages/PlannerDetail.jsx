@@ -52,17 +52,17 @@ const PlanDetail = () => {
         <HaederContainer>
           <Title>플래너</Title>
         </HaederContainer>
-        {filteredPlans.length > 0 ? (
-          filteredPlans.map((plan) => (
-            <PlanDetailItem
-              key={plan.id}
-              plan={plan}
-              onDeletePlan={removePlan}
-            />
-          ))
-        ) : (
-          <p>등록된 계획이 없습니다.</p>
-        )}
+          {filteredPlans.length > 0 ? (
+            filteredPlans.map((plan) => (
+              <PlanDetailItem
+                key={plan.id}
+                plan={plan}
+                onDeletePlan={removePlan}
+              />
+            ))
+          ) : (
+            <p>등록된 계획이 없습니다.</p>
+          )}
         <EditButton onClick={goToWritePage}>
           <FaPen size={20} color="white" />
         </EditButton>
