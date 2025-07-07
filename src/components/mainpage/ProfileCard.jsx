@@ -31,15 +31,11 @@ function ProfileCard() {
 
       <InfoWrapper>
         <NameText>{user.name}</NameText>
-        <SubText>
-          {user.university} {user.major}
-        </SubText>
+        <SubText>인천대학교 {user.major}</SubText>
 
         <Divider />
 
-        <YearText>
-          {user.status} ({user.grade}학년)
-        </YearText>
+        <YearText>재학생 ({user.grade}학년)</YearText>
       </InfoWrapper>
 
       <SettingsIcon onClick={() => navigate("/mypage")}>
@@ -97,11 +93,11 @@ export default ProfileCard;
 
 //       <InfoWrapper>
 //         <NameText>{user.nickname}</NameText>
-//         <SubText>{user.department}</SubText>
+//         <SubText>인천대학교 {user.department}</SubText>
 
 //         <Divider />
 
-//         <YearText>재학 ({user.grade}학년)</YearText>
+//         <YearText>재학생 ({user.grade}학년)</YearText>
 //       </InfoWrapper>
 
 //       <SettingsIcon onClick={() => navigate("/mypage")}>

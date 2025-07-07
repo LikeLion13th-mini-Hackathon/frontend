@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  transform: translateY(-55px);
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  gap: 2vh;
 `;
 
 export const DotWrapper = styled.div`
@@ -27,7 +29,7 @@ export const ButtonWrapper = styled.div`
   justify-content: center;
   align-items: center;
   opacity: ${(props) => (props.$show ? 1 : 0)};
-  transition: opacity 0.8s ease;
+  transition: opacity 0.3s ease;
   pointer-events: ${(props) => (props.$show ? "auto" : "none")};
 `;
 

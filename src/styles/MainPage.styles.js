@@ -13,10 +13,15 @@ export const HeaderWrapper = styled.div`
   color: white;
 `;
 
-export const TopRow = styled.div`
+export const FlexRow = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+`;
+
+export const TextColumn = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const DateText = styled.div`
