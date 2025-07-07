@@ -15,7 +15,13 @@ import {
 } from "../styles/Note.styles";
 import Footer from "./Footer";
 
-function Note({ pageTitle = "과목 메모", dummyData = null, showTrash = true }) {
+function Note({
+  pageTitle = "과목 메모",
+  dummyData = null,
+  showTrash = true,
+  onSave = null, // ✅ 저장 함수 prop
+  isLoading = false, // ✅ 로딩 prop (옵션)
+}) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [isEditing, setIsEditing] = useState(false);
@@ -23,7 +29,7 @@ function Note({ pageTitle = "과목 메모", dummyData = null, showTrash = true 
   const [subjectName, setSubjectName] = useState(dummyData?.name || "");
   const [showModal, setShowModal] = useState(false);
 
-  // 메모 불러오기 (dummyData가 없을 때만 API 호출)
+  // 과목 메모용: 메모 불러오기 (dummyData가 없을 때만 API 호출)
   useEffect(() => {
     if (dummyData) return;
 
@@ -40,9 +46,14 @@ function Note({ pageTitle = "과목 메모", dummyData = null, showTrash = true 
     fetchMemo();
   }, [id, dummyData]);
 
+  // 저장 처리
   const saveMemo = async () => {
-    if (dummyData) return; // 더미는 저장하지 않음
+    if (dummyData && onSave) {
+      await onSave(note); // graduation 메모 저장
+      return;
+    }
 
+    // 과목 메모 저장
     try {
       await axios.put(`http://localhost:3000/api/memo/${id}`, { memo: note });
     } catch (err) {
@@ -69,7 +80,7 @@ function Note({ pageTitle = "과목 메모", dummyData = null, showTrash = true 
         <NoteHeader>
           <IoIosArrowBack
             size={20}
-            style={{ marginRight: "14vh" }}
+            style={{ marginRight: "14vh", cursor: "pointer" }}
             onClick={() => navigate(-1)}
           />
           <h3 style={{ color: "#140b77" }}>{pageTitle}</h3>
@@ -107,7 +118,11 @@ function Note({ pageTitle = "과목 메모", dummyData = null, showTrash = true 
             />
           ) : (
             <NoteContent>
-              {note.trim() ? note : "메모를 입력하세요..."}
+              {isLoading
+                ? "불러오는 중..."
+                : note.trim()
+                ? note
+                : "메모를 입력하세요..."}
             </NoteContent>
           )}
 
@@ -168,9 +183,6 @@ function Note({ pageTitle = "과목 메모", dummyData = null, showTrash = true 
                   backgroundColor: "#e5e5e5",
                   border: "none",
                   borderRadius: "6px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
                   fontWeight: "500",
                 }}
               >
@@ -190,9 +202,6 @@ function Note({ pageTitle = "과목 메모", dummyData = null, showTrash = true 
                   backgroundColor: "#e5e5e5",
                   border: "none",
                   borderRadius: "6px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
                   fontWeight: "500",
                 }}
               >

@@ -12,7 +12,7 @@ import Gpa from "./pages/GPA";
 import MyPage from "./pages/Mypage";
 import EditProfile from "./pages/EditProfile";
 import Graduation from "./pages/Graduation";
-import GraduationMemoPage from "./pages/GraduationNote";
+import GraduationMemoPage from "./pages/GraduationMemoPage";
 import SubjectNotePage from "./pages/SubjectNote";
 import Planner from "./pages/Planner";
 import PlanDetail from "./pages/PlannerDetail";

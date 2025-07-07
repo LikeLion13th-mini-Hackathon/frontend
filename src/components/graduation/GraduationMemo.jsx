@@ -11,18 +11,19 @@ import {
 } from "../../styles/Graduation.styles";
 import { useNavigate } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
+import axios from "axios";
 
 export default function GraduationMemo() {
   const [selectedTab, setSelectedTab] = useState("학점");
   const [memo, setMemo] = useState("");
-
   const navigate = useNavigate();
 
   const categoryKeys = {
-    학점: "gpa",
-    토익: "toeic",
-    졸업작품: "project",
+    학점: "GPA",
+    토익: "TOEIC",
+    졸업작품: "GRADUATION_PROJECT",
   };
+
   const categories = ["학점", "토익", "졸업작품"];
 
   const emptyMessage = {
@@ -30,6 +31,28 @@ export default function GraduationMemo() {
     토익: "토익 계획을 작성해주세요.\nex) 토익 800점 넘기기",
     졸업작품: "졸업작품 계획을 작성해주세요.\nex) 졸업작품 주제 선정하기",
   };
+
+  // ✅ 메모 조회
+  const fetchMemo = async (category) => {
+    try {
+      const res = await axios.get(
+        `http://34.227.53.193:8081/api/graduation-memo?category=${category}`
+      );
+      if (res.data && res.data.length > 0) {
+        setMemo(res.data[0].content);
+      } else {
+        setMemo("");
+      }
+    } catch (err) {
+      console.error("메모 조회 실패:", err);
+      setMemo("");
+    }
+  };
+
+  useEffect(() => {
+    // 탭이 변경될 때마다 메모 조회
+    fetchMemo(categoryKeys[selectedTab]);
+  }, [selectedTab]);
 
   return (
     <MemoContainer>
@@ -52,9 +75,13 @@ export default function GraduationMemo() {
             <EmptyMemo>{emptyMessage[selectedTab]}</EmptyMemo>
           )}
           <EditButton
-            onClick={() => navigate(`/graduation-memo/${categoryKeys[selectedTab]}`)}
+            onClick={() =>
+              navigate(
+                `/graduation-memo/${categoryKeys[selectedTab].toLowerCase()}`
+              )
+            }
           >
-            <FaPen size={20} color='white'/>
+            <FaPen size={20} color="white" />
           </EditButton>
         </CardContent>
       </Card>
