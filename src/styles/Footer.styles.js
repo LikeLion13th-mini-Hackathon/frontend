@@ -4,6 +4,8 @@ export const NavWrapper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   height: clamp(60px, 8vh, 80px);
   display: flex;
   justify-content: space-around;
@@ -12,6 +14,7 @@ export const NavWrapper = styled.div`
   padding-top: 5px;
   z-index: 100;
   background-color: rgb(243, 243, 243);
+  box-sizing: border-box;
 `;
 
 export const NavItem = styled.div`
@@ -20,6 +23,7 @@ export const NavItem = styled.div`
   align-items: center;
   font-size: 12px;
   color: #888;
+  min-width: 0;
 
   &.active {
     color: #140b77;

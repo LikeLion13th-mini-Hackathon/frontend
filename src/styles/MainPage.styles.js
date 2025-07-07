@@ -69,7 +69,7 @@ export const Divider = styled.div`
   height: 1px;
   background-color: #eee;
   margin: 1vh 0;
-  width: 120%;
+  width: 250%;
 `;
 
 export const YearText = styled.div`

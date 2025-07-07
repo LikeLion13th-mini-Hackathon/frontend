@@ -53,7 +53,7 @@ function Login() {
 
       <GoogleLoginButton></GoogleLoginButton>
       <LoginButton onClick={() => setShowModal(true)}>
-        <MdOutlineEmail size={22} style={{ marginRight: "4vw" }} />
+        <MdOutlineEmail size={22} />
         이메일로 로그인
       </LoginButton>
 

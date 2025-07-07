@@ -8,12 +8,12 @@ export const Container = styled.div`
   min-height: 100dvh;
   overflow: hidden;
   position: relative;
-  gap: 2vh;
 `;
 
 export const DotWrapper = styled.div`
   display: flex;
   gap: 8px;
+  margin-top: 2vh;
   margin-bottom: 2vh;
 `;
 
@@ -34,7 +34,7 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   opacity: ${(props) => (props.$show ? 1 : 0)};
   transition: opacity 0.8s ease;
-  transition-delay: ${(props) => (props.$show ? "1s" : "0s")};
+  transition-delay: ${(props) => (props.$show ? "0.5s" : "0s")};
   pointer-events: ${(props) => (props.$show ? "auto" : "none")};
 `;
 

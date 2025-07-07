@@ -20,14 +20,15 @@ export const TitleSmall = styled.p`
 `;
 
 export const LoginButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vh;
   margin-top: 1vh;
   width: 85%;
   background-color: white;
   color: #1f1f1f;
   border: 1px solid #767676;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const SignupLink = styled(Link)`
