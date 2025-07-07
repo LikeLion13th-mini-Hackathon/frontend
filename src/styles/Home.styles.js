@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   position: relative;
   gap: 2vh;
@@ -14,7 +14,7 @@ export const Container = styled.div`
 export const DotWrapper = styled.div`
   display: flex;
   gap: 8px;
-  margin-bottom: 4vh;
+  margin-bottom: 2vh;
 `;
 
 export const Dot = styled.div`
@@ -25,11 +25,16 @@ export const Dot = styled.div`
 `;
 
 export const ButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
   opacity: ${(props) => (props.$show ? 1 : 0)};
-  transition: opacity 0.3s ease;
+  transition: opacity 0.8s ease;
+  transition-delay: ${(props) => (props.$show ? "1s" : "0s")};
   pointer-events: ${(props) => (props.$show ? "auto" : "none")};
 `;
 

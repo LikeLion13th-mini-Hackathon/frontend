@@ -53,11 +53,21 @@ function Home() {
           {slides.map((slide) => (
             <div
               key={slide.id}
-              style={{ flex: "0 0 100%", textAlign: "center" }}
+              style={{
+                flex: "0 0 100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
               <img
                 src={slide.img}
-                style={{ maxWidth: "100%", height: "auto" }}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain",
+                }}
               />
             </div>
           ))}
@@ -71,12 +81,7 @@ function Home() {
       </DotWrapper>
 
       <ButtonWrapper $show={currentSlide === slides.length - 1}>
-        <Button
-          onClick={handleClick}
-          style={{ transform: "translateY(-280%)" }}
-        >
-          시작하기
-        </Button>
+        <Button onClick={handleClick}>시작하기</Button>
       </ButtonWrapper>
     </Container>
   );
