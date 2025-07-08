@@ -12,7 +12,7 @@ export const updateSubject = async (id, data, token) => {
 
 // 학기별 과목 전체 조회
 export const getSubjects = async (gradeLevel, semester, token) => {
-  const res = await instance.get("/api/subject", {
+  const res = await instance.get(`/api/subject`, {
     params: { gradeLevel, semester },
     headers: {
       Authorization: `Bearer ${token}`,
@@ -23,7 +23,7 @@ export const getSubjects = async (gradeLevel, semester, token) => {
 
 // 전체 평점, 취득 학점 전체 조회
 export const getSubjectStatistics = async (token) => {
-  const res = await instance.get("/api/subject/statistics", {
+  const res = await instance.get(`/api/subject/statistics`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

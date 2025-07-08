@@ -4,7 +4,7 @@ import instance from "./axiosInstance";
 export const getUserProfile = async () => {
   const token = localStorage.getItem("token");
 
-  const res = await instance.get("/api/user/profile", {
+  const res = await instance.get(`/api/user/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -15,7 +15,7 @@ export const getUserProfile = async () => {
 
 // 마이페이지 프로필 정보 조회
 export const fetchMyProfile = async () => {
-  const res = await instance.get("/api/user/mypage");
+  const res = await instance.get(`/api/user/mypage`);
   return res.data;
 };
 
@@ -26,6 +26,6 @@ export const updateMyProfile = async (formData) => {
     birthdate: formData.birthdate.replace(/\./g, "-"),
   };
 
-  const res = await instance.patch("/api/user/mypage", payload);
+  const res = await instance.patch(`/api/user/mypage`, payload);
   return res.data;
 };

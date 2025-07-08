@@ -7,11 +7,11 @@ export const login = async ({ email, password }) => {
     { email, password },
     {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     }
   );
-  return response.data; // ✅ 서버에서 받은 { token: "..." }
+  return response.data;
 };
 
 // 회원가입 요청
@@ -21,8 +21,8 @@ export const signup = async ({ email, password, nickname, birthdate, department,
     { email, password, nickname, birthdate, department, grade },
     {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     }
   );
   return response.data;

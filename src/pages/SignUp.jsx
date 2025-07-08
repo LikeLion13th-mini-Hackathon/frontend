@@ -48,7 +48,7 @@ export default function Signup() {
     };
 
     try {
-      await signup(payload); // API 호출
+      await signup(payload);
       alert("✅ 회원가입이 완료되었습니다!");
       navigate("/signup/complete");
     } catch (err) {
@@ -131,7 +131,7 @@ export default function Signup() {
             이메일<Required>*</Required>
           </Label>
           <Input
-            placeholder="이메일을 입력해주세요"
+            placeholder="이메일을 입력해주세요."
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -143,7 +143,7 @@ export default function Signup() {
             비밀번호<Required>*</Required>
           </Label>
           <Input
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="비밀번호를 입력해주세요."
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
@@ -152,7 +152,9 @@ export default function Signup() {
 
         <Row style={{ display: "flex", gap: "8px" }}>
           <Field style={{ flex: 1 }}>
-            <Label>학과(부)<Required>*</Required></Label>
+            <Label>
+              학과(부)<Required>*</Required>
+            </Label>
             <Select
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
@@ -166,7 +168,9 @@ export default function Signup() {
           </Field>
 
           <Field style={{ flex: 1 }}>
-            <Label>학년<Required>*</Required></Label>
+            <Label>
+              학년<Required>*</Required>
+            </Label>
             <Select value={grade} onChange={(e) => setGrade(e.target.value)}>
               <option value="">학년 선택</option>
               <option value="1">1학년</option>

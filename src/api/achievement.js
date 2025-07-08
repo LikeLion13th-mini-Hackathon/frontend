@@ -4,7 +4,7 @@ import instance from "./axiosInstance";
 export const fetchAchievement = async () => {
   const token = localStorage.getItem("token");
 
-  const res = await instance.get("/api/achievement", {
+  const res = await instance.get(`/api/achievement`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -18,7 +18,7 @@ export const postAchievement = async (totalSemester, takenSemester) => {
   const token = localStorage.getItem("token");
 
   const res = await instance.post(
-    "/api/achievement",
+    `/api/achievement`,
     {
       totalSemester,
       takenSemester,
