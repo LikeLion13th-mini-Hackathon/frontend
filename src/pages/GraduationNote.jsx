@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { TbDots } from "react-icons/tb";
 import MenuModal from "../components/Planner/MenuModal";
 import DeleteConfirmModal from "../components/Planner/DeleteConfirmModal";
@@ -15,6 +15,22 @@ import {
   updateGraduationMemo,
   deleteGraduationMemo,
 } from "../api/graduationMemo";
+
+const shake = keyframes`
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+`;
+
+const ShakingWrapper = styled.div`
+  ${({ isShaking }) =>
+    isShaking &&
+    css`
+      animation: ${shake} 0.3s;
+    `}
+`;
 
 const Container = styled.div`
   display: flex;
@@ -93,6 +109,8 @@ const GraduationNote = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
+  const [isShaking, setIsShaking] = useState(false);
+
   useEffect(() => {
     loadMemo();
   }, []);
@@ -123,27 +141,35 @@ const GraduationNote = () => {
 
   // 저장/수정 통합 함수 (blur에서만 호출)
   const handleSave = async () => {
-  if (note.trim() === "") {
-    toast.warn("내용을 입력하세요.");
-    return;
-  }
-
-  try {
-    if (memoId) {
-      await updateGraduationMemo(memoId, note);
-      toast.success("메모가 수정되었습니다.");
-    } else {
-      await createGraduationMemo(apiCategoryMap[category], note);
-      toast.success("메모가 저장되었습니다.");
+    if (note.trim() === "") {
+      toast.warn("내용을 입력하세요.");
+      return;
     }
-    await loadMemo();
-  } catch (err) {
-    console.error("메모 저장 실패:", err);
-    toast.error("메모 저장에 실패했습니다.");
-  }
-};
+
+    try {
+      if (memoId) {
+        await updateGraduationMemo(memoId, note);
+        toast.success("메모가 수정되었습니다.");
+      } else {
+        await createGraduationMemo(apiCategoryMap[category], note);
+        toast.success("메모가 저장되었습니다.");
+      }
+      await loadMemo();
+    } catch (err) {
+      console.error("메모 저장 실패:", err);
+      toast.error("메모 저장에 실패했습니다.");
+    }
+  };
 
   const handleBlur = () => {
+    if (!note.trim()) {
+      toast.warn("내용을 입력하세요.");
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 300);
+      textareaRef.current.focus();
+      return;
+    }
+
     handleSave();
     setIsEditing(false);
   };
@@ -174,6 +200,14 @@ const GraduationNote = () => {
     setIsEditing(true);
   };
 
+  const handleMenuButtonClick = () => {
+    if (!note.trim()) {
+      toast.warn("메로 입력 후 이용해주세요.");
+    } else {
+      setIsMenuOpen(true);
+    }
+  };
+
   return (
     <Container>
       <Header>
@@ -189,36 +223,36 @@ const GraduationNote = () => {
           date={null}
           content={
             isEditing ? (
-              <textarea
-                ref={textareaRef}
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                onBlur={handleBlur}
-                placeholder="메모를 입력해 주세요."
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  border: "none",
-                  resize: "none",
-                  outline: "none",
-                  background: "transparent",
-                  fontSize: "13px",
-                  color: "#111111",
-                }}
-              />
+              <ShakingWrapper isShaking={isShaking}>
+                <textarea
+                  ref={textareaRef}
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  onBlur={handleBlur}
+                  placeholder="메모를 입력해 주세요."
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                    resize: "none",
+                    outline: "none",
+                    background: "transparent",
+                    fontSize: "13px",
+                    color: "#111111",
+                  }}
+                />
+              </ShakingWrapper>
             ) : (
               <NoteContent>{note ? note : "메모를 입력해 주세요."}</NoteContent>
             )
           }
           headerButton={
-            memoId ? (
-              <MenuButton
-                onClick={openMenuModal}
-                style={{ padding: "0 1vh", margin: "0" }}
-              >
-                <TbDots size={20} color="#140B77" />
-              </MenuButton>
-            ) : null // 메모 없을 때는 아예 안 보임
+            <MenuButton
+              onClick={handleMenuButtonClick}
+              style={{ padding: "0 1vh", margin: "0" }}
+            >
+              <TbDots size={20} color="#140B77" />
+            </MenuButton>
           }
           bottomButton={
             <EditButton onClick={() => setIsEditing(true)}>
