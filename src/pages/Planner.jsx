@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import PlanList from "../components/Planner/PlanCategory";
+import PlanCategory from "../components/Planner/PlanCategory";
 import {
   SemesterTab,
   Title,
@@ -33,16 +33,16 @@ const Planner = () => {
   const [selectedSemester, setSelectedSemester] = useState("1학년 1학기");
   const [plans, setPlans] = useState([]);
 
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        const res = await getPlannerBySemester(selectedSemester);
-        setPlans(res);
-      } catch (err) {
-        console.error("플래너 불러오기 실패", err);
-      }
-    };
+  const fetchPlans = async () => {
+    try {
+      const res = await getPlannerBySemester(selectedSemester);
+      setPlans(res);
+    } catch (err) {
+      console.error("플래너 불러오기 실패", err);
+    }
+  };
 
+  useEffect(() => {
     fetchPlans();
   }, [selectedSemester]);
 
@@ -67,7 +67,7 @@ const Planner = () => {
           어떤 대학생활을 계획하셨나요?
         </Title>
         {categories.map((category) => (
-          <PlanList
+          <PlanCategory
             key={category}
             plans={plans}
             setPlans={setPlans}

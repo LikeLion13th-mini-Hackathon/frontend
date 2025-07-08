@@ -20,28 +20,24 @@ const PlanDetail = () => {
     navigate(`/planner-note/${semester}/${category}`);
   };
 
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        const data = await getPlannerBySemester(semester);
-        const filtered = data.filter(
-          (plan) => plan.category === category && !plan.deletedAt
-        );
-        setPlans(filtered);
-      } catch (err) {
-        console.error("플래너 조회 실패:", err);
-        setPlans([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlans();
-  }, [semester, category]);
-
-  const removePlan = (id) => {
-    setPlans((prev) => prev.filter((plan) => plan.id !== id));
+  const fetchPlans = async () => {
+    try {
+      const data = await getPlannerBySemester(semester);
+      const filtered = data.filter(
+        (plan) => plan.category === category && !plan.deletedAt
+      );
+      setPlans(filtered);
+    } catch (err) {
+      console.error("플래너 조회 실패:", err);
+      setPlans([]);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchPlans();
+  }, []);
 
   const filteredPlans = plans.filter(
     (plan) => plan.category === category && !plan.deletedAt
@@ -53,17 +49,17 @@ const PlanDetail = () => {
         <HaederContainer>
           <Title>플래너</Title>
         </HaederContainer>
-          {filteredPlans.length > 0 ? (
-            filteredPlans.map((plan) => (
-              <PlanDetailItem
-                key={plan.id}
-                plan={plan}
-                onDeletePlan={removePlan}
-              />
-            ))
-          ) : (
-            <p>등록된 계획이 없습니다.</p>
-          )}
+        {filteredPlans.length > 0 ? (
+          filteredPlans.map((plan) => (
+            <PlanDetailItem
+              key={plan.id}
+              plan={plan}
+              onRefresh={fetchPlans}
+            />
+          ))
+        ) : (
+          <p>등록된 계획이 없습니다.</p>
+        )}
         <EditButton onClick={goToWritePage}>
           <FaPen size={20} color="white" />
         </EditButton>

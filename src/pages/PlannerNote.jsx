@@ -106,6 +106,7 @@ const PlannerNote = () => {
               placeholder="계획을 입력해 주세요."
               style={{
                 width: "100%",
+                height: "100%",
                 border: "none",
                 resize: "none",
                 outline: "none",
@@ -113,7 +114,6 @@ const PlannerNote = () => {
                 fontSize: "13px",
                 color: "#111111",
               }}
-              rows={8}
             />
           }
           headerButton={null}

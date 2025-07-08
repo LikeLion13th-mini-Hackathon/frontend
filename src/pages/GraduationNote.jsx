@@ -73,12 +73,12 @@ const categories = {
 };
 
 const apiCategoryMap = {
-  gpa: "학점",
+  gpa: "GPA",
   toeic: "TOEIC",
-  project: "졸업작품",
-  학점: "학점",
+  project: "GRADUATION_PROJECT",
+  학점: "GPA",
   토익: "TOEIC",
-  졸업작품: "졸업작품",
+  졸업작품: "GRADUATION_PROJECT",
 };
 
 const GraduationNote = () => {
@@ -124,27 +124,33 @@ const GraduationNote = () => {
     }
   };
 
-  // 할 일 메모 등록 및 수정
+  // 할 일 메모 등록 
   const saveMemo = async (content) => {
     try {
-      if (memoId) {
-        await updateGraduationMemo(memoId, content);
-        setNote(content);
-        alert("메모가 수정되었습니다.");
-      } else {
-          const data = await createGraduationMemo(
-          apiCategoryMap[category],
-          content
-        );
-        alert("메모가 저장되었습니다.");
-        if (data?.id) setMemoId(data.id);
-        setNote(content);
-      }
-    } catch (err) {
-      console.error("메모 저장 실패:", err);
-      alert("저장에 실패했습니다.");
+      await createGraduationMemo(
+        apiCategoryMap[category],
+        content
+      );
+      console.log(`${category} 메모 등록 성공`);
     }
-  };
+    catch (err) {
+      console.log("메모 등록 실패: ", err);
+    }
+    setNote(content);
+  }
+
+  // 할 일 메모 수정
+  const updateMemo = async(memoId, content) => {
+    try {
+      await updateGraduationMemo(memoId, content);
+      console.log(`${category} 메모 수정 성공`);
+    }
+    catch (err) {
+      console.log(`${category} 메모 수정 실패: `, err);
+    }
+    setNote(content);
+  }
+
 
   // 할 일 메모 삭제
   const deleteMemo = async () => {
@@ -171,7 +177,7 @@ const GraduationNote = () => {
   };
   const closeDeleteModal = () => setIsDeleteConfirmOpen(false);
 
-  const handleDelete = async () => {
+  const handleDeleteButton = async () => {
     await deleteMemo();
     toast.success("메모가 삭제되었습니다.");
     closeDeleteModal();
@@ -213,7 +219,6 @@ const GraduationNote = () => {
                   fontSize: "13px",
                   color: "#111111",
                 }}
-                rows={8}
               />
             ) : (
               <NoteContent>{note ? note : "메모를 입력해 주세요."}</NoteContent>
@@ -246,7 +251,7 @@ const GraduationNote = () => {
         {isDeleteConfirmOpen && (
           <DeleteConfirmModal
             onClose={closeDeleteModal}
-            onDelete={handleDelete}
+            onDelete={handleDeleteButton}
             planCategory={categories[category]}
           />
         )}

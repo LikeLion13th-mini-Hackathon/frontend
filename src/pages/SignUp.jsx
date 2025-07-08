@@ -28,7 +28,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const formValid =
-    name && birthYear && birthMonth && birthDay && email && password;
+    name && birthYear && birthMonth && birthDay && email && password && department && grade;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -152,7 +152,7 @@ export default function Signup() {
 
         <Row style={{ display: "flex", gap: "8px" }}>
           <Field style={{ flex: 1 }}>
-            <Label>학과(부)</Label>
+            <Label>학과(부)<Required>*</Required></Label>
             <Select
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
@@ -166,7 +166,7 @@ export default function Signup() {
           </Field>
 
           <Field style={{ flex: 1 }}>
-            <Label>학년</Label>
+            <Label>학년<Required>*</Required></Label>
             <Select value={grade} onChange={(e) => setGrade(e.target.value)}>
               <option value="">학년 선택</option>
               <option value="1">1학년</option>

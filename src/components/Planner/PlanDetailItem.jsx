@@ -8,15 +8,16 @@ import {
   MenuButton,
   StyledTextarea,
   BottomSection,
+  StyledDate,
 } from "../../styles/PlannerDetailItem.styles";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import MenuModal from "./MenuModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
-import { BsDot } from "react-icons/bs";
 import { deletePlanner, updatePlanner } from "../../api/planner";
+import { useRef, useEffect } from "react";
 
-const PlanDetailItem = ({ plan, onDeletePlan }) => {
+const PlanDetailItem = ({ plan, onRefresh }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -36,7 +37,7 @@ const PlanDetailItem = ({ plan, onDeletePlan }) => {
     try {
       await deletePlanner(plan.id);
       toast.success("삭제가 완료되었습니다.");
-      onDeletePlan(plan.id); // 상위로 전달
+      onRefresh(); // 상위로 전달
       setIsDeleteOpen(false);
     } catch (err) {
       toast.error("삭제 실패");
@@ -52,6 +53,7 @@ const PlanDetailItem = ({ plan, onDeletePlan }) => {
     try {
       await updatePlanner(plan.id, { goal: editedGoal });
       toast.success("수정이 완료되었습니다.");
+      onRefresh();
     } catch (err) {
       console.error("수정 실패:", err);
       toast.error("수정에 실패했습니다.");
@@ -66,6 +68,23 @@ const PlanDetailItem = ({ plan, onDeletePlan }) => {
     }
   };
 
+  const autoResize = (e) => {
+    e.target.style.height = 'auto';  // 초기화
+    e.target.style.height = `${e.target.scrollHeight}px`;  // 글 길이만큼 자동 높이
+  };
+
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+  if (isEditing) {
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      }
+    }, 0);
+  }
+}, [isEditing]);
   return (
     <ItemWrapper>
       <TopSection>
@@ -76,17 +95,17 @@ const PlanDetailItem = ({ plan, onDeletePlan }) => {
       </TopSection>
       <Divider />
       <BottomSection>
-        <BsDot
-          size={25}
-          style={{ flexShrink: 0, color: "#140b77", marginTop: "4px" }}
-        />
+        <span style={{ color: "#140B77", fontSize: "16px", marginRight: "0.5em" }}>•</span>
         <Content>
           {isEditing ? (
             <StyledTextarea
+              ref={textareaRef}
               value={editedGoal}
               autoFocus
-              rows={3}
-              onChange={(e) => setEditedGoal(e.target.value)}
+              onChange={(e) => {
+                setEditedGoal(e.target.value);
+                autoResize(e);
+              }}
               onBlur={handleSave} // 포커스 아웃 시 저장
               onKeyDown={handleKeyDown} // 엔터로 저장 (Shift+Enter는 줄바꿈)
             />
