@@ -1,34 +1,52 @@
-import axios from "axios";
+import instance from "./axiosInstance";
 
-const BASE_URL = process.env.REACT_APP_API_URL;
-
-// ÇÒ ÀÏ ¸Þ¸ð Á¶È¸
+// í•  ì¼ ë©”ëª¨ ì¡°íšŒ
 export const fetchGraduationMemo = async (categoryKey) => {
-  const res = await axios.get(
-    `${BASE_URL}/graduation-memo?category=${categoryKey}`
-  );
-  return res.data;
+  try {
+    const res = await instance.get(
+      `/api/graduation-memo?category=${categoryKey}`
+    );
+    return res.data;
+  } catch (err) {
+    console.error("ðŸ“› ì¡¸ì—… ë©”ëª¨ ì¡°íšŒ ì‹¤íŒ¨:", err);
+    throw err;
+  }
 };
 
-// ÇÒ ÀÏ ¸Þ¸ð µî·Ï
+// í•  ì¼ ë©”ëª¨ ë“±ë¡
 export const createGraduationMemo = async (categoryKey, content) => {
-  const res = await axios.post(`${BASE_URL}/graduation-memo`, {
-    category: categoryKey,
-    content,
-  });
-  return res.data;
+  try {
+    const res = await instance.post("/api/graduation-memo", {
+      category: categoryKey,
+      content,
+    });
+    return res.data;
+  } catch (err) {
+    console.error("ðŸ“› ì¡¸ì—… ë©”ëª¨ ìƒì„± ì‹¤íŒ¨:", err);
+    throw err;
+  }
 };
 
-// ÇÒ ÀÏ ¸Þ¸ð ¼öÁ¤
-export const updateGraduationMemo = async (id, content) => {
-  const res = await axios.put(`${BASE_URL}/graduation-memo/${id}`, {
-    content,
-  });
-  return res.data;
+// í•  ì¼ ë©”ëª¨ ìˆ˜ì •
+export const updateGraduationMemo = async (memoId, content) => {
+  try {
+    const res = await instance.patch(`/api/graduation-memo/${memoId}`, {
+      content,
+    });
+    return res.data;
+  } catch (err) {
+    console.error("ðŸ“› ì¡¸ì—… ë©”ëª¨ ìˆ˜ì • ì‹¤íŒ¨:", err);
+    throw err;
+  }
 };
 
-// ÇÒ ÀÏ ¸Þ¸ð »èÁ¦
-export const deleteGraduationMemo = async (id) => {
-  const res = await axios.delete(`${BASE_URL}/graduation-memo/${id}`);
-  return res.data;
+// í•  ì¼ ë©”ëª¨ ì‚­ì œ
+export const deleteGraduationMemo = async (memoId) => {
+  try {
+    const res = await instance.delete(`/api/graduation-memo/${memoId}`);
+    return res.data;
+  } catch (err) {
+    console.error("ðŸ“› ì¡¸ì—… ë©”ëª¨ ì‚­ì œ ì‹¤íŒ¨:", err);
+    throw err;
+  }
 };

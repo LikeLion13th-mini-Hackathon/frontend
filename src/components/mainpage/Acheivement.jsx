@@ -22,7 +22,7 @@ import Bee2 from "../../assets/Bee2.png";
 import Bee3 from "../../assets/Bee3.png";
 import Bee4 from "../../assets/Bee4.png";
 import Bee5 from "../../assets/Bee5.png";
-import axios from "axios";
+import { fetchAchievement, postAchievement } from "../../api/achievement";
 
 function Achievement() {
   const [totalSemester, setTotalSemester] = useState(8);
@@ -31,80 +31,54 @@ function Achievement() {
   const [message, setMessage] = useState("");
   const [remainingSemester, setRemainingSemester] = useState(0);
   const [beeImage, setBeeImage] = useState(Bee1);
+  const [isFetched, setIsFetched] = useState(false); // 조회 완료 여부 확인
 
-  // 성취도 조회 (최초 렌더 시)
+  const updateBeeImage = (percent) => {
+    if (percent < 25) setBeeImage(Bee1);
+    else if (percent < 50) setBeeImage(Bee2);
+    else if (percent < 75) setBeeImage(Bee3);
+    else if (percent < 90) setBeeImage(Bee4);
+    else setBeeImage(Bee5);
+  };
+
   useEffect(() => {
-    const fetchAchievement = async () => {
-      const token = localStorage.getItem("token");
+    // 나의 성취도 데이터 조회
+    const loadData = async () => {
       try {
-        const res = await axios.get(
-          "http://34.227.53.193:8081/api/achievement",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        const {
-          totalSemester,
-          currentSemester,
-          achievementPercent,
-          remainingSemester,
-          message,
-        } = res.data;
-
-        setTotalSemester(totalSemester);
-        setTakenSemester(currentSemester);
-        setPercentage(achievementPercent);
-        setRemainingSemester(remainingSemester);
-        setMessage(message);
-
-        if (achievementPercent < 25) setBeeImage(Bee1);
-        else if (achievementPercent < 50) setBeeImage(Bee2);
-        else if (achievementPercent < 75) setBeeImage(Bee3);
-        else if (achievementPercent < 90) setBeeImage(Bee4);
-        else setBeeImage(Bee5);
+        const data = await fetchAchievement();
+        setTotalSemester(data.totalSemester);
+        setTakenSemester(data.currentSemester);
+        setPercentage(data.achievementPercent);
+        setRemainingSemester(data.remainingSemester);
+        setMessage(data.message);
+        updateBeeImage(data.achievementPercent);
+        setIsFetched(true); // 조회 완료 후 true 설정
       } catch (err) {
         console.warn("⚠️ 성취도 조회 실패:", err.message);
       }
     };
 
-    fetchAchievement();
+    loadData();
   }, []);
 
-  // 사용자가 select를 바꾸면 저장 요청
   useEffect(() => {
-    const postAchievement = async () => {
-      const token = localStorage.getItem("token");
+    if (!isFetched) return; // 조회 전이면 실행하지 않음
+
+    // 나의 성취도 데이터 등록 & 수정
+    const saveData = async () => {
       try {
-        const res = await axios.post(
-          "http://34.227.53.193:8081/api/achievement",
-          {
-            totalSemester,
-            takenSemester,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        const { achievementPercent, remainingSemester, message } = res.data;
-
-        setPercentage(achievementPercent);
-        setRemainingSemester(remainingSemester);
-        setMessage(message);
-
-        if (achievementPercent < 25) setBeeImage(Bee1);
-        else if (achievementPercent < 50) setBeeImage(Bee2);
-        else if (achievementPercent < 75) setBeeImage(Bee3);
-        else if (achievementPercent < 90) setBeeImage(Bee4);
-        else setBeeImage(Bee5);
+        const data = await postAchievement(totalSemester, takenSemester);
+        setPercentage(data.achievementPercent);
+        setRemainingSemester(data.remainingSemester);
+        setMessage(data.message);
+        updateBeeImage(data.achievementPercent);
       } catch (err) {
         console.warn("⚠️ 성취도 저장 실패:", err.message);
       }
     };
 
-    postAchievement();
-  }, [totalSemester, takenSemester]);
+    saveData();
+  }, [totalSemester, takenSemester, isFetched]);
 
   return (
     <GraphSection>

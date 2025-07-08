@@ -1,22 +1,20 @@
 import NoteCard from "../components/NoteCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import styled from "styled-components";
+import { TbDots } from "react-icons/tb";
+import MenuModal from "../components/Planner/MenuModal";
+import DeleteConfirmModal from "../components/Planner/DeleteConfirmModal";
+import { MenuButton } from "../styles/PlannerDetailItem.styles";
+import { toast } from "react-toastify";
 import {
   fetchGraduationMemo,
   createGraduationMemo,
   updateGraduationMemo,
   deleteGraduationMemo,
 } from "../api/graduationMemo";
-import { toast } from "react-toastify";
-import { useRef } from "react";
-
-import { TbDots } from "react-icons/tb";
-import MenuModal from "../components/Planner/MenuModal";
-import DeleteConfirmModal from "../components/Planner/DeleteConfirmModal";
-import { MenuButton } from '../styles/PlannerDetailItem.styles';
 
 const Container = styled.div`
   display: flex;
@@ -68,6 +66,21 @@ const NoteContent = styled.div`
   white-space: pre-wrap;
 `;
 
+const categories = {
+  gpa: "학점",
+  toeic: "토익",
+  project: "졸업작품",
+};
+
+const apiCategoryMap = {
+  gpa: "학점",
+  toeic: "TOEIC",
+  project: "졸업작품",
+  학점: "학점",
+  토익: "TOEIC",
+  졸업작품: "졸업작품",
+};
+
 const GraduationNote = () => {
   const { category } = useParams();
   const navigate = useNavigate();
@@ -90,19 +103,7 @@ const GraduationNote = () => {
     }
   }, [isEditing]);
 
-  const categories = {
-    gpa: "학점",
-    toeic: "토익",
-    project: "졸업작품",
-  };
-
-  const apiCategoryMap = {
-    gpa: "GPA",
-    toeic: "TOEIC",
-    project: "GRADUATION_PROJECT",
-  };
-
-  // 메모 조회
+  // 할 일 메모 조회
   const loadMemo = async () => {
     setLoading(true);
     try {
@@ -123,16 +124,18 @@ const GraduationNote = () => {
     }
   };
 
-  // 메모 저장/수정
+  // 할 일 메모 등록
   const saveMemo = async (content) => {
     try {
       if (memoId) {
         await updateGraduationMemo(memoId, content);
         setNote(content);
         alert("메모가 수정되었습니다.");
-      }
-      else {
-        const data = await createGraduationMemo(apiCategoryMap[category], content);
+      } else {
+        const data = await createGraduationMemo(
+          apiCategoryMap[category],
+          content
+        );
         alert("메모가 저장되었습니다.");
         if (data?.id) setMemoId(data.id);
         setNote(content);
@@ -143,14 +146,13 @@ const GraduationNote = () => {
     }
   };
 
-  // 메모 삭제
+  // 할 일 메모 삭제
   const deleteMemo = async () => {
     if (!memoId) return;
     try {
       await deleteGraduationMemo(memoId);
-      setNote("");
-      setMemoId(null);
       alert("메모가 삭제되었습니다.");
+      await loadMemo();
     } catch (err) {
       console.error("메모 삭제 실패:", err);
       alert("삭제에 실패했습니다.");
@@ -164,12 +166,10 @@ const GraduationNote = () => {
 
   const openMenuModal = () => setIsMenuOpen(true);
   const closeMenu = () => setIsMenuOpen(false);
-
   const openDeleteModal = () => {
     setIsMenuOpen(false);
     setIsDeleteConfirmOpen(true);
   };
-
   const closeDeleteModal = () => setIsDeleteConfirmOpen(false);
 
   const handleDelete = async () => {
@@ -195,7 +195,7 @@ const GraduationNote = () => {
 
       <CardWrapper>
         <NoteCard
-          title={categories[category]}
+          title={apiCategoryMap[category]}
           date={null}
           content={
             isEditing ? (
@@ -203,7 +203,7 @@ const GraduationNote = () => {
                 ref={textareaRef}
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                onBlur={handleBlur}     // 포커스 벗어나면 자동 저장
+                onBlur={handleBlur}
                 placeholder="메모를 입력해 주세요."
                 style={{
                   width: "100%",
@@ -217,13 +217,14 @@ const GraduationNote = () => {
                 rows={8}
               />
             ) : (
-              <NoteContent>
-                {note || "메모를 입력해 주세요."}
-              </NoteContent>
+              <NoteContent>{note ? note : "메모를 입력해 주세요."}</NoteContent>
             )
           }
           headerButton={
-            <MenuButton onClick={openMenuModal} style={{ padding: "0 1vh", margin: "0" }} >
+            <MenuButton
+              onClick={openMenuModal}
+              style={{ padding: "0 1vh", margin: "0" }}
+            >
               <TbDots size={20} color="#140B77" />
             </MenuButton>
           }
@@ -233,6 +234,7 @@ const GraduationNote = () => {
             </EditButton>
           }
         />
+
         {isMenuOpen && (
           <MenuModal
             onClose={closeMenu}

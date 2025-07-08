@@ -12,21 +12,20 @@ import {
 } from "../../styles/Graduation.styles";
 import { useNavigate } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
-import axios from "axios";
+import { fetchGraduationMemo } from "../../api/graduation";
 
 export default function GraduationMemo() {
   const [selectedTab, setSelectedTab] = useState("학점");
   const [memo, setMemo] = useState("");
-  const [memoId, setMemoId] = useState(null);
   const navigate = useNavigate();
 
   const categoryKeys = {
-    학점: "GPA",
+    학점: "학점",
     토익: "TOEIC",
-    졸업작품: "GRADUATION_PROJECT",
+    졸업작품: "졸업작품",
   };
 
-  const categories = ["학점", "토익", "졸업작품"];
+  const categories = Object.keys(categoryKeys);
 
   const emptyMessage = {
     학점: "학점 계획을 작성해주세요.\nex) 이번 학기 성적 4.0 넘기기",
@@ -34,29 +33,19 @@ export default function GraduationMemo() {
     졸업작품: "졸업작품 계획을 작성해주세요.\nex) 졸업작품 주제 선정하기",
   };
 
-  // ✅ 메모 조회
-  const fetchMemo = async (category) => {
-    try {
-      const res = await axios.get(
-        `http://34.227.53.193:8081/api/graduation-memo?category=${category}`
-      );
-      if (res.data && res.data.length > 0) {
-        setMemo(res.data[0].content);
-        setMemoId(res.data[0].id);
-      } else {
-        setMemo("");
-        setMemoId(null); // 없을 경우도 초기화
-      }
-    } catch (err) {
-      console.error("메모 조회 실패:", err);
-      setMemo("");
-      setMemoId(null); // 실패 시도 초기화
-    }
-  };
-
+  // 할 일 메모 조회
   useEffect(() => {
-    // 탭이 변경될 때마다 메모 조회
-    fetchMemo(categoryKeys[selectedTab]);
+    const loadMemo = async () => {
+      try {
+        const data = await fetchGraduationMemo(categoryKeys[selectedTab]);
+        setMemo(data?.[0]?.content || "");
+      } catch (err) {
+        console.error("메모 조회 실패:", err);
+        setMemo("");
+      }
+    };
+
+    loadMemo();
   }, [selectedTab]);
 
   return (
@@ -67,7 +56,7 @@ export default function GraduationMemo() {
           {categories.map((category) => (
             <SelectButton
               key={category}
-              isSelected={selectedTab === category}
+              $isSelected={selectedTab === category}
               onClick={() => setSelectedTab(category)}
             >
               {category}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { fetchColleges, fetchMajorsByCollegeId } from "../../api/graduation";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { LuSchool } from "react-icons/lu";
 import { MdOutlineBook } from "react-icons/md";
@@ -11,7 +12,6 @@ import {
   SearchButton,
   SearchButtonContainer,
 } from "../../styles/Graduation.styles";
-import axios from "axios";
 
 export default function CollegeDropdown({
   collegeState,
@@ -24,65 +24,50 @@ export default function CollegeDropdown({
   const { isCollegeOpen, setIsCollegeOpen, isMajorOpen, setIsMajorOpen } =
     dropdownState;
 
-  const [collegeList, setCollegeList] = useState([]); // 전체 단과대학 목록
-  const [majorList, setMajorList] = useState([]); // 선택된 단과대학의 학과 목록
-  const [collegeMap, setCollegeMap] = useState({}); // 단과대학 이름 → ID 매핑
+  const [collegeList, setCollegeList] = useState([]);
+  const [majorList, setMajorList] = useState([]);
 
-  // ✅ 단과대학 목록 조회
+  // 단과대학 목록 조회
   useEffect(() => {
-    const fetchColleges = async () => {
+    const loadColleges = async () => {
       try {
-        const res = await axios.get("http://34.227.53.193:8081/api/colleges");
-        const names = res.data.data.map((item) => item.name);
-        setCollegeList(names);
-
-        // 이름 → ID 매핑 객체
-        const mapping = {};
-        res.data.data.forEach((item) => {
-          mapping[item.name] = item.id;
-        });
-        setCollegeMap(mapping);
+        const data = await fetchColleges();
+        setCollegeList(data);
+        if (data.length > 0) {
+          setCollege(data[0]); // 객체 전체 저장
+        }
       } catch (err) {
         console.error("단과대학 목록 불러오기 실패:", err);
       }
     };
 
-    fetchColleges();
-  }, []);
+    loadColleges();
+  }, [setCollege]);
 
-  // ✅ 학과 목록 조회
-  const selectCollege = async (c) => {
-    setCollege(c);
-    setMajor("");
-    setIsMajorOpen(true);
+  // 학과 목록 조회
+  useEffect(() => {
+    const loadMajors = async () => {
+      if (!college?.id) return;
+      try {
+        const data = await fetchMajorsByCollegeId(college.id);
+        setMajorList(data);
+        if (data.length > 0) {
+          setMajor(data[0]);
+        }
+      } catch (err) {
+        console.error("학과 목록 불러오기 실패:", err);
+        setMajorList([]);
+      }
+    };
 
-    const collegeId = collegeMap[c];
-    if (!collegeId) return;
-
-    try {
-      const res = await axios.get(
-        `http://34.227.53.193:8081/api/departments/by-college?collegeId=${collegeId}`
-      );
-      const majors = res.data.map((dept) => dept.name);
-      setMajorList(majors);
-    } catch (err) {
-      console.error("학과 목록 불러오기 실패:", err);
-      setMajorList([]);
-    }
-  };
-
-  const selectMajor = (m) => {
-    setMajor(m);
-  };
-
-  const toggleCollege = () => setIsCollegeOpen(!isCollegeOpen);
-  const toggleMajor = () => setIsMajorOpen(!isMajorOpen);
+    loadMajors();
+  }, [college, setMajor]);
 
   return (
     <DropdownContainer>
       {/* 단과대학 드롭다운 */}
       <div>
-        <DropdownHeader onClick={toggleCollege}>
+        <DropdownHeader onClick={() => setIsCollegeOpen(!isCollegeOpen)}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <LuSchool size={20} color="#140B77" />
             <DropdownText>단과대학</DropdownText>
@@ -97,11 +82,14 @@ export default function CollegeDropdown({
           <ButtonList>
             {collegeList.map((c) => (
               <SelectButton
-                key={c}
-                isSelected={college === c}
-                onClick={() => selectCollege(c)}
+                key={c.id}
+                $isSelected={college?.id === c.id}
+                onClick={() => {
+                  setCollege(c);
+                  setIsMajorOpen(true);
+                }}
               >
-                {c}
+                {c.name}
               </SelectButton>
             ))}
           </ButtonList>
@@ -110,7 +98,7 @@ export default function CollegeDropdown({
 
       {/* 학과 드롭다운 */}
       <div>
-        <DropdownHeader onClick={toggleMajor}>
+        <DropdownHeader onClick={() => setIsMajorOpen(!isMajorOpen)}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <MdOutlineBook size={20} color="#140B77" />
             <DropdownText>학과</DropdownText>
@@ -121,15 +109,15 @@ export default function CollegeDropdown({
             <IoIosArrowDown size={20} color="#140B77" />
           )}
         </DropdownHeader>
-        {isMajorOpen && college && (
+        {isMajorOpen && (
           <ButtonList>
             {majorList.map((m) => (
               <SelectButton
-                key={m}
-                isSelected={major === m}
-                onClick={() => selectMajor(m)}
+                key={m.id}
+                $isSelected={major === m.name}
+                onClick={() => setMajor(m.name)}
               >
-                {m}
+                {m.name}
               </SelectButton>
             ))}
           </ButtonList>
@@ -137,11 +125,9 @@ export default function CollegeDropdown({
       </div>
 
       {/* 조회 버튼 */}
-      {college && isMajorOpen && (
+      {college && major && (
         <SearchButtonContainer>
-          <SearchButton disabled={!college || !major} onClick={onSearch}>
-            조회하기
-          </SearchButton>
+          <SearchButton onClick={onSearch}>조회하기</SearchButton>
         </SearchButtonContainer>
       )}
     </DropdownContainer>

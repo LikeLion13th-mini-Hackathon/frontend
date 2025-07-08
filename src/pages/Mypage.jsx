@@ -21,17 +21,31 @@ import {
   SettingItem,
 } from "../styles/MyPage.styles";
 import Footer from "../components/Footer";
-import axios from "axios";
+import { fetchMyProfile } from "../api/user";
 
 function MyPage() {
   const navigate = useNavigate();
-  // const [user, setUser] = useState(null); (백 열리면 이걸로 수정, 아래는 임시데이터)
-  const [user, setUser] = useState({
-    nickname: "홍길동",
-    email: "test@example.com",
-    birthdate: "2000-01-01",
-    department: "컴퓨터공학부",
-  });
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    // 마이페이지 프로필 정보 조회
+    const fetchData = async () => {
+      try {
+        const userData = await fetchMyProfile();
+        setUser(userData);
+      } catch (err) {
+        console.error("⚠️ 프로필 조회 실패:", err);
+      }
+    };
+
+    fetchData();
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -40,28 +54,9 @@ function MyPage() {
     navigate("/");
   };
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const res = await axios.get(
-          "http://34.227.53.193:8081/api/user/mypage",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(res.data);
-      } catch (err) {
-        console.error("⚠️ 프로필 조회 실패:", err);
-      }
-    };
-
-    fetchProfile();
-  }, []);
-
   if (!user) return <div>Loading...</div>;
+
+  const { nickname, email, birthdate, department } = user;
 
   return (
     <>
@@ -78,8 +73,8 @@ function MyPage() {
         <ProfileSection>
           <FaUserCircle size={46} style={{ color: "#767676" }} />
           <UserInfo>
-            <Name>{user.nickname}</Name>
-            <Email>{user.email}</Email>
+            <Name>{nickname}</Name>
+            <Email>{email}</Email>
           </UserInfo>
         </ProfileSection>
 
@@ -89,15 +84,15 @@ function MyPage() {
           <SectionTitle>내 정보</SectionTitle>
           <InfoItem>
             <Label>이메일</Label>
-            <Value>{user.email}</Value>
+            <Value>{email}</Value>
           </InfoItem>
           <InfoItem>
             <Label>생년월일</Label>
-            <Value>{user.birthdate}</Value>
+            <Value>{birthdate}</Value>
           </InfoItem>
           <InfoItem>
             <Label>학과</Label>
-            <Value>{user.department}</Value>
+            <Value>{department}</Value>
           </InfoItem>
           <ChangeSection>
             <ChangeText onClick={() => navigate("/mypage/edit-profile")}>

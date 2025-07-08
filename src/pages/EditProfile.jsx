@@ -13,9 +13,7 @@ import {
   Select,
   EditButton,
 } from "../styles/MyPage.styles";
-import axios from "axios";
-
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+import { fetchMyProfile, updateMyProfile } from "../api/user";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -27,15 +25,12 @@ function EditProfile() {
     department: "",
   });
 
-  // ✅ 유저 정보 불러오기 (선택: 추후 GET API 연결 시)
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const fetchUserInfo = async () => {
+    // 마이페이지 프로필 정보 수정
+    const loadUserInfo = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/api/user/mypage`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const { nickname, birthdate, email, department } = res.data;
+        const { nickname, birthdate, email, department } =
+          await fetchMyProfile();
 
         setForm({
           nickname,
@@ -48,7 +43,7 @@ function EditProfile() {
       }
     };
 
-    fetchUserInfo();
+    loadUserInfo();
   }, []);
 
   const handleChange = (e) => {
@@ -64,24 +59,8 @@ function EditProfile() {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
     try {
-      await axios.patch(
-        `${BASE_URL}/api/user/mypage`,
-        {
-          nickname: form.nickname,
-          email: form.email,
-          birthdate: form.birthdate.replace(/\./g, "-"),
-          department: form.department,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      await updateMyProfile(form);
       alert("✅ 사용자 정보가 성공적으로 수정되었습니다!");
       navigate("/mypage");
     } catch (err) {

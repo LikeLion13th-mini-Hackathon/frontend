@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getUserProfile } from "../../api/user";
 import {
   HeaderWrapper,
   FlexRow,
@@ -19,19 +19,11 @@ function HeaderBar() {
   const [userName, setUserName] = useState("사용자");
 
   useEffect(() => {
+    // 나의 프로필 정보 조회
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
       try {
-        const res = await axios.get(
-          "http://34.227.53.193:8081/api/user/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUserName(res.data.nickname);
-        // 필요 시 부가 정보 저장: res.data.department, grade 등
+        const data = await getUserProfile();
+        setUserName(data.nickname);
       } catch (err) {
         console.error("❌ 유저 정보 조회 실패:", err);
       }
@@ -52,7 +44,7 @@ function HeaderBar() {
             </HelloTextRow>
           </HelloText>
         </TextColumn>
-        <LogoImg src={BlurLogo} />{" "}
+        <LogoImg src={BlurLogo} />
       </FlexRow>
     </HeaderWrapper>
   );

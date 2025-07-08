@@ -21,8 +21,8 @@ export const DropdownText = styled.div`
 export const SelectButton = styled.button`
   border: 1px solid #140b77;
   border-radius: 20px;
-  background-color: ${(props) => (props.isSelected ? "#140B77" : "#FFFFFF")};
-  color: ${(props) => (props.isSelected ? "#FFFFFF" : "#140B77")};
+  background-color: ${(props) => (props.$isSelected ? "#140B77" : "#FFFFFF")};
+  color: ${(props) => (props.$isSelected ? "#FFFFFF" : "#140B77")};
   padding: 7px 20px;
   font-size: 11px;
   font-weight: 600;
@@ -64,7 +64,7 @@ export const Header = styled.h1`
   font-weight: bold;
   color: #140b77;
   margin: 2vh;
-  margin-top: 0;
+  margin-top: 1vh;
 `;
 
 export const PageWrapper = styled.div`

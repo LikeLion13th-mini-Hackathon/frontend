@@ -16,17 +16,13 @@ export default function Graduation() {
   const [graduationRequirement, setGraduationRequirement] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 졸업요건 조회
   const handleSearch = async () => {
-    console.log(`Selected Major: ${major}`);
     setIsSearched(true);
     setIsLoading(true);
     try {
       const data = await fetchGraduationRequirement(major);
-      if (data && data.length > 0) {
-        setGraduationRequirement(data[0]);
-      } else {
-        setGraduationRequirement(null);
-      }
+      setGraduationRequirement(data[0] || null);
     } catch (err) {
       console.error("졸업 요건 조회 실패:", err);
       setGraduationRequirement(null);
