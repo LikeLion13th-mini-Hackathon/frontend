@@ -28,7 +28,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const formValid =
-    name && birthYear && birthMonth && birthDay && email && password;
+    name && birthYear && birthMonth && birthDay && email && password && department && grade;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
