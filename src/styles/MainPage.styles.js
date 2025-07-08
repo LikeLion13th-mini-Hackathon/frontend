@@ -183,7 +183,6 @@ export const SpeechBubble = styled.div`
   text-align: center;
   overflow: hidden;
   word-wrap: break-word;
-  margin-bottom: 2vh;
 `;
 
 // 움직이는 애니메이션
