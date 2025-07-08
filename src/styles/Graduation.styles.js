@@ -112,13 +112,13 @@ export const CardContent = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 100%;
   overflow-y: auto;
   box-sizing: border-box;
+  max-height: 30vh;
 `;
 
 export const EmptyMemo = styled.div`
-  white-space: pre-wrap; /* 줄바꿈 유지 */
+  white-space: pre-wrap; 
   text-align: center;
   color: #aeaeae;
   font-size: 14px;
@@ -127,8 +127,9 @@ export const EmptyMemo = styled.div`
 export const MemoText = styled.p`
   font-size: 14px;
   color: #111111;
-  white-space: pre-wrap; /* 줄바꿈 유지 */
+  white-space: pre-wrap;
   margin: 0;
+  overflow-y: auto;
 `;
 
 export const EditButton = styled.button`

@@ -45,6 +45,7 @@ const Title = styled.h1`
 
 const CardWrapper = styled.div`
   flex: 1;
+  overflow-y: auto;
   padding: 1rem 0.5rem;
 `;
 
@@ -69,20 +70,18 @@ const categories = {
   gpa: "학점",
   toeic: "토익",
   project: "졸업작품",
-  학점: "학점",
-  졸업작품: "졸업작품"
 };
 
 const apiCategoryMap = {
-  gpa: "학점",
+  gpa: "GPA",
   toeic: "TOEIC",
   project: "GRADUATION_PROJECT",
-  학점: "학점",
+  학점: "GPA",
   토익: "TOEIC",
   졸업작품: "GRADUATION_PROJECT",
 };
 
-const GraduationNote = () => {
+const GraduationNotePage = () => {
   const { category } = useParams();
   const navigate = useNavigate();
   const [note, setNote] = useState("");
@@ -94,17 +93,11 @@ const GraduationNote = () => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
   useEffect(() => {
-    loadMemo();
-  }, []);
-
-  useEffect(() => {
-    if (isEditing && textareaRef.current) {
-      textareaRef.current.focus();
-    }
-  }, [isEditing]);
+  fetchMemo();
+}, [category]);
 
   // 메모 불러오기
-  const loadMemo = async () => {
+  const fetchMemo = async () => {
     try {
       const data = await fetchGraduationMemo(apiCategoryMap[category]);
       if (data && data.length > 0) {
@@ -114,65 +107,49 @@ const GraduationNote = () => {
         setNote("");
         setMemoId(null);
       }
-    } catch (err) {
+    }
+    catch (err) {
       console.error("메모 조회 실패:", err);
-      setNote("");
-      setMemoId(null);
     }
   };
 
-  // 저장/수정 통합 함수 (blur에서만 호출)
-  const handleSave = async () => {
-  if (note.trim() === "") {
-    toast.warn("내용을 입력하세요.");
-    return;
-  }
-
-  try {
-    if (memoId) {
-      await updateGraduationMemo(memoId, note);
-      toast.success("메모가 수정되었습니다.");
-    } else {
-      await createGraduationMemo(apiCategoryMap[category], note);
-      toast.success("메모가 저장되었습니다.");
+  // 메모 저장하기
+  const saveMemo = async (content) => {
+    try {
+      await createGraduationMemo(
+        apiCategoryMap[category],
+        content
+      );
+      console.log(`${category} 메모 등록 성공`);
     }
-    await loadMemo();
-  } catch (err) {
-    console.error("메모 저장 실패:", err);
-    toast.error("메모 저장에 실패했습니다.");
-  }
-};
-
-  const handleBlur = () => {
-    handleSave();
-    setIsEditing(false);
+    catch (err) {
+      console.log("메모 등록 실패: ", err);
+    }
   };
 
-  // 메뉴 관련
-  const openMenuModal = () => setIsMenuOpen(true);
-  const closeMenu = () => setIsMenuOpen(false);
-  const openDeleteModal = () => {
-    setIsMenuOpen(false);
-    setIsDeleteConfirmOpen(true);
+  // 메모 수정하기
+  const updateMemo = async(memoId, content) => {
+    try {
+      await updateGraduationMemo(memoId, content);
+      console.log(`${category} 메모 수정 성공`);
+    }
+    catch (err) {
+      console.log(`${category} 메모 수정 실패: `, err);
+    }
   };
-  const closeDeleteModal = () => setIsDeleteConfirmOpen(false);
 
-  const handleDeleteButton = async () => {
+  // 메모 삭제하기
+  const deleteMemo = async () => {
+    if (!memoId) return;
     try {
       await deleteGraduationMemo(memoId);
-      toast.success("메모가 삭제되었습니다.");
-      closeDeleteModal();
-      navigate(-1);
+      alert("메모가 삭제되었습니다.");
     } catch (err) {
       console.error("메모 삭제 실패:", err);
-      toast.error("메모 삭제에 실패했습니다.");
+      alert("삭제에 실패했습니다.");
     }
   };
-
-  const handleEdit = () => {
-    closeMenu();
-    setIsEditing(true);
-  };
+  
 
   return (
     <Container>
@@ -185,7 +162,7 @@ const GraduationNote = () => {
 
       <CardWrapper>
         <NoteCard
-          title={categories[category]}
+          title={category}
           date={null}
           content={
             isEditing ? (
@@ -197,7 +174,6 @@ const GraduationNote = () => {
                 placeholder="메모를 입력해 주세요."
                 style={{
                   width: "100%",
-                  height: "100%",
                   border: "none",
                   resize: "none",
                   outline: "none",
@@ -211,14 +187,12 @@ const GraduationNote = () => {
             )
           }
           headerButton={
-            memoId ? (
-              <MenuButton
-                onClick={openMenuModal}
-                style={{ padding: "0 1vh", margin: "0" }}
-              >
-                <TbDots size={20} color="#140B77" />
-              </MenuButton>
-            ) : null // 메모 없을 때는 아예 안 보임
+            <MenuButton
+              onClick={openMenuModal}
+              style={{ padding: "0 1vh", margin: "0" }}
+            >
+              <TbDots size={20} color="#140B77" />
+            </MenuButton>
           }
           bottomButton={
             <EditButton onClick={() => setIsEditing(true)}>
@@ -246,6 +220,4 @@ const GraduationNote = () => {
       </CardWrapper>
     </Container>
   );
-};
-
-export default GraduationNote;
+}

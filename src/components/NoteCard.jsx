@@ -9,8 +9,7 @@ const CardContainer = styled.div`
   margin: 0 2vh;
   padding: 2vh;
   position: relative;
-  
-  height: calc(100vh - 200px);
+  min-height: calc(100vh - 200px);
 `;
 
 const Divider = styled.div`
