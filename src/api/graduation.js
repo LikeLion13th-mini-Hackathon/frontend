@@ -2,7 +2,7 @@ import instance from "./axiosInstance";
 
 // 단과대학 목록 조회
 export const fetchColleges = async () => {
-  const res = await instance.get("/api/colleges");
+  const res = await instance.get(`/api/colleges`);
   return res.data.data;
 };
 
