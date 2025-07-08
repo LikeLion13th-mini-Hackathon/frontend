@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 import { Button } from "../components/Button";
-import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -16,6 +15,7 @@ export const TitleSmall = styled.p`
   font-size: 16px;
   font-weight: 500;
   color: #767676;
+  margin-top: 1vh;
   margin-bottom: 5vh;
 `;
 
@@ -36,20 +36,9 @@ export const LoginButton = styled(Button)`
   align-items: center;
   justify-content: center;
   gap: 2vh;
-  margin-top: 1vh;
   width: 85%;
   background-color: white;
-  color: #1f1f1f;
-  border: 1px solid #767676;
-`;
-
-export const SignupLink = styled(Link)`
-  font-size: 14px;
   color: #767676;
-  margin-top: 3vh;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.7;
-  }
+  border: 1px solid #767676;
+  font-weight: 500;
 `;

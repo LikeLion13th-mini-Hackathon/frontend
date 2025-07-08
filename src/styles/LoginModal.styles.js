@@ -15,7 +15,7 @@ export const ModalOverlay = styled.div`
 
 export const ModalContent = styled.div`
   background: white;
-  padding: 8vh 5vh;
+  padding: 6vh 4vh;
   border-radius: 12px;
   width: 320px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -24,19 +24,20 @@ export const ModalContent = styled.div`
   gap: 12px;
 
   input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 2vh;
+    font-size: 14px;
+    border: 1px solid #767676;
+    border-radius: 14px;
   }
 
   button {
     margin-top: 4vh;
-    padding: 1.5vh;
+    padding: 2vh;
     background-color: #140b77;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 14px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     opacity: 1;
@@ -55,5 +56,4 @@ export const ModalInput = styled.input`
   font-size: 1rem;
   margin-bottom: 1vh;
   border-radius: 8px;
-  border: 1px solid #ccc;
 `;

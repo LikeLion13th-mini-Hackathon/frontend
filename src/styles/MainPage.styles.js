@@ -5,6 +5,7 @@ export const MainContainer = styled.div`
   flex-direction: column;
   height: 100dvh; // ? 정확히 화면 꽉 채우기
   overflow: hidden; // ? 스크롤 막기
+  background-color: rgb(248, 250, 255);
 `;
 
 // 헤더바 스타일

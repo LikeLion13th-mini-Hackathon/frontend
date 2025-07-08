@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
@@ -6,17 +5,16 @@ import BeeFace from "../assets/BeeFace.png";
 import MainLogo from "../assets/MainLogo.png";
 
 export const Container = styled.div`
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: translateY(-10%);
 `;
 
 export const TitleSmall = styled.p`
   margin-top: 2vh;
-  margin-bottom: 5vh;
+  margin-bottom: 12vh;
   font-size: 20px;
   font-weight: bold;
   color: #000;
@@ -42,13 +40,22 @@ export default function SignupComplete() {
 
   return (
     <Container>
-      <img src={BeeFace} style={{ width: "15%", marginBottom: "2vh" }} />
-      <img src={MainLogo} style={{ width: "35%", marginBottom: "3vh" }} />
+      <img src={BeeFace} style={{ width: "15%", marginBottom: "1vh" }} />
+      <img src={MainLogo} style={{ width: "35%" }} />
       <TitleSmall>회원가입이 완료되었습니다!</TitleSmall>
       <Button onClick={handleLoginClick} style={{ marginBottom: "1.5vh" }}>
         로그인
       </Button>
-      <Button onClick={handleHomeClick}>홈 화면으로</Button>
+      <Button
+        onClick={handleHomeClick}
+        style={{
+          backgroundColor: "white",
+          color: "#767676",
+          border: "1px solid #767676",
+        }}
+      >
+        홈 화면으로
+      </Button>
     </Container>
   );
 }
