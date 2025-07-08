@@ -1,11 +1,12 @@
 import axios from "axios";
 
+const token = localStorage.getItem("token");
+
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  withCredentials: true,
   timeout: 10000,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    ...(token && { Authorization: `Bearer ${token}` }) // ✅ token 있을 때만 추가!
   },
 });
 
