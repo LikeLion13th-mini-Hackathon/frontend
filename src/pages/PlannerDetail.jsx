@@ -8,6 +8,7 @@ import { EditButton } from "../styles/Note.styles";
 import Footer from "../components/Footer";
 import { getPlannerBySemester } from "../api/planner"; // ✅ API 불러오기
 
+
 const PlanDetail = () => {
   const navigate = useNavigate();
   const { semester, category } = useParams(); // URL 파라미터 읽기

@@ -73,7 +73,7 @@ const PlannerNote = () => {
 
     try {
       const res = await createPlanner({
-        semester,
+        semester: semester.replace(/\s+/g, ""),
         category,
         goal: note,
       });
