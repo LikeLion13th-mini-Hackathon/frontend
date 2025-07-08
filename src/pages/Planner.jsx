@@ -26,6 +26,7 @@ const semesters = [
   "기타 학기",
 ];
 
+
 const categories = ["학업", "진로", "알바"];
 
 const Planner = () => {

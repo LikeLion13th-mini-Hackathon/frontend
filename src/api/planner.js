@@ -1,9 +1,28 @@
 import instance from "./axiosInstance";
 
+const semesterCodeMap = {
+  "1학년 1학기": "FIRST_YEAR_FIRST",
+  "1학년 2학기": "FIRST_YEAR_SECOND",
+  "2학년 1학기": "SECOND_YEAR_FIRST",
+  "2학년 2학기": "SECOND_YEAR_SECOND",
+  "3학년 1학기": "THIRD_YEAR_FIRST",
+  "3학년 2학기": "THIRD_YEAR_SECOND",
+  "4학년 1학기": "FOURTH_YEAR_FIRST",
+  "4학년 2학기": "FOURTH_YEAR_SECOND",
+  "5학년 1학기": "FIFTH_YEAR_FIRST",
+  "5학년 2학기": "FIFTH_YEAR_SECOND",
+  "6학년 1학기": "SIXTH_YEAR_FIRST",
+  "6학년 2학기": "SIXTH_YEAR_SECOND",
+  "기타 학기": "OTHER_SEMESTER"
+};
+
+const getSemesterCode = (semester) => semesterCodeMap[semester] || semester;
+
 // 플래너 계획 학기별 조회
 export const getPlannerBySemester = async (semester) => {
+  const semesterCode = getSemesterCode(semester);
   const res = await instance.get(
-    `/api/planner/semester?semester=${semester}`
+    `/api/planner/semester?semester=${semesterCode}`
   );
   return res.data;
 };

@@ -124,7 +124,7 @@ const GraduationNote = () => {
     }
   };
 
-  // 할 일 메모 등록
+  // 할 일 메모 등록 및 수정
   const saveMemo = async (content) => {
     try {
       if (memoId) {
@@ -132,7 +132,7 @@ const GraduationNote = () => {
         setNote(content);
         alert("메모가 수정되었습니다.");
       } else {
-        const data = await createGraduationMemo(
+          const data = await createGraduationMemo(
           apiCategoryMap[category],
           content
         );
@@ -152,7 +152,6 @@ const GraduationNote = () => {
     try {
       await deleteGraduationMemo(memoId);
       alert("메모가 삭제되었습니다.");
-      await loadMemo();
     } catch (err) {
       console.error("메모 삭제 실패:", err);
       alert("삭제에 실패했습니다.");
