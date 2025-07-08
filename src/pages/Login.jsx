@@ -29,7 +29,7 @@ function Login() {
   // 로그인 API 연동
   const handleSubmit = async () => {
     try {
-      const res = await login(email, password); // API 호출
+      const res = await login({ email, password }); // API 호출
       const { token, user } = res;
 
       localStorage.setItem("token", token);

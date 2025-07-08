@@ -1,35 +1,33 @@
-import axios from "axios";
+import instance from "./axiosInstance";
 
-const BASE_URL = process.env.REACT_APP_API_URL;
-
-// 1. ÇÃ·¡³Ê °èÈ¹ ÇÐ±âº° Á¶È¸
+// í”Œëž˜ë„ˆ ê³„íš í•™ê¸°ë³„ ì¡°íšŒ
 export const getPlannerBySemester = async (semester) => {
-  const res = await axios.get(
-    `${BASE_URL}/api/planner/semester?semester=${semester}`
+  const res = await instance.get(
+    `/api/planner/semester?semester=${semester}`
   );
   return res.data;
 };
 
-// 2. ÇÃ·¡³Ê °èÈ¹ °³º° Á¶È¸
+// í”Œëž˜ë„ˆ ê³„íš ê°œë³„ ì¡°íšŒ
 export const getPlannerById = async (id) => {
-  const res = await axios.get(`${BASE_URL}/api/planner?id=${id}`);
+  const res = await instance.get(`/api/planner?id=${id}`);
   return res.data;
 };
 
-// 3. ÇÃ·¡³Ê °èÈ¹ µî·Ï
+// í”Œëž˜ë„ˆ ê³„íš ë“±ë¡
 export const createPlanner = async (data) => {
-  const res = await axios.post(`${BASE_URL}/api/planner`, data);
+  const res = await instance.post(`/api/planner`, data);
   return res.data;
 };
 
-// 4. ÇÃ·¡³Ê °èÈ¹ ¼öÁ¤
+// í”Œëž˜ë„ˆ ê³„íš ìˆ˜ì •
 export const updatePlanner = async (id, data) => {
-  const res = await axios.put(`${BASE_URL}/api/planner/${id}`, data);
+  const res = await instance.put(`/api/planner/${id}`, data);
   return res.data;
 };
 
-// 5. ÇÃ·¡³Ê °èÈ¹ »èÁ¦
+// í”Œëž˜ë„ˆ ê³„íš ì‚­ì œ
 export const deletePlanner = async (id) => {
-  const res = await axios.delete(`${BASE_URL}/api/planner/${id}`);
+  const res = await instance.delete(`/api/planner/${id}`);
   return res.data;
 };

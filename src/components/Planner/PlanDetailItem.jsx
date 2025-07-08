@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import MenuModal from "./MenuModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import { BsDot } from "react-icons/bs";
-import axios from "axios";
+import { deletePlanner, updatePlanner } from "../../api/planner";
 
 const PlanDetailItem = ({ plan, onDeletePlan }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,7 +34,7 @@ const PlanDetailItem = ({ plan, onDeletePlan }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/api/plans/${plan.id}`);
+      await deletePlanner(plan.id);
       toast.success("삭제가 완료되었습니다.");
       onDeletePlan(plan.id); // 상위로 전달
       setIsDeleteOpen(false);
@@ -43,16 +43,14 @@ const PlanDetailItem = ({ plan, onDeletePlan }) => {
     }
   };
 
-  const handleEdit = () => {
+  const handleEditButton = () => {
     setIsMenuOpen(false);
     setIsEditing(true);
   };
 
   const handleSave = async () => {
     try {
-      await axios.put(`/api/plans/${plan.id}`, {
-        goal: editedGoal,
-      });
+      await updatePlanner(plan.id, { goal: editedGoal });
       toast.success("수정이 완료되었습니다.");
     } catch (err) {
       console.error("수정 실패:", err);
@@ -100,7 +98,7 @@ const PlanDetailItem = ({ plan, onDeletePlan }) => {
       {isMenuOpen && (
         <MenuModal
           onClose={closeMenu}
-          onEdit={handleEdit}
+          onEdit={handleEditButton}
           onDelete={openDeleteModal}
           planText={plan.goal}
         />
