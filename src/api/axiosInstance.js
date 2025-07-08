@@ -6,7 +6,7 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000,
   headers: {
-    ...(token && { Authorization: `Bearer ${token}` }) // ✅ token 있을 때만 추가!
+    ...(token && { Authorization: `Bearer ${token}` }),
   },
 });
 

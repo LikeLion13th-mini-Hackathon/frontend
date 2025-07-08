@@ -48,7 +48,7 @@ export default function Signup() {
     };
 
     try {
-      await signup(payload); // API 호출
+      await signup(payload);
       alert("✅ 회원가입이 완료되었습니다!");
       navigate("/signup/complete");
     } catch (err) {
