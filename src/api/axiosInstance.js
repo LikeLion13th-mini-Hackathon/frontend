@@ -10,6 +10,16 @@ const instance = axios.create({
   },
 });
 
+// 헤더에 요청 실어 보내기
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+
 // 공통 에러 처리
 instance.interceptors.response.use(
   (res) => res,
@@ -20,3 +30,4 @@ instance.interceptors.response.use(
 );
 
 export default instance;
+

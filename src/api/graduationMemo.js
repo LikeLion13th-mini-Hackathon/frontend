@@ -30,7 +30,7 @@ export const createGraduationMemo = async (categoryKey, content) => {
 // 할 일 메모 수정
 export const updateGraduationMemo = async (memoId, content) => {
   try {
-    const res = await instance.patch(`/api/graduation-memo/${memoId}`, {
+    const res = await instance.put(`/api/graduation-memo/${memoId}`, {
       content,
     });
     return res.data;
