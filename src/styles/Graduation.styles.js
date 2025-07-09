@@ -38,9 +38,9 @@ export const ButtonList = styled.div`
 
   border-radius: 0.5rem;
   background-color: #ffffff;
-  
+
   animation: dropdown 0.3s ease;
-  
+
   @keyframes dropdown {
     0% {
       transform: translateY(-10%);
@@ -134,7 +134,7 @@ export const CardContent = styled.div`
 `;
 
 export const EmptyMemo = styled.div`
-  white-space: pre-wrap; 
+  white-space: pre-wrap;
   text-align: center;
   color: #aeaeae;
   font-size: 14px;
@@ -167,7 +167,7 @@ export const EditButton = styled.button`
 export const RequirementWrapper = styled.div`
   padding: 20px;
   border-radius: 20px;
-  height: 500px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
