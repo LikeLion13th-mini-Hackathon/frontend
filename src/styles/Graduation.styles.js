@@ -35,6 +35,22 @@ export const ButtonList = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   padding: 10px 0;
+
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  
+  animation: dropdown 0.3s ease;
+  
+  @keyframes dropdown {
+    0% {
+      transform: translateY(-10%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 `;
 
 export const DropdownContainer = styled.div`
@@ -151,6 +167,11 @@ export const EditButton = styled.button`
 export const RequirementWrapper = styled.div`
   padding: 20px;
   border-radius: 20px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const DepartmentName = styled.h3`

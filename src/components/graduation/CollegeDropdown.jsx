@@ -3,6 +3,7 @@ import { fetchColleges, fetchMajorsByCollegeId } from "../../api/graduation";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { LuSchool } from "react-icons/lu";
 import { MdOutlineBook } from "react-icons/md";
+import { motion, AnimatePresence } from "framer-motion";  // ✅ 추가
 import {
   DropdownHeader,
   DropdownText,
@@ -70,7 +71,9 @@ export default function CollegeDropdown({
         <DropdownHeader onClick={() => setIsCollegeOpen(!isCollegeOpen)}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <LuSchool size={20} color="#140B77" />
-            <DropdownText>단과대학</DropdownText>
+            <DropdownText>
+              {college ? `${college.name}` : "단과대학"}
+            </DropdownText>
           </div>
           {isCollegeOpen ? (
             <IoIosArrowUp size={20} color="#140B77" />
@@ -78,22 +81,31 @@ export default function CollegeDropdown({
             <IoIosArrowDown size={20} color="#140B77" />
           )}
         </DropdownHeader>
-        {isCollegeOpen && (
-          <ButtonList>
-            {collegeList.map((c) => (
-              <SelectButton
-                key={c.id}
-                $isSelected={college?.id === c.id}
-                onClick={() => {
-                  setCollege(c);
-                  setIsMajorOpen(true);
-                }}
-              >
-                {c.name}
-              </SelectButton>
-            ))}
-          </ButtonList>
-        )}
+        <AnimatePresence>
+          {isCollegeOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ButtonList>
+                {collegeList.map((c) => (
+                  <SelectButton
+                    key={c.id}
+                    $isSelected={college?.id === c.id}
+                    onClick={() => {
+                      setCollege(c);
+                      setIsMajorOpen(true);
+                    }}
+                  >
+                    {c.name}
+                  </SelectButton>
+                ))}
+              </ButtonList>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* 학과 드롭다운 */}
@@ -101,7 +113,9 @@ export default function CollegeDropdown({
         <DropdownHeader onClick={() => setIsMajorOpen(!isMajorOpen)}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <MdOutlineBook size={20} color="#140B77" />
-            <DropdownText>학과</DropdownText>
+            <DropdownText>
+              {major ? `${major.name}` : "학과"}
+            </DropdownText>
           </div>
           {isMajorOpen ? (
             <IoIosArrowUp size={20} color="#140B77" />
@@ -109,19 +123,28 @@ export default function CollegeDropdown({
             <IoIosArrowDown size={20} color="#140B77" />
           )}
         </DropdownHeader>
-        {isMajorOpen && (
-          <ButtonList>
-            {majorList.map((m) => (
-              <SelectButton
-                key={m.id}
-                $isSelected={major === m.name}
-                onClick={() => setMajor(m.name)}
-              >
-                {m.name}
-              </SelectButton>
-            ))}
-          </ButtonList>
-        )}
+        <AnimatePresence>
+          {isMajorOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ButtonList>
+                {majorList.map((m) => (
+                  <SelectButton
+                    key={m.id}
+                    $isSelected={major === m.name}
+                    onClick={() => setMajor(m.name)}
+                  >
+                    {m.name}
+                  </SelectButton>
+                ))}
+              </ButtonList>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* 조회 버튼 */}
