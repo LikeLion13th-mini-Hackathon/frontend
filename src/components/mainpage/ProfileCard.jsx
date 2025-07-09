@@ -1,3 +1,4 @@
+// 홈 - 프로필카드
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
@@ -18,6 +19,7 @@ function ProfileCard() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // 나의 프로필 정보 조회 API
     const fetchUser = async () => {
       try {
         const data = await getUserProfile();

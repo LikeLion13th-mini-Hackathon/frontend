@@ -1,3 +1,4 @@
+// 공통 노트
 import styled from "styled-components";
 
 const CardContainer = styled.div`
@@ -15,8 +16,8 @@ const CardContainer = styled.div`
 const Divider = styled.div`
   height: 0.5px;
   width: auto;
-  background-color: #A6A6AB;
-  margin: 3vh 0; 
+  background-color: #a6a6ab;
+  margin: 3vh 0;
 `;
 
 const CardHeader = styled.div`
@@ -34,13 +35,13 @@ const Title = styled.div`
 const Date = styled.div`
   font-size: 12px;
   font-weight: 600;
-  color:#767676;
+  color: #767676;
   margin: 0 1vh;
 `;
 
 const Content = styled.div`
   font-size: 16px;
-  line-height: 1.5; 
+  line-height: 1.5;
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -62,26 +63,24 @@ const NoteCard = ({
   title,
   date = "",
   content,
-  headerButton = null,  // 헤더에 있는 버튼
-  bottomButton = null,  // 하단에 있는 버튼
+  headerButton = null, // 헤더에 있는 버튼
+  bottomButton = null, // 하단에 있는 버튼
 }) => {
   return (
     <CardContainer>
       <CardHeader>
         {headerButton && (
-          <HeaderButtonWrapper>
-            {headerButton}
-          </HeaderButtonWrapper>
+          <HeaderButtonWrapper>{headerButton}</HeaderButtonWrapper>
         )}
         <Title>{title}</Title>
         {date && <Date>{date}</Date>}
       </CardHeader>
+
       <Divider />
+
       <Content>{content}</Content>
       {bottomButton && (
-        <BottomButtonWrapper>
-          {bottomButton}
-        </BottomButtonWrapper>
+        <BottomButtonWrapper>{bottomButton}</BottomButtonWrapper>
       )}
     </CardContainer>
   );

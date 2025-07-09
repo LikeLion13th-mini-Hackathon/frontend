@@ -1,3 +1,4 @@
+// 졸업요건 페이지 - 단과대/학과 드롭다운
 import { useEffect, useState } from "react";
 import { fetchColleges, fetchMajorsByCollegeId } from "../../api/graduation";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -28,21 +29,21 @@ export default function CollegeDropdown({
   const [collegeList, setCollegeList] = useState([]);
   const [majorList, setMajorList] = useState([]);
 
-  // 단과대학 목록 조회
+  // 단과대학 목록 조회 API
   useEffect(() => {
     const loadColleges = async () => {
       try {
         const data = await fetchColleges();
         setCollegeList(data);
       } catch (err) {
-        console.error("단과대학 목록 불러오기 실패:", err);
+        console.error("❌ 단과대학 목록 조회 실패:", err);
       }
     };
 
     loadColleges();
   }, [setCollege]);
 
-  // 학과 목록 조회
+  // 학과 목록 조회 API
   useEffect(() => {
     const loadMajors = async () => {
       if (!college?.id) return;
@@ -50,7 +51,7 @@ export default function CollegeDropdown({
         const data = await fetchMajorsByCollegeId(college.id);
         setMajorList(data);
       } catch (err) {
-        console.error("학과 목록 불러오기 실패:", err);
+        console.error("❌ 학과 목록 조회 실패:", err);
         setMajorList([]);
       }
     };

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// 로그인 요청
+// 로그인
 export const login = async ({ email, password }) => {
   const response = await axios.post(
     `${process.env.REACT_APP_API_URL}/api/login`,
@@ -14,7 +14,7 @@ export const login = async ({ email, password }) => {
   return response.data;
 };
 
-// 회원가입 요청
+// 회원가입
 export const signup = async ({ email, password, nickname, birthdate, department, grade  }) => {
   const response = await axios.post(
     `${process.env.REACT_APP_API_URL}/api/signup`,

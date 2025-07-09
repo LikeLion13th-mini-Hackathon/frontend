@@ -1,3 +1,4 @@
+// 졸업요건 페이지 - 졸업요건 메모
 import { useEffect, useState } from "react";
 import {
   MemoContainer,
@@ -33,14 +34,14 @@ export default function GraduationMemo() {
     졸업작품: "졸업작품 계획을 작성해주세요.\nex) 졸업작품 주제 선정하기",
   };
 
-  // 할 일 메모 조회
+  // 할 일 메모 조회 API
   useEffect(() => {
     const loadMemo = async () => {
       try {
         const data = await fetchGraduationMemo(categoryKeys[selectedTab]);
         setMemo(data?.[0]?.content || "");
       } catch (err) {
-        console.error("메모 조회 실패:", err);
+        console.error("❌ 할 일 메모 조회 실패:", err);
         setMemo("");
       }
     };

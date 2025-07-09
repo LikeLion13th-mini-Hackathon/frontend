@@ -1,5 +1,5 @@
+// 졸업요건 페이지
 import { useState } from "react";
-import axios from "axios";
 import { fetchGraduationRequirement } from "../api/graduation";
 import CollegeDropdown from "../components/graduation/CollegeDropdown";
 import { Header, PageWrapper } from "../styles/Graduation.styles";
@@ -16,7 +16,6 @@ export default function Graduation() {
   const [graduationRequirement, setGraduationRequirement] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 졸업요건 조회
   const handleSearch = async () => {
     setIsSearched(true);
     setIsLoading(true);
@@ -24,7 +23,7 @@ export default function Graduation() {
       const data = await fetchGraduationRequirement( major.name );
       setGraduationRequirement(data[0] || null);
     } catch (err) {
-      console.error("졸업 요건 조회 실패:", err);
+      console.error("❌ 졸업요건 조회 실패:", err);
       setGraduationRequirement(null);
     } finally {
       setIsLoading(false);

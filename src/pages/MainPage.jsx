@@ -1,3 +1,4 @@
+// 홈 (메인페이지)
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainContainer } from "../styles/MainPage.styles";

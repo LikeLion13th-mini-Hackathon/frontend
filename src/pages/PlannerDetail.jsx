@@ -1,3 +1,4 @@
+// 플래너 페이지 (상세)
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PlanDetailItem from "../components/Planner/PlanDetailItem";
@@ -6,8 +7,7 @@ import { HaederContainer, Title } from "../styles/Planner.styles";
 import { FaPen } from "react-icons/fa";
 import { EditButton } from "../styles/Note.styles";
 import Footer from "../components/Footer";
-import { getPlannerBySemester } from "../api/planner"; // ✅ API 불러오기
-
+import { getPlannerBySemester } from "../api/planner";
 
 const PlanDetail = () => {
   const navigate = useNavigate();
@@ -22,13 +22,14 @@ const PlanDetail = () => {
 
   const fetchPlans = async () => {
     try {
+      // 플래너 계획 학기별 조회
       const data = await getPlannerBySemester(semester);
       const filtered = data.filter(
         (plan) => plan.category === category && !plan.deletedAt
       );
       setPlans(filtered);
     } catch (err) {
-      console.error("플래너 조회 실패:", err);
+      console.error("❌ 플래너 조회 실패:", err);
       setPlans([]);
     } finally {
       setLoading(false);
@@ -51,11 +52,7 @@ const PlanDetail = () => {
         </HaederContainer>
         {filteredPlans.length > 0 ? (
           filteredPlans.map((plan) => (
-            <PlanDetailItem
-              key={plan.id}
-              plan={plan}
-              onRefresh={fetchPlans}
-            />
+            <PlanDetailItem key={plan.id} plan={plan} onRefresh={fetchPlans} />
           ))
         ) : (
           <p>등록된 계획이 없습니다.</p>

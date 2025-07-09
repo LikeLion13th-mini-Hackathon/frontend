@@ -1,3 +1,4 @@
+// 학점 페이지 - 헤더
 import { Wrapper, Title, TabContainer, Tab } from "../../styles/GPA.styles";
 
 function GPAHeader({ selectedSemester, setSelectedSemester }) {

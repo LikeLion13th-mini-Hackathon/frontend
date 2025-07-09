@@ -104,48 +104,50 @@ const SubjectNote = () => {
     }
   }, [isEditing]);
 
-  // 메모 불러오기
   const loadMemo = async () => {
     try {
+      // 과목 메모 조회 API
       const res = await getSubjectMemo(id);
       setNote(res.memo);
       setSubjectName(res.subjectName);
     } catch (err) {
-      console.error("메모 조회 실패:", err);
+      console.error("❌ 메모 조회 실패:", err);
       setNote("");
     }
   };
 
-  // 메모 등록
   const handleSave = async () => {
     try {
+      // 과목 메모 등록/수정 API
       await updateSubjectMemo(id, note);
-      alert("메모가 저장되었습니다.");
+      toast.success("메모가 저장되었습니다.", { autoClose: 2000 });
+      setIsEditing(false);
+      loadMemo();
     } catch (err) {
-      console.error("메모 저장 실패:", err);
+      console.error("❌ 메모 저장 실패:", err);
       alert("저장 실패");
     }
   };
 
-  // 메모 삭제
   const handleDelete = async () => {
     try {
+      // 과목 메모 삭제 API
       await deleteSubjectMemo(id);
-      toast.success("메모가 삭제되었습니다.");
+      toast.success("메모가 삭제되었습니다.", { autoClose: 2000 });
       closeDeleteModal();
-      loadMemo();
+      navigate(-1);
     } catch (err) {
-      console.error("메모 삭제 실패:", err);
+      console.error("❌ 메모 삭제 실패:", err);
       alert("삭제 실패");
     }
   };
 
   const handleBlur = () => {
     if (!note.trim()) {
-      toast.warn("메모를 입력하세요.");
+      toast.warn("메모를 입력하세요.", { autoClose: 2000 });
       textareaRef.current.focus();
       setIsShaking(true);
-      setTimeout(() => setIsShaking(false), 300);  // 흔들림 끝나면 초기화
+      setTimeout(() => setIsShaking(false), 300); // 흔들림 끝나면 초기화
       return;
     }
 
@@ -156,7 +158,7 @@ const SubjectNote = () => {
   // 메뉴 관련
   const handleMenuButtonClick = () => {
     if (!note.trim()) {
-      toast.warn("메로 입력 후 이용해주세요.");
+      toast.warn("메모 입력 후 이용해주세요.", { autoClose: 2000 });
     } else {
       setIsMenuOpen(true);
     }
@@ -190,22 +192,22 @@ const SubjectNote = () => {
             isEditing ? (
               <ShakingWrapper isShaking={isShaking}>
                 <textarea
-                ref={textareaRef}
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                onBlur={handleBlur}
-                placeholder="메모를 입력해 주세요."
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  border: "none",
-                  resize: "none",
-                  outline: "none",
-                  background: "transparent",
-                  fontSize: "13px",
-                  color: "#111111",
-                }}
-              />
+                  ref={textareaRef}
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  onBlur={handleBlur}
+                  placeholder="메모를 입력해 주세요."
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                    resize: "none",
+                    outline: "none",
+                    background: "transparent",
+                    fontSize: "13px",
+                    color: "#111111",
+                  }}
+                />
               </ShakingWrapper>
             ) : (
               <NoteContent>{note ? note : "메모를 입력해 주세요."}</NoteContent>

@@ -1,3 +1,4 @@
+// 홈 - 성취도 영역
 import { useEffect, useState } from "react";
 import {
   CircularProgressbarWithChildren,
@@ -42,10 +43,11 @@ function Achievement() {
   };
 
   useEffect(() => {
-    // 나의 성취도 데이터 조회
+    // 나의 성취도 데이터 조회 API
     const loadData = async () => {
       try {
         const data = await fetchAchievement();
+
         setTotalSemester(data.totalSemester);
         setTakenSemester(data.currentSemester);
         setPercentage(data.achievementPercent);
@@ -54,7 +56,7 @@ function Achievement() {
         updateBeeImage(data.achievementPercent);
         setIsFetched(true); // 조회 완료 후 true 설정
       } catch (err) {
-        console.warn("⚠️ 성취도 조회 실패:", err.message);
+        console.warn("❌ 나의 성취도 데이터 조회 실패:", err.message);
       }
     };
 
@@ -64,7 +66,7 @@ function Achievement() {
   useEffect(() => {
     if (!isFetched) return; // 조회 전이면 실행하지 않음
 
-    // 나의 성취도 데이터 등록 & 수정
+    // 나의 성취도 데이터 등록 & 수정 API
     const saveData = async () => {
       try {
         const data = await postAchievement(totalSemester, takenSemester);
@@ -73,7 +75,7 @@ function Achievement() {
         setMessage(data.message);
         updateBeeImage(data.achievementPercent);
       } catch (err) {
-        console.warn("⚠️ 성취도 저장 실패:", err.message);
+        console.warn("❌ 나의 성취도 데이터 등록 & 수정 실패:", err.message);
       }
     };
 

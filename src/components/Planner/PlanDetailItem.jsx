@@ -33,14 +33,15 @@ const PlanDetailItem = ({ plan, onRefresh }) => {
 
   const closeDeleteModal = () => setIsDeleteOpen(false);
 
+  // 플래너 계획 삭제 API
   const handleDelete = async () => {
     try {
       await deletePlanner(plan.id);
-      toast.success("삭제가 완료되었습니다.");
+      toast.success("삭제가 완료되었습니다.", { autoClose: 2000 });
       onRefresh(); // 상위로 전달
       setIsDeleteOpen(false);
     } catch (err) {
-      toast.error("삭제 실패");
+      toast.error("삭제에 실패했습니다.", { autoClose: 2000 });
     }
   };
 
@@ -49,14 +50,15 @@ const PlanDetailItem = ({ plan, onRefresh }) => {
     setIsEditing(true);
   };
 
+  // 플래너 계획 수정 API
   const handleSave = async () => {
     try {
       await updatePlanner(plan.id, { goal: editedGoal });
-      toast.success("수정이 완료되었습니다.");
+      toast.success("수정이 완료되었습니다.", { autoClose: 2000 });
       onRefresh();
     } catch (err) {
       console.error("수정 실패:", err);
-      toast.error("수정에 실패했습니다.");
+      toast.error("수정에 실패했습니다.", { autoClose: 2000 });
     }
     setIsEditing(false);
   };
@@ -69,22 +71,22 @@ const PlanDetailItem = ({ plan, onRefresh }) => {
   };
 
   const autoResize = (e) => {
-    e.target.style.height = 'auto';  // 초기화
-    e.target.style.height = `${e.target.scrollHeight}px`;  // 글 길이만큼 자동 높이
+    e.target.style.height = "auto"; // 초기화
+    e.target.style.height = `${e.target.scrollHeight}px`; // 글 길이만큼 자동 높이
   };
 
   const textareaRef = useRef(null);
 
   useEffect(() => {
-  if (isEditing) {
-    setTimeout(() => {
-      if (textareaRef.current) {
-        textareaRef.current.style.height = 'auto';
-        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-      }
-    }, 0);
-  }
-}, [isEditing]);
+    if (isEditing) {
+      setTimeout(() => {
+        if (textareaRef.current) {
+          textareaRef.current.style.height = "auto";
+          textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+      }, 0);
+    }
+  }, [isEditing]);
   return (
     <ItemWrapper>
       <TopSection>
@@ -95,7 +97,11 @@ const PlanDetailItem = ({ plan, onRefresh }) => {
       </TopSection>
       <Divider />
       <BottomSection>
-        <span style={{ color: "#140B77", fontSize: "16px", marginRight: "0.5em" }}>•</span>
+        <span
+          style={{ color: "#140B77", fontSize: "16px", marginRight: "0.5em" }}
+        >
+          •
+        </span>
         <Content>
           {isEditing ? (
             <StyledTextarea

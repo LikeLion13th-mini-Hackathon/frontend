@@ -1,3 +1,4 @@
+// 플래너 페이지 - 메뉴 모달창 (수정/삭제)
 import Modal from "../Modal";
 import { Title, ButtonWrapper } from "../../styles/Modal.styles";
 import ModalMenuButton from "../ModalMenuButton";

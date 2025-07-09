@@ -136,4 +136,5 @@ export const Select = styled.select`
 
 export const EditButton = styled(Button)`
   margin: 4vh auto 0 auto;
+  width: 100%;
 `;

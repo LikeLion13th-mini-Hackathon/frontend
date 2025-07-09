@@ -1,3 +1,4 @@
+// 공통 하단바
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   NavWrapper,

@@ -1,3 +1,4 @@
+// 졸업요건 페이지 - 졸업요건 띄워주는 부분
 import BeeImage from "../../assets/Bee6.png";
 import {
   RequirementWrapper,

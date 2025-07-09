@@ -62,12 +62,10 @@ export const Row = styled.div`
 `;
 
 export const SubmitButton = styled(Button)`
-  position: fixed;
-  bottom: 4vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90vw;
-  padding: 16px;
+  width: 100%;
+  margin-top: 6vh;
+  margin: 6vh auto 0 auto;
+  display: block;
   background-color: #140b77;
   color: white;
   z-index: 1000;

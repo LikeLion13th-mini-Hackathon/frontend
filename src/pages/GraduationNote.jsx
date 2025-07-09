@@ -1,3 +1,4 @@
+// 졸업요건 - 메모 페이지
 import NoteCard from "../components/NoteCard";
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -86,7 +87,7 @@ const categories = {
   toeic: "토익",
   project: "졸업작품",
   학점: "학점",
-  졸업작품: "졸업작품"
+  졸업작품: "졸업작품",
 };
 
 const apiCategoryMap = {
@@ -121,9 +122,9 @@ const GraduationNote = () => {
     }
   }, [isEditing]);
 
-  // 메모 불러오기
   const loadMemo = async () => {
     try {
+      // 할 일 메모 조회 API
       const data = await fetchGraduationMemo(apiCategoryMap[category]);
       if (data && data.length > 0) {
         setNote(data[0].content);
@@ -133,7 +134,7 @@ const GraduationNote = () => {
         setMemoId(null);
       }
     } catch (err) {
-      console.error("메모 조회 실패:", err);
+      console.error("❌ 메모 조회 실패:", err);
       setNote("");
       setMemoId(null);
     }
@@ -142,28 +143,30 @@ const GraduationNote = () => {
   // 저장/수정 통합 함수 (blur에서만 호출)
   const handleSave = async () => {
     if (note.trim() === "") {
-      toast.warn("내용을 입력하세요.");
+      toast.warn("내용을 입력하세요.", { autoClose: 2000 });
       return;
     }
 
     try {
       if (memoId) {
+        // 할 일 메모 수정 API
         await updateGraduationMemo(memoId, note);
-        toast.success("메모가 수정되었습니다.");
+        toast.success("메모가 수정되었습니다.", { autoClose: 2000 });
       } else {
+        // 할 일 메모 등록 API
         await createGraduationMemo(apiCategoryMap[category], note);
-        toast.success("메모가 저장되었습니다.");
+        toast.success("메모가 저장되었습니다.", { autoClose: 2000 });
       }
       await loadMemo();
     } catch (err) {
-      console.error("메모 저장 실패:", err);
-      toast.error("메모 저장에 실패했습니다.");
+      console.error("❌ 메모 저장 실패:", err);
+      toast.error("메모 저장에 실패했습니다.", { autoClose: 2000 });
     }
   };
 
   const handleBlur = () => {
     if (!note.trim()) {
-      toast.warn("내용을 입력하세요.");
+      toast.warn("내용을 입력하세요.", { autoClose: 2000 });
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 300);
       textareaRef.current.focus();
@@ -185,13 +188,14 @@ const GraduationNote = () => {
 
   const handleDeleteButton = async () => {
     try {
+      // 할 일 메모 삭제 API
       await deleteGraduationMemo(memoId);
-      toast.success("메모가 삭제되었습니다.");
+      toast.success("메모가 삭제되었습니다.", { autoClose: 2000 });
       closeDeleteModal();
       navigate(-1);
     } catch (err) {
-      console.error("메모 삭제 실패:", err);
-      toast.error("메모 삭제에 실패했습니다.");
+      console.error("❌ 메모 삭제 실패:", err);
+      toast.error("메모 삭제에 실패했습니다.", { autoClose: 2000 });
     }
   };
 
@@ -202,7 +206,7 @@ const GraduationNote = () => {
 
   const handleMenuButtonClick = () => {
     if (!note.trim()) {
-      toast.warn("메로 입력 후 이용해주세요.");
+      toast.warn("메모 입력 후 이용해주세요.", { autoClose: 2000 });
     } else {
       setIsMenuOpen(true);
     }

@@ -1,3 +1,4 @@
+// 마이페이지
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
@@ -22,10 +23,20 @@ import {
 } from "../styles/MyPage.styles";
 import Footer from "../components/Footer";
 import { fetchMyProfile } from "../api/user";
+import { toast } from "react-toastify";
 
 function MyPage() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem("user");
+      if (!savedUser || savedUser === "undefined") return null;
+      return JSON.parse(savedUser);
+    } catch (e) {
+      console.warn("⚠️ user 파싱 실패:", e);
+      return null;
+    }
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -34,23 +45,24 @@ function MyPage() {
       return;
     }
 
-    // 마이페이지 프로필 정보 조회
     const fetchData = async () => {
       try {
+        // 마이페이지 프로필 정보 조회 API
         const userData = await fetchMyProfile();
         setUser(userData);
       } catch (err) {
-        console.error("⚠️ 프로필 조회 실패:", err);
+        console.error("❌ 프로필 조회 실패:", err);
       }
     };
 
     fetchData();
   }, [navigate]);
 
+  // 로그아웃
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    alert("정상적으로 로그아웃되었습니다.");
+    toast.success("정상적으로 로그아웃되었습니다.", { autoClose: 2000 });
     navigate("/");
   };
 

@@ -1,12 +1,11 @@
+// 플래너 페이지 (메모)
 import NoteCard from "../components/NoteCard";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaDownload } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import styled from "styled-components";
-import {
-  createPlanner,
-} from "../api/planner";
+import { createPlanner } from "../api/planner";
 import { toast } from "react-toastify";
 
 const Container = styled.div`
@@ -42,7 +41,6 @@ const ContentWrapper = styled.div`
   padding: 1rem 0.5rem;
 `;
 
-
 const SaveButton = styled.button`
   background-color: #140b77;
   border-radius: 50%;
@@ -60,27 +58,28 @@ const PlannerNote = () => {
   const [note, setNote] = useState("");
 
   if (!semester || !category) {
-    toast.error("잘못된 접근입니다.");
+    toast.error("잘못된 접근입니다.", { autoClose: 2000 });
     navigate(-1);
     return null;
   }
 
   const handleSave = async () => {
     if (!note.trim()) {
-      toast.error("계획을 입력해 주세요.");
+      toast.error("계획을 입력해 주세요.", { autoClose: 2000 });
       return;
     }
 
     try {
+      // 플래너 계획 등록 API
       const res = await createPlanner({
         semester: semester.replace(/\s+/g, ""),
         category,
         goal: note,
       });
-      toast.success("저장이 완료되었습니다.");
+      toast.success("저장이 완료되었습니다.", { autoClose: 2000 });
       navigate(-1);
     } catch (err) {
-      toast.error("저장 실패");
+      toast.error("저장에 실패했습니다.", { autoClose: 2000 });
     }
   };
 
