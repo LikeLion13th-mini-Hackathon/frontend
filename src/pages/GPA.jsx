@@ -19,6 +19,21 @@ function Gpa() {
     acquiredCredit: 0,
   });
   const handleSemesterChange = (semester) => setSelectedSemester(semester); // 학기 선택 핸들링
+  // 통계 조회 함수
+  const fetchStatistics = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      // 전체 평점, 취득 학점 전체 조회 API
+      const { gpa, acquiredCredit } = await getSubjectStatistics(token);
+      setStatistics({
+        gpa: parseFloat(gpa).toFixed(2),
+        acquiredCredit: acquiredCredit ?? 0,
+      });
+    } catch (err) {
+      console.error("❌ 통계 조회 실패:", err);
+    }
+  };
   const currentSubjects = allSubjects[selectedSemester] || []; // 현재 학기의 과목 리스트
   const fixedRowCount = 8; // 빈 행 포함해서 8줄 고정
 
@@ -69,21 +84,6 @@ function Gpa() {
   }, [selectedSemester]);
 
   useEffect(() => {
-    const fetchStatistics = async () => {
-      const token = localStorage.getItem("token");
-
-      try {
-        // 전체 평점, 취득 학점 전체 조회 API
-        const { gpa, acquiredCredit } = await getSubjectStatistics(token);
-        setStatistics({
-          gpa: parseFloat(gpa).toFixed(2),
-          acquiredCredit: acquiredCredit ?? 0,
-        });
-      } catch (err) {
-        console.error("❌ 통계 조회 실패:", err);
-      }
-    };
-
     fetchStatistics();
   }, []);
 
@@ -122,6 +122,7 @@ function Gpa() {
                 token
               );
             }
+            await fetchStatistics(); // 여기서 통계 다시 조회해서 카드 실시간 반영
           } catch (err) {
             console.error("❌ 과목 업데이트 실패:", err);
           }
