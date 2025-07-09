@@ -9,7 +9,7 @@ import Requirement from "../components/graduation/GradRequirement";
 
 export default function Graduation() {
   const [college, setCollege] = useState("");
-  const [major, setMajor] = useState("");
+  const [major, setMajor] = useState(null);
   const [isSearched, setIsSearched] = useState(false);
   const [isCollegeOpen, setIsCollegeOpen] = useState(false);
   const [isMajorOpen, setIsMajorOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function Graduation() {
     setIsSearched(true);
     setIsLoading(true);
     try {
-      const data = await fetchGraduationRequirement(major);
+      const data = await fetchGraduationRequirement( major.name );
       setGraduationRequirement(data[0] || null);
     } catch (err) {
       console.error("졸업 요건 조회 실패:", err);
