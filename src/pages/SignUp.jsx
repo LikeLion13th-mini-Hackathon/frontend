@@ -13,6 +13,7 @@ import {
 } from "../styles/Signup.styles";
 import SubLogo from "../assets/SubLogo.png";
 import { signup } from "../api/auth";
+import { toast } from "react-toastify";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -28,7 +29,14 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const formValid =
-    name && birthYear && birthMonth && birthDay && email && password && department && grade;
+    name &&
+    birthYear &&
+    birthMonth &&
+    birthDay &&
+    email &&
+    password &&
+    department &&
+    grade;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,11 +57,11 @@ export default function Signup() {
 
     try {
       await signup(payload);
-      alert("✅ 회원가입이 완료되었습니다!");
+      toast.success("회원가입 완료!", { autoClose: 2000 });
       navigate("/signup/complete");
     } catch (err) {
       console.error("❌ 회원가입 실패:", err);
-      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+      toast.err("회원가입 실패, 다시 시도해 주세요.", { autoClose: 2000 });
     }
   };
 

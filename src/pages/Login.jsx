@@ -16,6 +16,7 @@ import {
 } from "../styles/LoginModal.styles";
 import SubLogo from "../assets/SubLogo.png";
 import { login } from "../api/auth";
+import { toast } from "react-toastify";
 
 function Login() {
   // 모달창, 로그인 입력 여부 관리
@@ -24,18 +25,23 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // 로그인 API 연동
+  // 로그인 API
   const handleSubmit = async () => {
     try {
-      const res = await login({ email, password }); // API 호출
+      const res = await login({ email, password });
       const { token, user } = res;
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+      toast.success("로그인 성공!", { autoClose: 2000, hideProgressBar: true });
 
-      navigate("/mainpage"); // 로그인 성공 시 이동
+      setTimeout(() => {
+        navigate("/mainpage");
+      }, 100); // 로그인 성공 시 잠시 후 이동
     } catch (error) {
-      alert("로그인 실패! 아이디/비밀번호를 확인하세요.");
+      toast.error("아이디/비밀번호가 맞지 않습니다.", {
+        autoClose: 2000,
+      });
       console.error("로그인 에러:", error);
     }
   };
@@ -51,7 +57,7 @@ function Login() {
       </LoginButton>
       <LoginButton
         onClick={() => navigate("/signup")}
-        style={{ marginTop: "1vh", backgroundColor: "#140b77", color: "white" }}
+        style={{ marginTop: "2vh", backgroundColor: "#140b77", color: "white" }}
       >
         회원가입
       </LoginButton>

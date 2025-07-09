@@ -14,6 +14,7 @@ import {
   EditButton,
 } from "../styles/MyPage.styles";
 import { fetchMyProfile, updateMyProfile } from "../api/user";
+import { toast } from "react-toastify";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -55,17 +56,23 @@ function EditProfile() {
 
   const handleSave = async () => {
     if (!isValidBirthdate(form.birthdate)) {
-      alert("생년월일 형식이 올바르지 않습니다. 예: 2000.01.01");
+      toast.error("생년월일 형식이 올바르지 않습니다. (예: 2000.01.01)", {
+        autoClose: 2000,
+      });
       return;
     }
 
     try {
       await updateMyProfile(form);
-      alert("✅ 사용자 정보가 성공적으로 수정되었습니다!");
+      toast.success("사용자 정보가 성공적으로 수정되었습니다!", {
+        autoClose: 2000,
+      });
       navigate("/mypage");
     } catch (err) {
       console.error("❌ 사용자 정보 수정 실패:", err);
-      alert("수정 중 오류가 발생했습니다.");
+      toast.error("수정 중 오류가 발생했습니다.", {
+        autoClose: 2000,
+      });
     }
   };
 

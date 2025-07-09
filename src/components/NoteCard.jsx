@@ -73,10 +73,12 @@ const NoteCard = ({
             {headerButton}
           </HeaderButtonWrapper>
         )}
-        <Title>{title}</Title>
+        <Title>{title}</Title>  
         {date && <Date>{date}</Date>}
       </CardHeader>
+
       <Divider />
+      
       <Content>{content}</Content>
       {bottomButton && (
         <BottomButtonWrapper>

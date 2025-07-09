@@ -43,7 +43,6 @@ function GpaTable({ subjects, setSubjects, selectedSemester }) {
           credit: target.credit,
           grade: target.grade,
         });
-        console.log("✅ 과목 수정 완료");
       } catch (err) {
         console.error("❌ 과목 수정 실패", err);
       }
@@ -76,7 +75,7 @@ function GpaTable({ subjects, setSubjects, selectedSemester }) {
             <TableHead>성적</TableHead>
           </TableRow>
         </thead>
-    
+
         <tbody>
           {displaySubjects.map((subject) => (
             <TableRow key={subject.id}>

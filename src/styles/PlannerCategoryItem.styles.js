@@ -21,7 +21,7 @@ export const LeftSection = styled.div`
   color: #140b77;
   display: flex;
   align-items: center;
-  padding: 3em;
+  padding: 5vh;
 `;
 
 export const RightSection = styled.div`

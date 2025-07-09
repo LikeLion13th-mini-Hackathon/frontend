@@ -22,10 +22,20 @@ import {
 } from "../styles/MyPage.styles";
 import Footer from "../components/Footer";
 import { fetchMyProfile } from "../api/user";
+import { toast } from "react-toastify";
 
 function MyPage() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem("user");
+      if (!savedUser || savedUser === "undefined") return null;
+      return JSON.parse(savedUser);
+    } catch (e) {
+      console.warn("⚠️ user 파싱 실패:", e);
+      return null;
+    }
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -50,7 +60,7 @@ function MyPage() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    alert("정상적으로 로그아웃되었습니다.");
+    toast.success("정상적으로 로그아웃되었습니다.", { autoClose: 2000 });
     navigate("/");
   };
 

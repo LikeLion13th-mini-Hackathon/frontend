@@ -113,7 +113,7 @@ export const SettingsIcon = styled.div`
 export const GraphSection = styled.div`
   position: relative;
   z-index: 3;
-  padding: 2vh;
+  padding: 1vh;
   margin-top: -5vh;
   background-color: rgb(248, 250, 255);
 `;

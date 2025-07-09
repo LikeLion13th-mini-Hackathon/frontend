@@ -86,7 +86,7 @@ const categories = {
   toeic: "토익",
   project: "졸업작품",
   학점: "학점",
-  졸업작품: "졸업작품"
+  졸업작품: "졸업작품",
 };
 
 const apiCategoryMap = {
@@ -142,28 +142,28 @@ const GraduationNote = () => {
   // 저장/수정 통합 함수 (blur에서만 호출)
   const handleSave = async () => {
     if (note.trim() === "") {
-      toast.warn("내용을 입력하세요.");
+      toast.warn("내용을 입력하세요.", { autoClose: 2000 });
       return;
     }
 
     try {
       if (memoId) {
         await updateGraduationMemo(memoId, note);
-        toast.success("메모가 수정되었습니다.");
+        toast.success("메모가 수정되었습니다.", { autoClose: 2000 });
       } else {
         await createGraduationMemo(apiCategoryMap[category], note);
-        toast.success("메모가 저장되었습니다.");
+        toast.success("메모가 저장되었습니다.", { autoClose: 2000 });
       }
       await loadMemo();
     } catch (err) {
       console.error("메모 저장 실패:", err);
-      toast.error("메모 저장에 실패했습니다.");
+      toast.error("메모 저장에 실패했습니다.", { autoClose: 2000 });
     }
   };
 
   const handleBlur = () => {
     if (!note.trim()) {
-      toast.warn("내용을 입력하세요.");
+      toast.warn("내용을 입력하세요.", { autoClose: 2000 });
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 300);
       textareaRef.current.focus();
@@ -186,12 +186,12 @@ const GraduationNote = () => {
   const handleDeleteButton = async () => {
     try {
       await deleteGraduationMemo(memoId);
-      toast.success("메모가 삭제되었습니다.");
+      toast.success("메모가 삭제되었습니다.", { autoClose: 2000 });
       closeDeleteModal();
       navigate(-1);
     } catch (err) {
       console.error("메모 삭제 실패:", err);
-      toast.error("메모 삭제에 실패했습니다.");
+      toast.error("메모 삭제에 실패했습니다.", { autoClose: 2000 });
     }
   };
 
@@ -202,7 +202,7 @@ const GraduationNote = () => {
 
   const handleMenuButtonClick = () => {
     if (!note.trim()) {
-      toast.warn("메로 입력 후 이용해주세요.");
+      toast.warn("메모 입력 후 이용해주세요.", { autoClose: 2000 });
     } else {
       setIsMenuOpen(true);
     }
