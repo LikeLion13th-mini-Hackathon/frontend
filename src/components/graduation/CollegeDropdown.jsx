@@ -35,9 +35,6 @@ export default function CollegeDropdown({
       try {
         const data = await fetchColleges();
         setCollegeList(data);
-        if (data.length > 0) {
-          setCollege(data[0]); // 객체 전체 저장
-        }
       } catch (err) {
         console.error("❌ 단과대학 목록 조회 실패:", err);
       }
@@ -53,9 +50,6 @@ export default function CollegeDropdown({
       try {
         const data = await fetchMajorsByCollegeId(college.id);
         setMajorList(data);
-        if (data.length > 0) {
-          setMajor(data[0]);
-        }
       } catch (err) {
         console.error("❌ 학과 목록 조회 실패:", err);
         setMajorList([]);
@@ -135,9 +129,9 @@ export default function CollegeDropdown({
               <ButtonList>
                 {majorList.map((m) => (
                   <SelectButton
-                    key={m.id}
-                    $isSelected={major === m.name}
-                    onClick={() => setMajor(m.name)}
+                    key={m.name}
+                    $isSelected={major?.name === m.name}
+                    onClick={() => setMajor(m)}
                   >
                     {m.name}
                   </SelectButton>
