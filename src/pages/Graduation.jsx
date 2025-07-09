@@ -28,6 +28,9 @@ export default function Graduation() {
       setGraduationRequirement(null);
     } finally {
       setIsLoading(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });  // 스크롤 맨 위로
+      setIsCollegeOpen(false);  // 드롭다운 닫기
+      setIsMajorOpen(false);
     }
   };
 

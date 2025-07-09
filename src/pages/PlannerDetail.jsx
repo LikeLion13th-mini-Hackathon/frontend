@@ -61,7 +61,7 @@ const PlanDetail = () => {
           <FaPen size={20} color="white" />
         </EditButton>
       </PageWrapper>
-      <Footer />
+      <Footer activeLabel="플래너"/>
     </>
   );
 };

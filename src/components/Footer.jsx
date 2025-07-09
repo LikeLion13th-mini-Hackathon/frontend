@@ -25,14 +25,16 @@ const menuList = [
   { iconOn: MyOn, iconOff: MyOff, label: "마이", path: "/mypage" },
 ];
 
-function Footer() {
+function Footer({ activeLabel }) {
   const navigate = useNavigate();
   const location = useLocation();
 
   return (
     <NavWrapper>
       {menuList.map((menu) => {
-        const isActive = location.pathname === menu.path;
+        const isActive =
+          activeLabel === menu.label || location.pathname === menu.path;
+
         return (
           <NavItem
             key={menu.path}
