@@ -1,3 +1,4 @@
+// 초기 페이지
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";

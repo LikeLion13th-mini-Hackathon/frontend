@@ -1,3 +1,4 @@
+// 학점 페이지 - 학점 카드
 import {
   GpaCardWrapper,
   GpaSection,

@@ -1,10 +1,10 @@
+// 학점 페이지
 import { useState, useEffect, useMemo } from "react";
 import { GPAContainer } from "../styles/GPA.styles";
 import GPAHeader from "../components/gpa/GpaHeader";
 import GpaCard from "../components/gpa/GpaCard";
 import GpaTable from "../components/gpa/GpaTable";
 import Footer from "../components/Footer";
-import axios from "axios";
 import {
   updateSubject,
   getSubjects,
@@ -19,7 +19,6 @@ function Gpa() {
     acquiredCredit: 0,
   });
   const handleSemesterChange = (semester) => setSelectedSemester(semester); // 학기 선택 핸들링
-  const allSubjectsArray = Object.values(allSubjects).flat(); // 전체 과목을 flat하게 만든 배열
   const currentSubjects = allSubjects[selectedSemester] || []; // 현재 학기의 과목 리스트
   const fixedRowCount = 8; // 빈 행 포함해서 8줄 고정
 
@@ -39,7 +38,6 @@ function Gpa() {
   useEffect(() => {
     if (allSubjects[selectedSemester]) return;
 
-    // 학기별 과목 전체 조회
     const fetchSubjects = async () => {
       const token = localStorage.getItem("token");
       const [gradeLevel, semester] = selectedSemester
@@ -49,6 +47,7 @@ function Gpa() {
         .map(Number);
 
       try {
+        // 학기별 과목 전체 조회 API
         const rawSubjects = await getSubjects(gradeLevel, semester, token);
         const normalized = rawSubjects.map((item) => ({
           id: item.id,
@@ -62,7 +61,7 @@ function Gpa() {
           [selectedSemester]: normalized,
         }));
       } catch (err) {
-        console.error("과목 불러오기 실패:", err);
+        console.error("❌ 과목 불러오기 실패:", err);
       }
     };
 
@@ -70,18 +69,18 @@ function Gpa() {
   }, [selectedSemester]);
 
   useEffect(() => {
-    // 전체 평점, 취득 학점 전체 조회
     const fetchStatistics = async () => {
       const token = localStorage.getItem("token");
 
       try {
+        // 전체 평점, 취득 학점 전체 조회 API
         const { gpa, acquiredCredit } = await getSubjectStatistics(token);
         setStatistics({
           gpa: parseFloat(gpa).toFixed(2),
           acquiredCredit: acquiredCredit ?? 0,
         });
       } catch (err) {
-        console.error("통계 조회 실패:", err);
+        console.error("❌ 통계 조회 실패:", err);
       }
     };
 
@@ -99,7 +98,6 @@ function Gpa() {
 
       <GpaTable
         subjects={filledSubjects}
-        // 과목 등록/수정
         setSubjects={async (newSubjects) => {
           setAllSubjects((prev) => ({
             ...prev,
@@ -113,6 +111,7 @@ function Gpa() {
 
           try {
             for (const subj of patchable) {
+              // 과목 등록/수정 API
               await updateSubject(
                 subj.id,
                 {
@@ -124,7 +123,7 @@ function Gpa() {
               );
             }
           } catch (err) {
-            console.error("과목 업데이트 실패:", err);
+            console.error("❌ 과목 업데이트 실패:", err);
           }
         }}
         selectedSemester={selectedSemester}

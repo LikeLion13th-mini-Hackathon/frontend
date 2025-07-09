@@ -1,3 +1,4 @@
+// 마이페이지
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
@@ -44,19 +45,20 @@ function MyPage() {
       return;
     }
 
-    // 마이페이지 프로필 정보 조회
     const fetchData = async () => {
       try {
+        // 마이페이지 프로필 정보 조회 API
         const userData = await fetchMyProfile();
         setUser(userData);
       } catch (err) {
-        console.error("⚠️ 프로필 조회 실패:", err);
+        console.error("❌ 프로필 조회 실패:", err);
       }
     };
 
     fetchData();
   }, [navigate]);
 
+  // 로그아웃
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");

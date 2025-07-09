@@ -1,3 +1,4 @@
+// 홈 - 헤더
 import { useEffect, useState } from "react";
 import { getUserProfile } from "../../api/user";
 import {
@@ -19,7 +20,7 @@ function HeaderBar() {
   const [userName, setUserName] = useState("사용자");
 
   useEffect(() => {
-    // 나의 프로필 정보 조회
+    // 나의 프로필 정보 조회 API
     const fetchUser = async () => {
       try {
         const data = await getUserProfile();

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// 회원가입 페이지
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Wrapper,
@@ -56,6 +57,7 @@ export default function Signup() {
     };
 
     try {
+      // 회원가입 API
       await signup(payload);
       toast.success("회원가입 완료!", { autoClose: 2000 });
       navigate("/signup/complete");

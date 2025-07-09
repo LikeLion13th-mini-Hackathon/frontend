@@ -1,3 +1,4 @@
+// 회원가입 완료 페이지
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";

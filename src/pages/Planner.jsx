@@ -1,3 +1,4 @@
+// 플래너 페이지
 import { useState, useEffect } from "react";
 import PlanCategory from "../components/Planner/PlanCategory";
 import {
@@ -26,7 +27,6 @@ const semesters = [
   "기타 학기",
 ];
 
-
 const categories = ["학업", "진로", "알바"];
 
 const Planner = () => {
@@ -35,10 +35,11 @@ const Planner = () => {
 
   const fetchPlans = async () => {
     try {
+      // 플래너 계획 학기별 조회 API
       const res = await getPlannerBySemester(selectedSemester);
       setPlans(res);
     } catch (err) {
-      console.error("플래너 불러오기 실패", err);
+      console.error("❌ 플래너 불러오기 실패", err);
     }
   };
 

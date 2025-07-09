@@ -33,6 +33,7 @@ const PlanDetailItem = ({ plan, onRefresh }) => {
 
   const closeDeleteModal = () => setIsDeleteOpen(false);
 
+  // 플래너 계획 삭제 API
   const handleDelete = async () => {
     try {
       await deletePlanner(plan.id);
@@ -40,7 +41,7 @@ const PlanDetailItem = ({ plan, onRefresh }) => {
       onRefresh(); // 상위로 전달
       setIsDeleteOpen(false);
     } catch (err) {
-      toast.error("삭제 실패", { autoClose: 2000 });
+      toast.error("삭제에 실패했습니다.", { autoClose: 2000 });
     }
   };
 
@@ -49,6 +50,7 @@ const PlanDetailItem = ({ plan, onRefresh }) => {
     setIsEditing(true);
   };
 
+  // 플래너 계획 수정 API
   const handleSave = async () => {
     try {
       await updatePlanner(plan.id, { goal: editedGoal });

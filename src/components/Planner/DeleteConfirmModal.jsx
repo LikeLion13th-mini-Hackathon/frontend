@@ -1,14 +1,14 @@
+// 플래너 페이지 - 삭제 재확인 모달창
 import Modal from "../Modal";
 import ModalMenuButton from "../ModalMenuButton";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { FaArrowLeftLong } from "react-icons/fa6";import { Title, ButtonWrapper } from "../../styles/Modal.styles"
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { Title, ButtonWrapper } from "../../styles/Modal.styles";
 
 const DeleteConfirmModal = ({ onClose, onDelete, planCategory }) => {
   return (
     <Modal onClose={onClose}>
-      <Title>
-        {planCategory} 메모를 정말 삭제할까요?
-      </Title>
+      <Title>{planCategory} 메모를 정말 삭제할까요?</Title>
       <ButtonWrapper>
         <ModalMenuButton
           icon={<FaArrowLeftLong />}

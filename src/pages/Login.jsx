@@ -1,3 +1,4 @@
+// 로그인 페이지
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineEmail } from "react-icons/md";
@@ -25,9 +26,9 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // 로그인 API
   const handleSubmit = async () => {
     try {
+      // 로그인 API
       const res = await login({ email, password });
       const { token, user } = res;
 
@@ -42,7 +43,7 @@ function Login() {
       toast.error("아이디/비밀번호가 맞지 않습니다.", {
         autoClose: 2000,
       });
-      console.error("로그인 에러:", error);
+      console.error("❌ 로그인 에러:", error);
     }
   };
 

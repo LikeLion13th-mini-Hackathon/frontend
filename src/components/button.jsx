@@ -1,3 +1,4 @@
+// 공통 버튼 스타일
 import styled from "styled-components";
 
 export const Button = styled.button`

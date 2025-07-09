@@ -1,3 +1,4 @@
+// 공통 레이아웃 스타일
 import styled from "styled-components";
 
 const Container = styled.div`

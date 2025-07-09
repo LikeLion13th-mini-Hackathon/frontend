@@ -104,40 +104,40 @@ const SubjectNote = () => {
     }
   }, [isEditing]);
 
-  // 메모 불러오기
   const loadMemo = async () => {
     try {
+      // 과목 메모 조회 API
       const res = await getSubjectMemo(id);
       setNote(res.memo);
       setSubjectName(res.subjectName);
     } catch (err) {
-      console.error("메모 조회 실패:", err);
+      console.error("❌ 메모 조회 실패:", err);
       setNote("");
     }
   };
 
-  // 메모 등록
   const handleSave = async () => {
     try {
+      // 과목 메모 등록/수정 API
       await updateSubjectMemo(id, note);
       toast.success("메모가 저장되었습니다.", { autoClose: 2000 });
       setIsEditing(false);
       loadMemo();
     } catch (err) {
-      console.error("메모 저장 실패:", err);
+      console.error("❌ 메모 저장 실패:", err);
       alert("저장 실패");
     }
   };
 
-  // 메모 삭제
   const handleDelete = async () => {
     try {
+      // 과목 메모 삭제 API
       await deleteSubjectMemo(id);
       toast.success("메모가 삭제되었습니다.", { autoClose: 2000 });
       closeDeleteModal();
       navigate(-1);
     } catch (err) {
-      console.error("메모 삭제 실패:", err);
+      console.error("❌ 메모 삭제 실패:", err);
       alert("삭제 실패");
     }
   };

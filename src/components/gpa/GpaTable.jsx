@@ -1,3 +1,4 @@
+// 학점 페이지 - 학점 표
 import { useNavigate } from "react-router-dom";
 import {
   TableSection,
@@ -35,7 +36,7 @@ function GpaTable({ subjects, setSubjects, selectedSemester }) {
 
     const target = updatedSubjects.find((s) => s.id === id);
 
-    // 서버로 PATCH 요청 보내기 (빈 값 제외)
+    // 과목 등록/수정 API (빈 값 제외)
     if (target.subjectName.trim() && target.credit > 0 && target.grade) {
       try {
         await updateSubject(id, {
